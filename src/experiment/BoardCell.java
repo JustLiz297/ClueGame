@@ -9,6 +9,11 @@ public class BoardCell {
 		this.yCoord = yCoord;
 		this.xCoord = xCoord;
 	}
+
+	@Override
+	public String toString() {
+		return "BoardCell [yCoord=" + yCoord + ", xCoord=" + xCoord + "]";
+	}
 	
 	
 }

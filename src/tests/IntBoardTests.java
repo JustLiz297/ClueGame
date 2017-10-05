@@ -25,6 +25,7 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency0() {
+		//setBoard();
 		BoardCell space = board.getCell(0,0);
 		Set<BoardCell> testList = board.getAdjList(space);
 		assertTrue(testList.contains(board.getCell(1, 0)));
