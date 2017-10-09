@@ -65,7 +65,6 @@ public class BoardTests {
 		
 	}
 	
-	
 	/*
 	 * DOOR DIRECTION TEST
 	 * 		1. Tests (4,21) to be a doorway and left entering
@@ -74,7 +73,6 @@ public class BoardTests {
 	 * 		4. Tests (4,10) to be a doorway and down entering
 	 * 		5. Tests (11,15) to not be a doorway
 	 */
-	
 	public void testDoorDirections() {
 		//1. Tests (4,21) to be a doorway and left entering
 		BoardCell space = board.getCellAt(4, 21);
