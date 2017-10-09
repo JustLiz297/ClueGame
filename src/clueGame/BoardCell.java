@@ -3,7 +3,7 @@
  * Description: BoardCell class, each cell has a y&x coordinate
  */
 
-package experiment;
+package clueGame;
 
 public class BoardCell {
 	private int row;
@@ -59,7 +59,7 @@ public class BoardCell {
 		return false;
 	}
 	
-	
-
-	
+	public DoorDirection getDoorDirection() {
+		return null;
+	}
 }
