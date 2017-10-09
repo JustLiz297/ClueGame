@@ -1,3 +1,8 @@
+/*
+ * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
+ * Description: Board class
+ */
+
 package clueGame;
 
 import java.util.HashMap;
