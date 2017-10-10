@@ -7,7 +7,7 @@ package clueGame;
 
 public class BoardCell {
 	private int row;
-	private int column;
+	private int column; 
 	private char initial; //type of space, labeled with a single letter
 	
 	public BoardCell(int yCoord, int xCoord) {
@@ -48,14 +48,20 @@ public class BoardCell {
 	}
 
 	public boolean isWalkway() {
-		return false;
+		if(initial == 'h') {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public boolean isRoom() {
+		
 		return false;
 	}
 	
 	public boolean isDoorway() {
+		
 		return false;
 	}
 	

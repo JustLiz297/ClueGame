@@ -5,6 +5,8 @@
 
 package clueGame;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -34,11 +36,19 @@ public class Board {
 	public void initialize() {
 		
 	}
+	
 	public void setConfigFiles(String layoutfile, String legendfile) {
-		
+		this.boardConfigFile = layoutfile;
+		this.roomConfigFile = legendfile;
 	}
-
-	public void loadRoomConfig() {
+	
+	public void loadRoomConfig() throws BadConfigFormatException{
+		try {
+			FileReader roomReader = new FileReader(roomConfigFile);
+			Scanner in = new Scanner(roomReader);
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		}
 		
 	}
 	
@@ -54,7 +64,14 @@ public class Board {
 		
 	}
 	
-	public Map<Character, String> getLegend() {
+	public Map<Character, String> getLegend() throws BadConfigFormatException{
+		try {
+			FileReader reader = new FileReader("Legend.txt");
+			Scanner in = new Scanner(reader);
+			
+		} catch (FileNotFoundException e) {
+			System.out.println(e);
+		}
 		return null;
 	}
 	public int getNumRows() {

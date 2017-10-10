@@ -102,8 +102,6 @@ public class BoardTests {
 		space = board.getCellAt(11, 15);
 		assertFalse(space.isDoorway());
 		assertEquals(DoorDirection.NONE, space.getDoorDirection());
-
-		
 	}
 	
 	/*
