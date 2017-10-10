@@ -48,11 +48,13 @@ public class BoardCell {
 	}
 
 	public boolean isWalkway() {
-		return false;
+		if (this.initial == 'h') {return true;}
+		else {return false;}
 	}
 	
 	public boolean isRoom() {
-		return false;
+		if (this.initial != 'C' && this.initial != 'h') {return true;}
+		else {return false;}
 	}
 	
 	public boolean isDoorway() {

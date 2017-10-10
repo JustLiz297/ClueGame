@@ -7,6 +7,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
+import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
@@ -19,7 +20,7 @@ public class BoardTests {
 	
 	
 	@Before
-	public void setUp() {
+	public void setUp() throws BadConfigFormatException {
 		board = Board.getInstance();
 		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
 		board.initialize();

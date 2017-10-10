@@ -39,8 +39,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -49,8 +49,8 @@ public class IntBoardTests {
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 0) {
 					case0_1 = true;
 				}
 			}
@@ -73,8 +73,8 @@ public class IntBoardTests {
 		//(2,3)
 		boolean case2_3 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 2) {
 					case2_3 = true;
 				}
 			}
@@ -83,8 +83,8 @@ public class IntBoardTests {
 		//(3,2)
 		boolean case3_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 3) {
 					case3_2 = true;
 				}
 			}
@@ -106,8 +106,8 @@ public class IntBoardTests {
 		//(0,3)
 		boolean case0_3 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 0) {
 					case0_3 = true;
 				}
 			}
@@ -117,8 +117,8 @@ public class IntBoardTests {
 		//(2,3)
 		boolean case2_3 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 2) {
 					case2_3 = true;
 				}
 			}
@@ -128,8 +128,8 @@ public class IntBoardTests {
 		//(1,2)
 		boolean case1_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 1) {
 					case1_2 = true;
 				}
 			}
@@ -150,8 +150,8 @@ public class IntBoardTests {
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 2) {
 					case2_1 = true;
 				}
 			}
@@ -160,8 +160,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -170,8 +170,8 @@ public class IntBoardTests {
 		//(3,0)
 		boolean case3_0 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 3) {
 					case3_0 = true;
 				}
 			}
@@ -192,8 +192,8 @@ public class IntBoardTests {
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 0) {
 					case0_1 = true;
 				}
 			}
@@ -202,8 +202,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -212,8 +212,8 @@ public class IntBoardTests {
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 2) {
 					case2_1 = true;
 				}
 			}
@@ -222,8 +222,8 @@ public class IntBoardTests {
 		//(1,2)
 		boolean case1_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 1) {
 					case1_2 = true;
 				}
 			}
@@ -245,8 +245,8 @@ public class IntBoardTests {
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 2) {
 					case2_1 = true;
 				}
 			}
@@ -255,8 +255,8 @@ public class IntBoardTests {
 		//(1,2)
 		boolean case1_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 1) {
 					case1_2 = true;
 				}
 			}
@@ -265,8 +265,8 @@ public class IntBoardTests {
 		//(2,3)
 		boolean case2_3 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 2) {
 					case2_3 = true;
 				}
 			}
@@ -275,8 +275,8 @@ public class IntBoardTests {
 		//(3,2)
 		boolean case3_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 3) {
 					case3_2 = true;
 				}
 			}
@@ -297,8 +297,8 @@ public class IntBoardTests {
 		//(0,0)
 		boolean case0_0 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 0) {
 					case0_0 = true;
 				}
 			}
@@ -307,8 +307,8 @@ public class IntBoardTests {
 		//(1,1)
 		boolean case1_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 1) {
 					case1_1 = true;
 				}
 			}
@@ -317,8 +317,8 @@ public class IntBoardTests {
 		//(0,2)
 		boolean case0_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 0) {
 					case0_2 = true;
 				}
 			}
@@ -339,8 +339,8 @@ public class IntBoardTests {
 		//(3,3)
 		boolean case3_3 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 3) {
 					case3_3 = true;
 				}
 			}
@@ -349,8 +349,8 @@ public class IntBoardTests {
 		//(3,1)
 		boolean case3_1 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 3) {
 					case3_1 = true;
 				}
 			}
@@ -359,8 +359,8 @@ public class IntBoardTests {
 		//(2,2)
 		boolean case2_2 = false;
 		for (BoardCell x: testList) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 2) {
 					case2_2 = true;
 				}
 			}
@@ -385,8 +385,8 @@ public class IntBoardTests {
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 0) {
 					case0_1 = true;
 				}
 			}
@@ -395,8 +395,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -418,8 +418,8 @@ public class IntBoardTests {
 		//(2,0)
 		boolean case2_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 2) {
 					case2_0 = true;
 				}
 			}
@@ -428,8 +428,8 @@ public class IntBoardTests {
 		//(1,1)
 		boolean case1_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 1) {
 					case1_1 = true;
 				}
 			}
@@ -438,8 +438,8 @@ public class IntBoardTests {
 		//(0,2)
 		boolean case0_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 0) {
 					case0_2 = true;
 				}
 			}
@@ -461,8 +461,8 @@ public class IntBoardTests {
 		//(3,0)
 		boolean case3_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 3) {
 					case3_0 = true;
 				}
 			}
@@ -471,8 +471,8 @@ public class IntBoardTests {
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 2) {
 					case2_1 = true;
 				}
 			}
@@ -481,8 +481,8 @@ public class IntBoardTests {
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 0) {
 					case0_1 = true;
 				}
 			}
@@ -491,8 +491,8 @@ public class IntBoardTests {
 		//(1,2)
 		boolean case1_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 1) {
 					case1_2 = true;
 				}
 			}
@@ -501,8 +501,8 @@ public class IntBoardTests {
 		//(0,3)
 		boolean case0_3 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 0) {
 					case0_3 = true;
 				}
 			}
@@ -511,8 +511,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -534,8 +534,8 @@ public class IntBoardTests {
 		//(0,2)
 		boolean case0_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 0) {
 					case0_2 = true;
 				}
 			}
@@ -544,8 +544,8 @@ public class IntBoardTests {
 		//(2,0)
 		boolean case2_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 2) {
 					case2_0 = true;
 				}
 			}
@@ -554,8 +554,8 @@ public class IntBoardTests {
 		//(1,1)
 		boolean case1_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 1) {
 					case1_1 = true;
 				}
 			}
@@ -564,8 +564,8 @@ public class IntBoardTests {
 		//(1,3)
 		boolean case1_3 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 1) {
 					case1_3 = true;
 				}
 			}
@@ -574,8 +574,8 @@ public class IntBoardTests {
 		//(2,2)
 		boolean case2_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 2) {
 					case2_2 = true;
 				}
 			}
@@ -584,8 +584,8 @@ public class IntBoardTests {
 		//(3,1)
 		boolean case3_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 3) {
 					case3_1 = true;
 				}
 			}
@@ -607,8 +607,8 @@ public class IntBoardTests {
 		//(0,0)
 		boolean case0_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 0) {
 					case0_0 = true;
 				}
 			}
@@ -617,8 +617,8 @@ public class IntBoardTests {
 		//(0,2)
 		boolean case0_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 0) {
 					case0_2 = true;
 				}
 			}
@@ -627,8 +627,8 @@ public class IntBoardTests {
 		//(1,3)
 		boolean case1_3 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 1) {
 					case1_3 = true;
 				}
 			}
@@ -637,8 +637,8 @@ public class IntBoardTests {
 		//(0,2)
 		boolean case2_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 2) {
 					case2_0 = true;
 				}
 			}
@@ -647,8 +647,8 @@ public class IntBoardTests {
 		//(2,2)
 		boolean case2_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 2) {
 					case2_2 = true;
 				}
 			}
@@ -657,8 +657,8 @@ public class IntBoardTests {
 		//(3,1)
 		boolean case3_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 3) {
 					case3_1 = true;
 				}
 			}
@@ -680,8 +680,8 @@ public class IntBoardTests {
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 0) {
 					case0_1 = true;
 				}
 			}
@@ -690,8 +690,8 @@ public class IntBoardTests {
 		//(0,3)
 		boolean case0_3 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 0) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 0) {
 					case0_3 = true;
 				}
 			}
@@ -700,8 +700,8 @@ public class IntBoardTests {
 		//(1,0)
 		boolean case1_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 1) {
 					case1_0 = true;
 				}
 			}
@@ -710,8 +710,8 @@ public class IntBoardTests {
 		//(1,2)
 		boolean case1_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 1) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 1) {
 					case1_2 = true;
 				}
 			}
@@ -720,8 +720,8 @@ public class IntBoardTests {
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 1) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 1) {
+				if (x.getRow() == 2) {
 					case2_1 = true;
 				}
 			}
@@ -730,8 +730,8 @@ public class IntBoardTests {
 		//(2,3)
 		boolean case2_3 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 3) {
-				if (x.getyCoord() == 2) {
+			if (x.getColumn() == 3) {
+				if (x.getRow() == 2) {
 					case2_3 = true;
 				}
 			}
@@ -740,8 +740,8 @@ public class IntBoardTests {
 		//(3,0)
 		boolean case3_0 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 0) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 0) {
+				if (x.getRow() == 3) {
 					case3_0 = true;
 				}
 			}
@@ -750,8 +750,8 @@ public class IntBoardTests {
 		//(3,2)
 		boolean case3_2 = false;
 		for (BoardCell x: targets) {
-			if (x.getxCoord() == 2) {
-				if (x.getyCoord() == 3) {
+			if (x.getColumn() == 2) {
+				if (x.getRow() == 3) {
 					case3_2 = true;
 				}
 			}

@@ -163,7 +163,7 @@ public class IntBoard {
 		}
 		Set<BoardCell> temp = new HashSet<BoardCell>(); //to transfer the set in the map to a readable set, because pointers.
 		for (BoardCell adjSpace : adjSpaces.get(thisSpace)) {
-			temp.add(getCell(adjSpace.getyCoord(), adjSpace.getxCoord()));
+			temp.add(getCell(adjSpace.getRow(), adjSpace.getColumn()));
 		}
 		for (BoardCell adjSpace : temp) {
 			if (!visited.contains(adjSpace)) {
