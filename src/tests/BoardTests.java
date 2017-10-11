@@ -50,9 +50,9 @@ public class BoardTests {
 		assertEquals("Green House", legend.get('G'));
 		assertEquals("Family Room", legend.get('F'));
 		assertEquals("Library", legend.get('L'));
-		assertEquals("Workshop", legend.get('W'));
+		assertEquals("Workshop", legend.get('S'));
 		assertEquals("Closet", legend.get('C'));
-		assertEquals("Hallways", legend.get('h'));
+		assertEquals("Hallways", legend.get('W'));
 		
 	}
 	
@@ -78,6 +78,7 @@ public class BoardTests {
 	 * 		4. Tests (4,10) to be a doorway and down entering
 	 * 		5. Tests (11,15) to not be a doorway
 	 */
+	@Test
 	public void testDoorDirections() {
 		//1. Tests (4,21) to be a doorway and left entering
 		BoardCell space = board.getCellAt(4, 21);
@@ -130,7 +131,7 @@ public class BoardTests {
 	 *  	2. Test that last cell (20,24) is 'O'
 	 *  	3. Test that (17,0) is 'F' (First cell of room)
 	 *  	4. Test that (12, 12) is 'C' (Closet)
-	 *  	5. Test that (14, 18) is 'h' (Hallway)
+	 *  	5. Test that (14, 18) is 'W' (Hallway)
 	 *  	6. Test that (20,12) is 'L' (Last cell of room)
 	 *  	7. Test that (8, 20) is 'E' (First cell of room)
 	 *  	8. Test that (4, 12) is 'D" (Last cell of room)
@@ -146,12 +147,12 @@ public class BoardTests {
 		//4. Test that (12, 12) is 'C' (Closet)
 		assertEquals('C', board.getCellAt(12, 12).getInitial());
 		//5. Test that (14, 18) is 'h' (Hallway)
-		assertEquals('h', board.getCellAt(14, 18).getInitial());
-		//6. 
+		assertEquals('W', board.getCellAt(14, 18).getInitial());
+		//6. Test that (20,12) is 'L' (Last cell of room)
 		assertEquals('L', board.getCellAt(20, 12).getInitial());
-		//7.
+		//7. Test that (8, 20) is 'E' (First cell of room)
 		assertEquals('E', board.getCellAt(8, 20).getInitial());
-		//8.
+		//8. Test that (4, 12) is 'D" (Last cell of room)
 		assertEquals('D', board.getCellAt(4, 12).getInitial());
 	}
 

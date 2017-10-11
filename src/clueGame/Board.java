@@ -12,8 +12,8 @@ import clueGame.BoardCell;
 import experiment.IntBoard;
 
 public class Board extends IntBoard{
-	private int numRows;
-	private int numColumns;
+	private int numRows = 21;
+	private int numColumns = 25;
 	public final static int MAX_BOARD_SIZE = 51;
 	private BoardCell[][] board = new BoardCell[numRows][numColumns];
 	private Map<Character, String> legend = new HashMap<Character, String>();
@@ -67,15 +67,38 @@ public class Board extends IntBoard{
 			FileReader boardReader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(boardReader);
 			int rows = 0;
+			int columns = 0;
 			while (in.hasNext()) {
-				String[] entry = in.nextLine().split(", ");
-				for (int colm = 0; colm < entry.length-1; colm++) {
-					board[rows][colm].setInitial(entry[colm].charAt(0));
+				String entry = in.nextLine();
+				String[] rowEntry = entry.split(",");
+				for (int colm = 0; colm < rowEntry.length; colm++) {
+					board[rows][colm].setInitial(rowEntry[colm].charAt(0));
+					if (rowEntry[colm].length() == 2) {
+						if (rowEntry[colm].charAt(1) == 'N') {
+							board[rows][colm].setDoorDirection(DoorDirection.NONE);
+						}
+						else if (rowEntry[colm].charAt(1) == 'U') {
+							board[rows][colm].setDoorDirection(DoorDirection.UP);							
+						}
+						else if (rowEntry[colm].charAt(1) == 'D') {
+							board[rows][colm].setDoorDirection(DoorDirection.DOWN);							
+						}
+						else if (rowEntry[colm].charAt(1) == 'L') {
+							board[rows][colm].setDoorDirection(DoorDirection.LEFT);
+						}
+						else if (rowEntry[colm].charAt(1) == 'R') {
+							board[rows][colm].setDoorDirection(DoorDirection.RIGHT);							
+						}
+					}
+					else {
+						board[rows][colm].setDoorDirection(DoorDirection.NONE);						
+					}
+					columns++;
 				}
 				rows++;
-
 			}
 			//figure out how to assign numColumns
+			numColumns = columns/rows;
 			numRows = rows;
 			in.close();
 		} catch (FileNotFoundException e) {
