@@ -1,3 +1,8 @@
+/*
+ * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
+ * Description: BoardTests Test if the board loaded correctly
+ */
+
 package tests;
 
 import static org.junit.Assert.*;
@@ -24,7 +29,6 @@ public class BoardTests {
 		board = Board.getInstance();
 		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
 		board.initialize();
-		
 	}
 	
 	/*
@@ -99,8 +103,6 @@ public class BoardTests {
 		space = board.getCellAt(11, 15);
 		assertFalse(space.isDoorway());
 		assertEquals(DoorDirection.NONE, space.getDoorDirection());
-
-		
 	}
 	
 	/*
@@ -152,8 +154,5 @@ public class BoardTests {
 		//8.
 		assertEquals('D', board.getCellAt(4, 12).getInitial());
 	}
-
-	
-
 
 }
