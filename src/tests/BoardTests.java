@@ -7,6 +7,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.Map;
 
 import org.junit.Before;
@@ -25,7 +26,7 @@ public class BoardTests {
 	
 	
 	@Before
-	public void setUp() throws BadConfigFormatException {
+	public void setUp() throws BadConfigFormatException, IOException {
 		board = Board.getInstance();
 		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
 		board.initialize();

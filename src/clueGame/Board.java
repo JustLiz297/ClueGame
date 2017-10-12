@@ -12,10 +12,10 @@ import clueGame.BoardCell;
 import experiment.IntBoard;
 
 public class Board extends IntBoard{
-	private int numRows = 21;
-	private int numColumns = 25;
+	private int numRows;
+	private int numColumns;
 	public final static int MAX_BOARD_SIZE = 51;
-	private BoardCell[][] board = new BoardCell[numRows][numColumns];
+	private BoardCell[][] board;
 	private Map<Character, String> legend = new HashMap<Character, String>();
 	private Map<BoardCell, Set<BoardCell>> adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
 	private Set<BoardCell> targets;
@@ -32,11 +32,6 @@ public class Board extends IntBoard{
 	}
 	
 	public void initialize() throws BadConfigFormatException {
-		for (int i = 0; i < numRows; i++) {
-			for (int j = 0; j < numColumns; j++) {
-				board[i][j] = new BoardCell(i,j); //fills game board with boardCells
-			}
-		}
 		this.calcAdjacencies();
 		this.loadBoardConfig();
 		this.loadRoomConfig();
@@ -66,41 +61,55 @@ public class Board extends IntBoard{
 		try {
 			FileReader boardReader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(boardReader);
-			int rows = 0;
-			int columns = 0;
+			int rows = 1;
+			numColumns = in.nextLine().split(",").length;
 			while (in.hasNext()) {
-				String entry = in.nextLine();
-				String[] rowEntry = entry.split(",");
-				for (int colm = 0; colm < rowEntry.length; colm++) {
-					board[rows][colm].setInitial(rowEntry[colm].charAt(0));
-					if (rowEntry[colm].length() == 2) {
-						if (rowEntry[colm].charAt(1) == 'N') {
-							board[rows][colm].setDoorDirection(DoorDirection.NONE);
-						}
-						else if (rowEntry[colm].charAt(1) == 'U') {
-							board[rows][colm].setDoorDirection(DoorDirection.UP);							
-						}
-						else if (rowEntry[colm].charAt(1) == 'D') {
-							board[rows][colm].setDoorDirection(DoorDirection.DOWN);							
-						}
-						else if (rowEntry[colm].charAt(1) == 'L') {
-							board[rows][colm].setDoorDirection(DoorDirection.LEFT);
-						}
-						else if (rowEntry[colm].charAt(1) == 'R') {
-							board[rows][colm].setDoorDirection(DoorDirection.RIGHT);							
-						}
-					}
-					else {
-						board[rows][colm].setDoorDirection(DoorDirection.NONE);						
-					}
-					columns++;
+				String cycling = in.nextLine();
+				if (cycling.split(",").length != this.numColumns) {
+					throw new BadConfigFormatException();
 				}
 				rows++;
 			}
-			//figure out how to assign numColumns
-			numColumns = columns/rows;
 			numRows = rows;
 			in.close();
+			in = null;
+			FileReader entryFile = new FileReader(boardConfigFile);
+			Scanner inEntry = new Scanner(entryFile);
+			board = new BoardCell[numRows][numColumns];
+			for (int i = 0; i < numRows-1; i++) {
+				for (int j = 0; j < numColumns-1; j++) {
+					board[i][j] = new BoardCell(i,j); //fills game board with boardCells
+				}
+			}
+			for (int row = 0; row < numRows-1; row++) {
+				String entry = inEntry.nextLine();
+				String[] charEntry = entry.split(",");
+				System.out.println(entry);
+				for (int colm = 0; colm < numColumns-1; colm++) {
+					board[row][colm].setInitial(charEntry[colm].charAt(0));
+					if (charEntry[colm].length() == 2) {
+						if (charEntry[colm].charAt(1) == 'N') {
+							board[row][colm].setDoorDirection(DoorDirection.NONE);
+						}
+						else if (charEntry[colm].charAt(1) == 'U') {
+							board[row][colm].setDoorDirection(DoorDirection.UP);							
+						}
+						else if (charEntry[colm].charAt(1) == 'D') {
+							board[row][colm].setDoorDirection(DoorDirection.DOWN);							
+						}
+						else if (charEntry[colm].charAt(1) == 'L') {
+							board[row][colm].setDoorDirection(DoorDirection.LEFT);
+						}
+						else if (charEntry[colm].charAt(1) == 'R') {
+							board[row][colm].setDoorDirection(DoorDirection.RIGHT);							
+						}
+					}
+					else {
+						board[row][colm].setDoorDirection(DoorDirection.NONE);						
+					}
+				}
+			}
+			inEntry.close();
 		} catch (FileNotFoundException e) {
 			System.out.println(e);
 		}
