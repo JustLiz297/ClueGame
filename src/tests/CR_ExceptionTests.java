@@ -18,7 +18,7 @@ public class CR_ExceptionTests {
 	// Test that an exception is thrown for a config file that does not 
 	// have the same number of columns for each row
 	@Test (expected = BadConfigFormatException.class)
-	public void testBadColumns() throws BadConfigFormatException, IOException {
+	public void testBadColumns() throws BadConfigFormatException{
 		// Note that we are using a LOCAL Board variable, because each 
 		// test will load different files
 		Board board = Board.getInstance();

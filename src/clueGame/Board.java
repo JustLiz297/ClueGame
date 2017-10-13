@@ -1,3 +1,9 @@
+/*
+ * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
+ * Description: Board Class that handles the management of the Game board
+ */
+
+
 package clueGame;
 
 import java.io.FileNotFoundException;
@@ -33,8 +39,9 @@ public class Board extends IntBoard{
 	
 	public void initialize() throws BadConfigFormatException {
 		this.calcAdjacencies();
+		this.loadRoomConfig(); //always call legend config first
 		this.loadBoardConfig();
-		this.loadRoomConfig();
+
 		
 	}
 	public void setConfigFiles(String layoutfile, String legendfile) {
@@ -48,7 +55,14 @@ public class Board extends IntBoard{
 			Scanner in = new Scanner(roomReader);
 			while (in.hasNext()) {
 				String[] entry = in.nextLine().split(", ");
-				legend.put(entry[0].charAt(0), entry[1]);
+				//Check if the room type is valid in the file
+				if (entry[2].equals("Card")  || entry[2].equals("Other")) {
+					legend.put(entry[0].charAt(0), entry[1]);
+				}
+				else{ 
+					throw new BadConfigFormatException();
+				}
+				
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
@@ -59,6 +73,8 @@ public class Board extends IntBoard{
 	
 	public void loadBoardConfig() throws BadConfigFormatException{
 		try {
+			
+			//Reads in file, counts rows and columns, and checks if all the columns are equal
 			FileReader boardReader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(boardReader);
 			int rows = 1;
@@ -73,39 +89,47 @@ public class Board extends IntBoard{
 			numRows = rows;
 			in.close();
 			in = null;
-			FileReader entryFile = new FileReader(boardConfigFile);
-			Scanner inEntry = new Scanner(entryFile);
+			//Initializes board with BoardCells per the read in dimensions
 			board = new BoardCell[numRows][numColumns];
-			for (int i = 0; i < numRows-1; i++) {
-				for (int j = 0; j < numColumns-1; j++) {
+			for (int i = 0; i < numRows; i++) {
+				for (int j = 0; j < numColumns; j++) {
 					board[i][j] = new BoardCell(i,j); //fills game board with boardCells
 				}
 			}
-			for (int row = 0; row < numRows-1; row++) {
+			
+			//Resets the filereader to read in the characters of the cells, sets the door directions 
+			FileReader entryFile = new FileReader(boardConfigFile);
+			Scanner inEntry = new Scanner(entryFile);
+			for (int row = 0; row < numRows; row++) {
 				String entry = inEntry.nextLine();
 				String[] charEntry = entry.split(",");
-				System.out.println(entry);
-				for (int colm = 0; colm < numColumns-1; colm++) {
-					board[row][colm].setInitial(charEntry[colm].charAt(0));
-					if (charEntry[colm].length() == 2) {
-						if (charEntry[colm].charAt(1) == 'N') {
-							board[row][colm].setDoorDirection(DoorDirection.NONE);
-						}
-						else if (charEntry[colm].charAt(1) == 'U') {
-							board[row][colm].setDoorDirection(DoorDirection.UP);							
-						}
-						else if (charEntry[colm].charAt(1) == 'D') {
-							board[row][colm].setDoorDirection(DoorDirection.DOWN);							
-						}
-						else if (charEntry[colm].charAt(1) == 'L') {
-							board[row][colm].setDoorDirection(DoorDirection.LEFT);
-						}
-						else if (charEntry[colm].charAt(1) == 'R') {
-							board[row][colm].setDoorDirection(DoorDirection.RIGHT);							
-						}
+				//System.out.println(entry);
+				for (int colm = 0; colm < numColumns; colm++) {
+					if (!legend.containsKey(charEntry[colm].charAt(0))) {
+						throw new BadConfigFormatException();
 					}
 					else {
-						board[row][colm].setDoorDirection(DoorDirection.NONE);						
+						board[row][colm].setInitial(charEntry[colm].charAt(0));
+						if (charEntry[colm].length() == 2) {
+							if (charEntry[colm].charAt(1) == 'N') {
+								board[row][colm].setDoorDirection(DoorDirection.NONE);
+							}
+							else if (charEntry[colm].charAt(1) == 'U') {
+								board[row][colm].setDoorDirection(DoorDirection.UP);							
+							}
+							else if (charEntry[colm].charAt(1) == 'D') {
+								board[row][colm].setDoorDirection(DoorDirection.DOWN);							
+							}
+							else if (charEntry[colm].charAt(1) == 'L') {
+								board[row][colm].setDoorDirection(DoorDirection.LEFT);
+							}
+							else if (charEntry[colm].charAt(1) == 'R') {
+								board[row][colm].setDoorDirection(DoorDirection.RIGHT);							
+							}
+						}
+						else {
+							board[row][colm].setDoorDirection(DoorDirection.NONE);						
+						}
 					}
 				}
 			}
@@ -127,12 +151,11 @@ public class Board extends IntBoard{
 		return legend;
 	}
 	public int getNumRows() {
-		return numRows;
+		return board.length;
 	}
 	public int getNumColumns() {
-		return numColumns;
+		return board[0].length;
 	}
-	
 	public BoardCell getCellAt(int row, int colm) {
 		return board[row][colm];
 	}

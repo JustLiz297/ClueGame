@@ -1,0 +1,11 @@
+K, Kitchen, Card
+E, Entrance, Card
+O, Office, Card
+B, Ballroom, Card
+D, Dining Room, Card
+G, Green House, Card
+F, Family Room, Card
+L, Library, Card
+S, Workshop, Card
+C, Closet, Other
+W, Hallways, Other

@@ -12,15 +12,24 @@ import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
+import clueGame.BadConfigFormatException;
+import clueGame.Board;
 import experiment.BoardCell;
 import experiment.IntBoard;
 
 public class IntBoardTests {
-	IntBoard board;
+	private static IntBoard intBoard;
+	private static Board board;
 	
 	@Before
-	public void setBoard() {
-		board = new IntBoard();
+	public void setBoard() throws BadConfigFormatException {
+		//board = new IntBoard();
+		// Board is singleton, get the only instance
+		board = Board.getInstance();
+		// set the file names to use my config files
+		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt");		
+		// Initialize will load BOTH config files 
+		board.initialize();
 	}
 
 	//-----------------------//
