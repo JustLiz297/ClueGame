@@ -13,18 +13,18 @@ import java.util.Map;
 
 
 public class IntBoard {
-	private int boardHeight = 4;
-	private int boardWidth = 4;
-	private BoardCell[][] gameBoard = new BoardCell[boardWidth][boardHeight];
+	private int numRows = 4;
+	private int numColumns = 4;
+	private BoardCell[][] gameBoard = new BoardCell[numColumns][numRows];
 	public Map<BoardCell, Set<BoardCell>> adjSpaces = new HashMap<BoardCell, Set<BoardCell>>();
-	private Set<BoardCell> targetSpaces;
+	private Set<BoardCell> targets;
 	private Set<BoardCell> visited;
 	
 	
 	public IntBoard() {
 		super();
-		for (int i = 0; i < boardWidth; i++) {
-			for (int j = 0; j < boardHeight; j++) {
+		for (int i = 0; i < numColumns; i++) {
+			for (int j = 0; j < numRows; j++) {
 				gameBoard[i][j] = new BoardCell(i,j); //fills game board with boardCells
 			}
 		}
@@ -38,8 +38,8 @@ public class IntBoard {
 	public void calcAdjacencies() {
 		//Calculates the list of adjacent grid cell from a certain point, then stores them in a Set, then
 		//puts them in adjSpaces map
-		for (int y = 0; y < boardWidth; y++) {
-			for (int x = 0; x < boardHeight; x++) {
+		for (int y = 0; y < numColumns; y++) {
+			for (int x = 0; x < numRows; x++) {
 				Set<BoardCell> adjSet = new HashSet<BoardCell>();
 				if (y == 0) { //left column
 					if (x == 0) {//if space is on the top left corner
@@ -49,7 +49,7 @@ public class IntBoard {
 						adjSet.add(down);
 						adjSet.add(right);
 					}
-					else if (x == boardHeight-1) { //if space is bottom left corner
+					else if (x == numRows-1) { //if space is bottom left corner
 						BoardCell up = new BoardCell (y, x-1);
 						BoardCell right = new BoardCell (y+1,x);
 
@@ -68,7 +68,7 @@ public class IntBoard {
 					}
 				}
 
-				else if (y == boardWidth-1) { //right column
+				else if (y == numColumns-1) { //right column
 					if (x == 0) {//if space is on the top right corner
 						BoardCell left = new BoardCell (y-1,x);						
 						BoardCell down = new BoardCell (y, x+1);
@@ -76,7 +76,7 @@ public class IntBoard {
 						adjSet.add(down);
 						adjSet.add(left);						
 					}
-					else if (x == boardHeight-1) { //if space is bottom right corner
+					else if (x == numRows-1) { //if space is bottom right corner
 						BoardCell left = new BoardCell (y-1,x);
 						BoardCell up = new BoardCell (y, x-1);		
 						
@@ -93,7 +93,7 @@ public class IntBoard {
 						adjSet.add(down);
 					}
 				}
-				else if (x == 0 && y != 0 && y != boardWidth-1) { //top row except corners
+				else if (x == 0 && y != 0 && y != numColumns-1) { //top row except corners
 					BoardCell left = new BoardCell (y-1,x);
 					BoardCell right = new BoardCell (y+1,x);
 					BoardCell down = new BoardCell (y, x+1);					
@@ -102,7 +102,7 @@ public class IntBoard {
 					adjSet.add(down);
 					adjSet.add(right);					
 				}
-				else if (x == boardHeight-1 && y != 0 && y != boardWidth-1) { //bottom row except corners
+				else if (x == numRows-1 && y != 0 && y != numColumns-1) { //bottom row except corners
 					BoardCell up = new BoardCell (y, x-1);
 					BoardCell left = new BoardCell (y-1,x);
 					BoardCell right = new BoardCell (y+1,x);
@@ -149,11 +149,11 @@ public class IntBoard {
 		//Calculates the targets that are pathLength distance from the startCell. 
 		//The list of targets will be stored in an instance variable.
 		visited = new HashSet<BoardCell>();
-		targetSpaces = new HashSet<BoardCell>();
+		targets = new HashSet<BoardCell>();
 
 		visited.add(startSpace);//add current space to the visited list
 		findAllTargets(startSpace, pathLength);
-		targetSpaces.remove(startSpace);
+		targets.remove(startSpace);
 		}
 	
 	public void findAllTargets(BoardCell thisSpace, int pathLength) {
@@ -169,7 +169,7 @@ public class IntBoard {
 			if (!visited.contains(adjSpace)) {
 				visited.add(adjSpace);
 				if (pathLength == 1) {
-					targetSpaces.add(adjSpace);
+					targets.add(adjSpace);
 				}
 				else {
 					visited.remove(thisSpace);
@@ -189,9 +189,9 @@ public class IntBoard {
 	 * }
 	 */
 	
-	public Set<BoardCell> getTargets() {//Returns the list of targets.
-		return targetSpaces;
-	}
+	//public Set<BoardCell> getTargets() {//Returns the list of targets.
+		//return targets;
+	//}
 
 	/* Part 1:
 	 * public Set<BoardCell> getTargets() {

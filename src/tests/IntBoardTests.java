@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
-import experiment.BoardCell;
+import clueGame.BoardCell;
 import experiment.IntBoard;
 
 public class IntBoardTests {
@@ -42,8 +42,8 @@ public class IntBoardTests {
 	@Test
 	public void testAdjacency0() {
 		//setBoard();
-		BoardCell space = board.getCell(0,0);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(0,0);
+		Set<BoardCell> testList = board.getAdjList(0,0);
 		
 		//(1,0)
 		boolean case1_0 = false;
@@ -76,8 +76,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency1() {
-		BoardCell space = board.getCell(3,3);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(3,3);
+		Set<BoardCell> testList = board.getAdjList(3,3);
 		
 		//(2,3)
 		boolean case2_3 = false;
@@ -109,8 +109,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency2() {
-		BoardCell space = board.getCell(1,3);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(1,3);
+		Set<BoardCell> testList = board.getAdjList(1,3);
 		
 		//(0,3)
 		boolean case0_3 = false;
@@ -154,8 +154,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency3() {
-		BoardCell space = board.getCell(2,0);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(2,0);
+		Set<BoardCell> testList = board.getAdjList(2,0);
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: testList) {
@@ -196,8 +196,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency4() {
-		BoardCell space = board.getCell(1,1);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(1,1);
+		Set<BoardCell> testList = board.getAdjList(1,1);
 		//(0,1)
 		boolean case0_1 = false;
 		for (BoardCell x: testList) {
@@ -249,8 +249,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency5() {
-		BoardCell space = board.getCell(2,2);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(2,2);
+		Set<BoardCell> testList = board.getAdjList(2,2);
 		//(2,1)
 		boolean case2_1 = false;
 		for (BoardCell x: testList) {
@@ -301,8 +301,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency6() {
-		BoardCell space = board.getCell(0,1);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(0,1);
+		Set<BoardCell> testList = board.getAdjList(0,1);
 		//(0,0)
 		boolean case0_0 = false;
 		for (BoardCell x: testList) {
@@ -343,8 +343,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testAdjacency7() {
-		BoardCell space = board.getCell(3,2);
-		Set<BoardCell> testList = board.getAdjList(space);
+		BoardCell space = board.getCellAt(3,2);
+		Set<BoardCell> testList = board.getAdjList(3,2);
 		//(3,3)
 		boolean case3_3 = false;
 		for (BoardCell x: testList) {
@@ -388,8 +388,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets0_1() {
-		BoardCell space = board.getCell(0,0);
-		board.calcTargets(space, 1);
+		BoardCell space = board.getCellAt(0,0);
+		board.calcTargets(0, 0, 1);
 		Set<BoardCell> targets = board.getTargets();
 		//(0,1)
 		boolean case0_1 = false;
@@ -421,8 +421,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets0_2() {
-		BoardCell space = board.getCell(0,0);
-		board.calcTargets(space, 2);
+		BoardCell space = board.getCellAt(0,0);
+		board.calcTargets(0, 0, 2);
 		Set<BoardCell> targets = board.getTargets();
 		//(2,0)
 		boolean case2_0 = false;
@@ -464,8 +464,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets0_3() {
-		BoardCell space = board.getCell(0,0);
-		board.calcTargets(space, 3);
+		BoardCell space = board.getCellAt(0,0);
+		board.calcTargets(0, 0, 3);
 		Set<BoardCell> targets = board.getTargets();
 		//(3,0)
 		boolean case3_0 = false;
@@ -537,8 +537,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets0_4() {
-		BoardCell space = board.getCell(0,0);
-		board.calcTargets(space, 4);
+		BoardCell space = board.getCellAt(0,0);
+		board.calcTargets(0, 0, 4);
 		Set<BoardCell> targets = board.getTargets();
 		//(0,2)
 		boolean case0_2 = false;
@@ -610,8 +610,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets1_2() {
-		BoardCell space = board.getCell(1,1);
-		board.calcTargets(space, 2);
+		BoardCell space = board.getCellAt(1,1);
+		board.calcTargets(1, 1, 2);
 		Set<BoardCell> targets = board.getTargets();
 		//(0,0)
 		boolean case0_0 = false;
@@ -683,8 +683,8 @@ public class IntBoardTests {
 	 */
 	@Test
 	public void testTargets1_3() {
-		BoardCell space = board.getCell(1,1);
-		board.calcTargets(space, 3);
+		BoardCell space = board.getCellAt(1,1);
+		board.calcTargets(1, 1, 3);
 		Set<BoardCell> targets = board.getTargets();
 		//(0,1)
 		boolean case0_1 = false;
