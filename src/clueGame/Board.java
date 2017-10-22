@@ -17,6 +17,13 @@ import java.util.Set;
 import clueGame.BoardCell;
 import experiment.IntBoard;
 
+/**
+ * This is the Board class, it is the game board of the Clue Game
+ * @author eboyle, annelysebaker
+ * @version 1.4
+ * 
+ *
+ */
 public class Board{
 	private int numRows;
 	private int numColumns;
@@ -37,18 +44,31 @@ public class Board{
 	public static Board getInstance() {
 		return theInstance;
 	}
-	
+	/**
+	 * Initializes the board
+	 * Calls loadRoomConfig() to load the legend of the game board.
+	 * Calls loadBoardConfig() to load the game board layout.
+	 * Calls calcAdjacencies() to create the adjacencies map (adjMatrix)
+	 * @throws BadConfigFormatException Error when creating the config files
+	 */
 	public void initialize() throws BadConfigFormatException {
 		this.loadRoomConfig(); //always call legend config first
 		this.loadBoardConfig();
 		this.calcAdjacencies();
 	}
-	
+	/**
+	 * Sets the boardConfigFile variable to the passed in layoutfile and Sets the roomConfigFile variable to the passed in legendfile
+	 * @param layoutfile the game board layout file
+	 * @param legendfile the legend file
+	 */
 	public void setConfigFiles(String layoutfile, String legendfile) {
 		boardConfigFile = layoutfile;
 		roomConfigFile = legendfile;
 	}
-
+	/**
+	 * Loads in the legend file and makes a map based on it
+	 * @throws BadConfigFormatException Error when creating the config files
+	 */
 	public void loadRoomConfig() throws BadConfigFormatException{
 		try {
 			FileReader roomReader = new FileReader(roomConfigFile);
@@ -70,7 +90,10 @@ public class Board{
 		}
 		
 	}
-	
+	/**
+	 * Reads in the game board layout file and creates the game board with BoardCells
+	 * @throws BadConfigFormatException Error when creating the config files
+	 */
 	public void loadBoardConfig() throws BadConfigFormatException{
 		try {
 			
@@ -138,30 +161,32 @@ public class Board{
 			System.out.println(e);
 		}
 	}
-	
+	/**
+	 * Calculates the adjacent cells of each cell in the game board
+	 */
 	public void calcAdjacencies() {
 		//Calculates the list of adjacent grid cell from a certain point, then stores them in a Set, then
 		//puts them in adjSpaces map
 		for (int y = 0; y < numColumns; y++) {
 			for (int x = 0; x < numRows; x++) {
 				Set<BoardCell> adjSet = new HashSet<BoardCell>();
-				if (this.getCellAt(x,y).getInitial() == 'W' || this.getCellAt(x,y).isDoorway()){
+				if (this.getCellAt(x,y).isWalkway() || this.getCellAt(x,y).isDoorway()){
 					if (y == 0) { //left column
 						if (x == 0) {//if space is on the top left corner
 							BoardCell right = this.getCellAt(x, y+1);
 							BoardCell down = this.getCellAt(x+1, y);
 							
 							//Can never be a door, so don't check current space door direction
-							if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
-							if (right.getInitial()=='W'||down.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+							if (right.isWalkway()||down.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
 						}
 						else if (x == numRows-1) { //if space is bottom left corner
 							BoardCell up = this.getCellAt(x-1, y);
 							BoardCell right = this.getCellAt(x, y+1);
 
 							//Can never be a door, so don't check current space door direction
-							if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-							if (right.getInitial()=='W'||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+							if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
 						}
 						else { //rest of left column
 							BoardCell up = this.getCellAt(x-1, y);
@@ -169,14 +194,14 @@ public class Board{
 							BoardCell down = this.getCellAt(x+1, y);
 
 							if (this.getCellAt(x,y).isDoorway()) {
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.getInitial()=='W'){adjSet.add(down);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.getInitial()=='W'){adjSet.add(right);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.getInitial()=='W'){adjSet.add(up);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 							}
 							else {
-								if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-								if (right.getInitial()=='W'||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
-								if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+								if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+								if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+								if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 							}
 						}
 					}
@@ -187,16 +212,16 @@ public class Board{
 							BoardCell down = this.getCellAt(x+1, y);
 							
 							//Can never be a door, so don't check current space door direction
-							if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
-							if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}					
+							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}					
 						}
 						else if (x == numRows-1) { //if space is bottom right corner
 							BoardCell left = this.getCellAt(x,y-1);
 							BoardCell up = this.getCellAt(x-1, y);	
 							
 							//Can never be a door, so don't check current space door direction
-							if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-							if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
+							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
 						}
 						else { //rest of right column
 							BoardCell down = this.getCellAt(x+1, y);						
@@ -204,14 +229,14 @@ public class Board{
 							BoardCell up = this.getCellAt(x-1, y);	
 
 							if (this.getCellAt(x,y).isDoorway()) {
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.getInitial()=='W'){adjSet.add(down);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.getInitial()=='W'){adjSet.add(left);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.getInitial()=='W'){adjSet.add(up);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 							}
 							else {
-								if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-								if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
-								if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+								if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+								if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
+								if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 							}
 						}
 					}
@@ -221,14 +246,14 @@ public class Board{
 						BoardCell down = this.getCellAt(x+1, y);					
 
 						if (this.getCellAt(x,y).isDoorway()) {
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.getInitial()=='W'){adjSet.add(down);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.getInitial()=='W'){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.getInitial()=='W'){adjSet.add(left);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
 						}
 						else {
-							if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
-							if (right.getInitial()=='W'||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
-							if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
+							if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 						}			
 					}
 					else if (x == numRows-1 && y != 0 && y != numColumns-1) { //bottom row except corners
@@ -237,14 +262,14 @@ public class Board{
 						BoardCell right = this.getCellAt(x, y+1);
 
 						if (this.getCellAt(x,y).isDoorway()) {
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.getInitial()=='W'){adjSet.add(left);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.getInitial()=='W'){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.getInitial()=='W'){adjSet.add(up);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 						}
 						else {
-							if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-							if (right.getInitial()=='W'||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
-							if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
+							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+							if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
 						}
 					}
 					else { //rest of the board
@@ -254,16 +279,16 @@ public class Board{
 						BoardCell up = this.getCellAt(x-1, y);
 
 						if (this.getCellAt(x,y).isDoorway()) {
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.getInitial()=='W'){adjSet.add(down);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.getInitial()=='W'){adjSet.add(left);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.getInitial()=='W'){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.getInitial()=='W'){adjSet.add(up);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 						}
 						else {
-							if (up.getInitial()=='W'||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
-							if (right.getInitial()=='W'||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
-							if (left.getInitial()=='W'||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
-							if (down.getInitial()=='W'||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
+							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
+							if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
+							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
+							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 						}
 					}
 				}
@@ -271,14 +296,24 @@ public class Board{
 			}
 		}
 	}
-	
+	/**
+	 * Returns the set of adjacent cells to the cells at the passed in coordinates
+	 * @param x x-coordinate of a certain cell
+	 * @param y y-coordinate of a certain cell
+	 * @return List of adjacent cells to the passed in cell
+	 */
 	public Set<BoardCell> getAdjList(int x, int y) {	//Returns the adjacency list for one cell
 		BoardCell space = this.getCellAt(x, y);
 		Set<BoardCell> retn = new HashSet<BoardCell>();
 		retn = adjMatrix.get(space);
 		return retn;
 	}
-	
+	/**
+	 * This is the function that calculates the cells we can move from a dice roll
+	 * @param row the row coordinate of the current cell
+	 * @param colm the column coordinate of the current cell
+	 * @param pathLength the length of the dice roll
+	 */
 	public void calcTargets(int row, int colm, int pathLength) {
 		//Calculates the targets that are pathLength distance from the startCell. 
 		//The list of targets will be stored in an instance variable.
@@ -290,7 +325,11 @@ public class Board{
 		findAllTargets(cell, pathLength);
 		targets.remove(cell);
 	}
-	
+	/**
+	 * This is the recursive function called by calcTargets that calculates the spaces the piece can move to from a dice roll
+	 * @param thisSpace the current Board Cell
+	 * @param pathLength the dice roll, which determines how many times we call this method 
+	 */
 	public void findAllTargets(BoardCell thisSpace, int pathLength) {
 		if (pathLength == 0) {		
 			visited.remove(thisSpace);
@@ -318,7 +357,7 @@ public class Board{
 					}
 				}
 				else if (pathLength == 1) {
-					if (adjSpace.getInitial() == 'W'){targets.add(adjSpace);}
+					if (adjSpace.isWalkway()){targets.add(adjSpace);}
 					if (adjSpace.isDoorway()) {
 						if(adjSpace.getDoorDirection()==DoorDirection.RIGHT){							
 							if (thisSpace.getColumn() == adjSpace.getColumn()+1 && thisSpace.getRow()==adjSpace.getRow()) {targets.add(adjSpace);}
@@ -343,23 +382,23 @@ public class Board{
 		}
 
 	}
-	
+
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
-	
+
 	public int getNumRows() {
 		return board.length;
 	}
-	
+
 	public int getNumColumns() {
 		return board[0].length;
 	}
-	
+
 	public BoardCell getCellAt(int row, int colm) {
 		return board[row][colm];
 	}
-	
+
 	public Set<BoardCell> getTargets() {//Returns the list of targets.
 		return this.targets;
 	}

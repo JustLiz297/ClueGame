@@ -2,6 +2,10 @@
  * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
  * Description: BoardCell class, each cell has a y&x coordinate
  */
+/**
+ * @author eboyle, annelysebaker
+ *
+ */
 
 package experiment;
 

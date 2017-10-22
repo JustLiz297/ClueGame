@@ -2,20 +2,19 @@
  * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
  * Description: Tests for InBoard, making sure the adjacencies lists are made properly and the target lists are made properly
  */
-
-package tests;
+/**
+ * @author eboyle, annelysebaker
+ *
+ */
+package experiment;
 
 import static org.junit.Assert.*;
-
 import java.util.Set;
-
 import org.junit.Before;
 import org.junit.Test;
-
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
 import clueGame.BoardCell;
-import experiment.IntBoard;
 
 public class IntBoardTests {
 	private static IntBoard intBoard;

@@ -3,20 +3,30 @@
  * Description: BoardCell class, each cell has a y&x coordinate
  */
 
-package clueGame;
 
+package clueGame;
+/**
+ * Class the represents the spaces of the game board
+ * @author eboyle, annelysebaker
+ * @version 1.2
+ *
+ */
 public class BoardCell {
 	private int row;
 	private int column; 
 	private char initial; //type of space, labeled with a single letter
 	private DoorDirection doorDirection;
 	
-	public BoardCell(int yCoord, int xCoord) {
+	/**
+	 * Creates a BoardCell with the passed in row and column
+	 * @param xCoord the row of the BoardCell
+	 * @param yCoord the column of the BoardCell
+	 */
+	public BoardCell(int xCoord, int yCoord) {
 		super();
-		this.row = yCoord;
-		this.column = xCoord;
+		this.row = xCoord;
+		this.column = yCoord;
 	}
-	
 	
 	public int getRow() {
 		return row;
@@ -55,19 +65,29 @@ public class BoardCell {
 	public String toString() {
 		return "BoardCell [yCoord=" + row + ", xCoord=" + column + "]";
 	}
-
+	/**
+	 * 
+	 * @return true if the BoardCell is a walkway, false if not
+	 */
 	public boolean isWalkway() {
-		if (this.initial == 'h') {return true;}
+		if (this.initial == 'W') {return true;}
 		//'h' for our game, 'W' for sample files
 		else {return false;}
 	}
-	
+	/**
+	 * 
+	 * @return true if the BoardCell is a room, false if not
+	 */
 	public boolean isRoom() {
-		if (this.initial != 'C' && this.initial != 'h') {return true;}
-		//'h' for our game, 'W' for sample files
+		if (this.initial != 'C' && this.initial != 'W') {return true;}
+		//'W' for sample files
 		else {return false;}
 
 	}
+	/**
+	 * 
+	 * @return false if DoorDirection is NONE and true elsewise
+	 */
 	public boolean isDoorway() {
 		if (this.doorDirection == DoorDirection.NONE) {return false;}
 		else {return true;}

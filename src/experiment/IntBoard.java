@@ -2,6 +2,10 @@
  * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
  * Description: IntBoard class, game board that handles the functions of the game board, such as where a piece can move
  */
+/**
+ * @author eboyle, annelysebaker
+ *
+ */
 
 package experiment;
 

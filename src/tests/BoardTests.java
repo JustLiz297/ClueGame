@@ -1,7 +1,9 @@
 /*
  * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
- * Description: Tests for Board class, desprictions of tests below
+ * Description: Tests for Board class, descriptions of tests below
  */
+
+
 
 package tests;
 
@@ -19,12 +21,22 @@ import clueGame.Board;
 import clueGame.BoardCell;
 import clueGame.DoorDirection;
 
+/**
+ * This is the tests for the Board class
+ * @author eboyle, annelysebaker
+ * @version 1.4
+ */
 public class BoardTests {
 	private static Board board;
 	public static final int NUM_ROWS = 21;
 	public static final int NUM_COLS = 25;
 	public static final int LEGEND_SIZE = 11;
 	
+	/**
+	 * Tells which files to use for set up, and sets up the board and legend with them
+	 * @throws BadConfigFormatException
+	 * @throws IOException
+	 */
 	@Before
 	public void setUp() throws BadConfigFormatException, IOException {
 		board = Board.getInstance();
@@ -32,8 +44,9 @@ public class BoardTests {
 		board.initialize();
 	}
 	
-	/*
-	 *  LEGEND TEST
+
+	/**
+	 * 	 LEGEND TEST
 	 *  	1. Tests if the loaded legend is the correct length
 	 *  	2. Tests if the correct room name is at the correct character key
 	 */
@@ -57,7 +70,7 @@ public class BoardTests {
 		
 	}
 	
-	/*
+	/**
 	 *  DIMENSION TEST
 	 *  	1. Tests if the loaded game board has the correct number of rows
 	 *  	2. Tests if the loaded game board has the correct number of columns
@@ -71,7 +84,7 @@ public class BoardTests {
 		
 	}
 	
-	/*
+	/**
 	 * DOOR DIRECTION TEST
 	 * 		1. Tests (4,21) to be a doorway and left entering
 	 * 		2. Tests (18,6) to be a doorway and right entering
@@ -107,7 +120,7 @@ public class BoardTests {
 		assertEquals(DoorDirection.NONE, space.getDoorDirection());
 	}
 	
-	/*
+	/**
 	 * NUMBER OF DOORS TEST
 	 * 		-Tests amount of doors
 	 */
@@ -126,7 +139,7 @@ public class BoardTests {
 		assertEquals(18, numDoors);
 	}
 	
-	/*
+	/**
 	 *  GAME BOARD SET UP TEST
 	 *  	1. Test that first cell (0,0) is 'K'
 	 *  	2. Test that last cell (20,24) is 'O'
@@ -157,7 +170,7 @@ public class BoardTests {
 		assertEquals('D', board.getCellAt(4, 12).getInitial());
 	}
 
-	/*
+	/**
 	 * ADJACENCY TESTS
 	 * 		ORANGE:
 	 * 		1. Cell (6,0) has adjacency list of [(6,1)] 
@@ -295,7 +308,7 @@ public class BoardTests {
 		assertEquals(3, testList.size());
 	}
 	
-	/*
+	/**
 	 * TARGET TESTS
 	 * 		BLUE: WALKWAYS
 	 * 		1. Cell: (12, 16) Distance: 2
