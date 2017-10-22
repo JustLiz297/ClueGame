@@ -1,6 +1,6 @@
 /*
  * Authors: Elizabeth (Liz) Boyle, Annelyse Baker
- * Description: BoardTests Test if the board loaded correctly
+ * Description: Tests for Board class, desprictions of tests below
  */
 
 package tests;
@@ -24,7 +24,6 @@ public class BoardTests {
 	public static final int NUM_ROWS = 21;
 	public static final int NUM_COLS = 25;
 	public static final int LEGEND_SIZE = 11;
-	
 	
 	@Before
 	public void setUp() throws BadConfigFormatException, IOException {
@@ -189,387 +188,111 @@ public class BoardTests {
 	 * 			(Note: Should not include (9,19) since it is an UP doorway)
 	 */
 	@Test
-	public void testAdjacency() {
+	public void testAdjacencyOrange() {
 		//ORANGE TESTS: WALKWAYS
 		//1. Cell (6,0) has adjacency list of [(6,1)] 
 		//			(Note: edge of the board)
 		Set<BoardCell> testList = board.getAdjList(6,0);
-		//(6,1)
-		boolean case6_1 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 1) {
-				if (x.getRow() == 6) {
-					case6_1 = true;
-				}
-			}
-		}
-		assertTrue(case6_1);
+		assertTrue(testList.contains(board.getCellAt(6, 1)));
 		assertEquals(1, testList.size());
 		testList.clear();
 		
 		//2. Cell (16, 12) has adjacency list of [(15,12), (16,13)]
 		testList = board.getAdjList(16,12);
-		//(15,12)
-		boolean case15_12 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 12) {
-				if (x.getRow() == 15) {
-					case15_12 = true;
-				}
-			}
-		}
-		assertTrue(case15_12);
-		//(16,13)
-		boolean case16_13 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 13) {
-				if (x.getRow() == 16) {
-					case16_13 = true;
-				}
-			}
-		}
-		assertTrue(case16_13);
+		assertTrue(testList.contains(board.getCellAt(15, 12)));
+		assertTrue(testList.contains(board.getCellAt(16, 13)));
 		assertEquals(2, testList.size());
 		testList.clear();
 		
 		//3. Cell (9, 15) has adjacency list of [(9,16), (9,14), (8,15), (10,15)]
 		testList = board.getAdjList(9,15);
-		//(9,16)
-		boolean case9_16 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 16) {
-				if (x.getRow() == 9) {
-					case9_16 = true;
-				}
-			}
-		}
-		assertTrue(case9_16);
-		//(9,14)
-		boolean case9_14 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 14) {
-				if (x.getRow() == 9) {
-					case9_14 = true;
-				}
-			}
-		}
-		assertTrue(case9_14);
-		//(8,15)
-		boolean case8_15 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 15) {
-				if (x.getRow() == 8) {
-					case8_15 = true;
-				}
-			}
-		}
-		assertTrue(case8_15);
-		//(10,15)
-		boolean case10_15 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 15) {
-				if (x.getRow() == 10) {
-					case10_15 = true;
-				}
-			}
-		}
-		assertTrue(case10_15);
+		assertTrue(testList.contains(board.getCellAt(9, 16)));
+		assertTrue(testList.contains(board.getCellAt(9, 14)));
+		assertTrue(testList.contains(board.getCellAt(8, 15)));
+		assertTrue(testList.contains(board.getCellAt(10, 15)));
 		assertEquals(4, testList.size());
-		testList.clear();
-		
+	}
+	@Test
+	public void testAdjacencyGreen() {
 		//GREEN TESTS: INSIDE ROOMS
 		//4. Cell (11, 4) should have empty adjacency list 
 		// 			(Note: is a room)
-		testList = board.getAdjList(11,4);
+		Set<BoardCell> testList = board.getAdjList(11,4);
 		assertEquals(0, testList.size());
-		testList.clear();
-		
+	}
+	@Test
+	public void testAdjacencyTeal() {
 		//TEAL TESTS: DOORWAYS
 		//5. Cell (4, 16) has adjacency list of [(5, 16)] 
 		//			(Note: is a doorway)
-		testList = board.getAdjList(4,16);
-		//(4,16)
-		boolean case4_16 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 16) {
-				if (x.getRow() == 4) {
-					case4_16 = true;
-				}
-			}
-		}
-		assertTrue(case4_16);
+		Set<BoardCell> testList = board.getAdjList(4,16);
+		assertTrue(testList.contains(board.getCellAt(5, 16)));
 		assertEquals(1, testList.size());
 		testList.clear();
 		//6. Cell (17, 14) has adjacency list of [(16,14)]
 		//			(Note: is a doorway)
 		testList = board.getAdjList(17,14);
-		//(16,14)
-		boolean case16_14 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 14) {
-				if (x.getRow() == 16) {
-					case16_14 = true;
-				}
-			}
-		}
-		assertTrue(case16_14);
+		assertTrue(testList.contains(board.getCellAt(16, 14)));
 		assertEquals(1, testList.size());
-		testList.clear();
-		
+	}
+	@Test
+	public void testAdjacencyPink() {
 		//PINK TESTS: SPACE OUTSIDE OF DOOR (CAN ENTER)
 		//7. Cell (14, 21) has adjacency list of [(15,21), (13,21), (14,20), (14,22)] 
 		// 			(Note: (15, 21) is an UP doorway)
-		testList = board.getAdjList(14,21);
-		//(15,21)
-		boolean case15_21 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 21) {
-				if (x.getRow() == 15) {
-					case15_21 = true;
-				}
-			}
-		}
-		assertTrue(case15_21);
-		//(13,21)
-		boolean case13_21 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 21) {
-				if (x.getRow() == 13) {
-					case13_21 = true;
-				}
-			}
-		}
-		assertTrue(case13_21);
-		//(14,20)
-		boolean case14_20 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 20) {
-				if (x.getRow() == 14) {
-					case14_20 = true;
-				}
-			}
-		}
-		assertTrue(case14_20);
-		//(14,22)
-		boolean case14_22 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 22) {
-				if (x.getRow() == 14) {
-					case14_22 = true;
-				}
-			}
-		}
-		assertTrue(case14_22);
+		Set<BoardCell> testList = board.getAdjList(14,21);
+		assertTrue(testList.contains(board.getCellAt(15, 21)));
+		assertTrue(testList.contains(board.getCellAt(13, 21)));
+		assertTrue(testList.contains(board.getCellAt(14, 20)));
+		assertTrue(testList.contains(board.getCellAt(14, 22)));
 		assertEquals(4, testList.size());
 		testList.clear();
 		
 		//8. Cell (10, 18) has adjacency list of [(9,18), (11,18), (10,19), (10,17)]
 		// 			(Note: (10, 19) is a LEFT doorway)
 		testList = board.getAdjList(10,18);
-		//(9,18)
-		boolean case9_18 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 18) {
-				if (x.getRow() == 9) {
-					case9_18 = true;
-				}
-			}
-		}
-		assertTrue(case9_18);
-		//(11,18)
-		boolean case11_18 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 18) {
-				if (x.getRow() == 11) {
-					case11_18 = true;
-				}
-			}
-		}
-		assertTrue(case11_18);
-		//(10,19)
-		boolean case10_19 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 19) {
-				if (x.getRow() == 10) {
-					case10_19 = true;
-				}
-			}
-		}
-		assertTrue(case10_19);
-		//(10,17)
-		boolean case10_17 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 17) {
-				if (x.getRow() == 10) {
-					case10_17 = true;
-				}
-			}
-		}
-		assertTrue(case10_17);
+		assertTrue(testList.contains(board.getCellAt(9, 18)));
+		assertTrue(testList.contains(board.getCellAt(11, 18)));
+		assertTrue(testList.contains(board.getCellAt(10, 19)));
+		assertTrue(testList.contains(board.getCellAt(10, 17)));
 		assertEquals(4, testList.size());
 		testList.clear();
 		//9. Cell (5, 10) has adjacency list of [(5,9), (5,11), (4, 10), (6,10)]
 		// 			(Note: (4,10) is a DOWN doorway)
 		testList = board.getAdjList(5,10);
-		//(5,9)
-		boolean case5_9 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 9) {
-				if (x.getRow() == 5) {
-					case5_9 = true;
-				}
-			}
-		}
-		assertTrue(case5_9);
-		//(5,11)
-		boolean case5_11 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 11) {
-				if (x.getRow() == 5) {
-					case5_11 = true;
-				}
-			}
-		}
-		assertTrue(case5_11);
-		//(4,10)
-		boolean case4_10 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 10) {
-				if (x.getRow() == 4) {
-					case4_10 = true;
-				}
-			}
-		}
-		assertTrue(case4_10);
-		//(6,10)
-		boolean case6_10 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 10) {
-				if (x.getRow() == 6) {
-					case6_10 = true;
-				}
-			}
-		}
-		assertTrue(case6_10);
+		assertTrue(testList.contains(board.getCellAt(5, 9)));
+		assertTrue(testList.contains(board.getCellAt(5, 11)));
+		assertTrue(testList.contains(board.getCellAt(4, 10)));
+		assertTrue(testList.contains(board.getCellAt(6, 10)));
 		assertEquals(4, testList.size());
 		testList.clear();
 		//10. Cell (18, 7) has adjacency list of [(19,7), (17,7), (18,6), (18,8)]
 		// 			(Note: (18,6) is a RIGHT doorway)
 		testList = board.getAdjList(18,7);
-		//(19,7)
-		boolean case19_7 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 7) {
-				if (x.getRow() == 19) {
-					case19_7 = true;
-				}
-			}
-		}
-		assertTrue(case19_7);
-		//(17,7)
-		boolean case17_7 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 7) {
-				if (x.getRow() == 17) {
-					case17_7 = true;
-				}
-			}
-		}
-		assertTrue(case17_7);
-		//(18,6)
-		boolean case18_6 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 6) {
-				if (x.getRow() == 18) {
-					case18_6 = true;
-				}
-			}
-		}
-		assertTrue(case18_6);
-		//(18,8)
-		boolean case18_8 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 8) {
-				if (x.getRow() == 18) {
-					case18_8 = true;
-				}
-			}
-		}
-		assertTrue(case18_8);
+		assertTrue(testList.contains(board.getCellAt(19, 7)));
+		assertTrue(testList.contains(board.getCellAt(17, 7)));
+		assertTrue(testList.contains(board.getCellAt(18, 6)));
+		assertTrue(testList.contains(board.getCellAt(18, 8)));
 		assertEquals(4, testList.size());
-		testList.clear();
-		
+	}
+	@Test
+	public void testAdjacencyRed() {
 		//RED TESTS: SPACE OUTSIDE OF DOOR (NO ENTRY)
 		//11. Cell (6, 21) has adjacency list of [(6,20), (7,21), (6,22)]
 		//			(Note: Should not include (5,21) since it is a LEFT doorway)
-		testList = board.getAdjList(6,21);
-		//(6,20)
-		boolean case6_20 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 20) {
-				if (x.getRow() == 6) {
-					case6_20 = true;
-				}
-			}
-		}
-		assertTrue(case6_20);
-		//(7,21)
-		boolean case7_21 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 21) {
-				if (x.getRow() == 7) {
-					case7_21 = true;
-				}
-			}
-		}
-		assertTrue(case7_21);
-		//(6,22)
-		boolean case6_22 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 22) {
-				if (x.getRow() == 6) {
-					case6_22 = true;
-				}
-			}
-		}
-		assertTrue(case6_22);
+		Set<BoardCell> testList = board.getAdjList(6,21);
+		assertTrue(testList.contains(board.getCellAt(6, 20)));
+		assertTrue(testList.contains(board.getCellAt(7, 21)));
+		assertTrue(testList.contains(board.getCellAt(6, 22)));
 		assertEquals(3, testList.size());
 		testList.clear();
 		//12. Cell (9, 18) has adjacency list of [(10,18), (9,17), (8,18)]
 		//			(Note: Should not include (9,19) since it is an UP doorway)
-		testList = board.getAdjList(3,18);
-		//(10,18)
-		boolean case10_18 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 18) {
-				if (x.getRow() == 10) {
-					case10_18 = true;
-				}
-			}
-		}
-		assertTrue(case10_18);
-		//(9,17)
-		boolean case9_17 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 17) {
-				if (x.getRow() == 9) {
-					case9_17 = true;
-				}
-			}
-		}
-		assertTrue(case9_17);
-		//(8,18)
-		boolean case8_18 = false;
-		for (BoardCell x: testList) {
-			if (x.getColumn() == 18) {
-				if (x.getRow() == 8) {
-					case8_18 = true;
-				}
-			}
-		}
-		assertTrue(case8_18);
+		testList = board.getAdjList(9,18);
+		assertTrue(testList.contains(board.getCellAt(10, 18)));
+		assertTrue(testList.contains(board.getCellAt(9, 17)));
+		assertTrue(testList.contains(board.getCellAt(8, 18)));
 		assertEquals(3, testList.size());
-		testList.clear();
 	}
 	
 	/*
@@ -606,7 +329,7 @@ public class BoardTests {
 	 *  
 	 */	
 	@Test
-	public void testTarget() {
+	public void testTargetBlue() {
 		//BLUE TESTS: WALKWAYS
 		//1. Cell: (12, 16) Distance: 2
 		board.calcTargets(12, 16, 2);
@@ -642,10 +365,13 @@ public class BoardTests {
 		targets = board.getTargets();
 		assertTrue(targets.contains(board.getCellAt(3, 13)));
 		assertEquals(1, targets.size());
-		targets.clear();
+	}
+	@Test
+	public void testTargetPurple() {
+		//PURPLE: ENTERING ROOM
 		//4. Cell: (3, 19) Distance: 4
 		board.calcTargets(3, 19, 4);
-		targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets();
 		assertTrue(targets.contains(board.getCellAt(4, 20)));
 		assertTrue(targets.contains(board.getCellAt(4, 21)));
 		assertTrue(targets.contains(board.getCellAt(5, 17)));
@@ -664,14 +390,16 @@ public class BoardTests {
 		assertTrue(targets.contains(board.getCellAt(17, 18)));
 		assertTrue(targets.contains(board.getCellAt(16, 19)));
 		assertEquals(4, targets.size());
-		targets.clear();
+	}
+	@Test
+	public void testTargetMaroon() {
+		//MAROON: EXITING ROOM
 		//6. Cell: (4, 5) Distance: 3
 		board.calcTargets(4, 5, 3);
-		targets = board.getTargets();
+		Set<BoardCell> targets = board.getTargets();
 		assertTrue(targets.contains(board.getCellAt(4, 8)));
 		assertTrue(targets.contains(board.getCellAt(5, 7)));
 		assertTrue(targets.contains(board.getCellAt(6, 6)));
 		assertEquals(3, targets.size());
-		targets.clear();
 	}
 }

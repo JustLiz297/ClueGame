@@ -1,0 +1,5 @@
+For the Legend Test we confirmed that the legend was the same size so that we had an initial ability to see what was wrong with the file. Then we checked that each key entry, rather then just a few to be extra confident in our code, was corresponding to the correct room or location.
+
+For the Door Directions Test we used one direction for each door. We started with the Green House using the top door facing left. Then we used the right facing door in the family room and next the door that opens up in the Entrance. After we chose the door facing down in the Dining Room. Finally we got a random location in the hallway to check that we can also differentiate our non-doors.
+
+For the testRoomChar we test each room or location to see if the correct character is repersenting it. We selected spaces in all areas including corners, sidewalls, and middle spaces. This allows us to be more confident that we are getting the correct information in each cell.
