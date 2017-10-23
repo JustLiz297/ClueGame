@@ -15,7 +15,6 @@ import java.util.Scanner;
 import java.util.Set;
 
 import clueGame.BoardCell;
-import experiment.IntBoard;
 
 /**
  * This is the Board class, it is the game board of the Clue Game
