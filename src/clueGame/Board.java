@@ -132,25 +132,11 @@ public class Board{
 					}
 					else {
 						board[row][colm].setInitial(charEntry[colm].charAt(0));
-						if (charEntry[colm].length() == 2) {
-							if (charEntry[colm].charAt(1) == 'N') {
-								board[row][colm].setDoorDirection(DoorDirection.NONE);
-							}
-							else if (charEntry[colm].charAt(1) == 'U') {
-								board[row][colm].setDoorDirection(DoorDirection.UP);							
-							}
-							else if (charEntry[colm].charAt(1) == 'D') {
-								board[row][colm].setDoorDirection(DoorDirection.DOWN);							
-							}
-							else if (charEntry[colm].charAt(1) == 'L') {
-								board[row][colm].setDoorDirection(DoorDirection.LEFT);
-							}
-							else if (charEntry[colm].charAt(1) == 'R') {
-								board[row][colm].setDoorDirection(DoorDirection.RIGHT);							
-							}
+						if (charEntry[colm].length() == 2) { //If the cell is a doorway or the name cell
+							board[row][colm].setDoorDirection(charEntry[colm].charAt(1)); //Sets doorway direction per character on board
 						}
-						else {
-							board[row][colm].setDoorDirection(DoorDirection.NONE);						
+						else { //If cell is not a doorway nor a name cell
+							board[row][colm].setDoorDirection('N');	//'N' is just passed in for default case, stands for NONE					
 						}
 					}
 				}

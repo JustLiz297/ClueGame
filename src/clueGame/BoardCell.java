@@ -47,8 +47,28 @@ public class BoardCell {
 		this.initial = initial; //sets the initial of the cell
 	}
 	
-	public void setDoorDirection(DoorDirection d) {
-		this.doorDirection = d; //sets the Door Direction of the cell
+	/**
+	 * Sets the door direction per passed in character
+	 * @param d passed in character from board layout
+	 */
+	public void setDoorDirection(char d) {
+		switch(d) {
+		case 'U'://If the second character in the cell is U
+			this.doorDirection = DoorDirection.UP;
+			break;
+		case 'D'://If the second character in the cell is D
+			this.doorDirection = DoorDirection.DOWN;
+			break;
+		case 'L'://If the second character in the cell is L
+			this.doorDirection = DoorDirection.LEFT;
+			break;		
+		case 'R': //If the second character in the cell is R
+			this.doorDirection = DoorDirection.RIGHT;
+			break;
+		default: //Any cell that doesn't have two characters gets set to none as it isn't a door
+			this.doorDirection = DoorDirection.NONE;
+			break;
+		}
 	}
 
 	/**
