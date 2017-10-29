@@ -17,9 +17,13 @@ package clueGame;
 public class BadConfigFormatException extends Exception{
 
 	public BadConfigFormatException() {
-		super("Bad Configuration Errors");
-		System.out.println("Bad Configuration Error");
-		// TODO Auto-generated constructor stub
+		super("Configuration Error");
+		System.out.println(this.getMessage());
+	}
+	
+	public BadConfigFormatException(String message) {
+		super(message);
+		System.out.println(message);
 	}
 
 	
