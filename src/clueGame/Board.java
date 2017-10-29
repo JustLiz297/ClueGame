@@ -24,16 +24,16 @@ import clueGame.BoardCell;
  *
  */
 public class Board{
-	private int numRows;
-	private int numColumns;
-	public final static int MAX_BOARD_SIZE = 51;
-	private BoardCell[][] board;
-	private Map<Character, String> legend = new HashMap<Character, String>();
-	private Map<BoardCell, Set<BoardCell>> adjMatrix = new HashMap<BoardCell, Set<BoardCell>>();
-	private Set<BoardCell> targets;
-	private Set<BoardCell> visited;
-	private String boardConfigFile;
-	private String roomConfigFile;
+	private int numRows; //number of rows in the game board
+	private int numColumns; //number of columns in the game board
+	public final static int MAX_BOARD_SIZE = 51; //max possible board size, either rows or columns 
+	private BoardCell[][] board; // game board array
+	private Map<Character, String> legend = new HashMap<Character, String>(); //Map of the legend of the game board, initals of the cells and what kind of space the represent
+	private Map<BoardCell, Set<BoardCell>> adjMatrix = new HashMap<BoardCell, Set<BoardCell>>(); //Map of the cells and what cells are adjacent
+	private Set<BoardCell> targets; //Set of cells a piece can move to in a certain roll
+	private Set<BoardCell> visited; //Set of cells used in calculating the targets Set
+	private String boardConfigFile; //name of the board file that will be loaded in
+	private String roomConfigFile; //name of the legend file that will be loaded in
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -52,8 +52,8 @@ public class Board{
 	 */
 	public void initialize() throws BadConfigFormatException {
 		this.loadRoomConfig(); //always call legend config first
-		this.loadBoardConfig();
-		this.calcAdjacencies();
+		this.loadBoardConfig(); //set up the game board
+		this.calcAdjacencies(); //creates the Map of adjacent cells
 	}
 	/**
 	 * Sets the boardConfigFile variable to the passed in layoutfile and Sets the roomConfigFile variable to the passed in legendfile
@@ -81,13 +81,11 @@ public class Board{
 				else{ 
 					throw new BadConfigFormatException("Invalid Legend Format");
 				}
-				
 			}
 			in.close();
 		} catch (FileNotFoundException e) {
-			System.out.println(e);
+			System.out.println(e.getMessage());
 		}
-		
 	}
 	/**
 	 * Reads in the game board layout file and creates the game board with BoardCells
@@ -95,15 +93,14 @@ public class Board{
 	 */
 	public void loadBoardConfig() throws BadConfigFormatException{
 		try {
-			
-			//Reads in file, counts rows and columns, and checks if all the columns are equal
+			//Reads in file and counts rows and columns
 			FileReader boardReader = new FileReader(boardConfigFile);
 			Scanner in = new Scanner(boardReader);
-			int rows = 1;
-			numColumns = in.nextLine().split(",").length;
+			int rows = 1; //starting the row counter
+			numColumns = in.nextLine().split(",").length; //default number of columns
 			while (in.hasNext()) {
 				String cycling = in.nextLine();
-				if (cycling.split(",").length != this.numColumns) {
+				if (cycling.split(",").length != this.numColumns) { //checks if all the columns are equal
 					throw new BadConfigFormatException("Inconsistent Number of Columns in File");
 				}
 				rows++;
@@ -111,6 +108,7 @@ public class Board{
 			numRows = rows;
 			in.close();
 			in = null;
+			
 			//Initializes board with BoardCells per the read in dimensions
 			board = new BoardCell[numRows][numColumns];
 			for (int i = 0; i < numRows; i++) {
@@ -124,14 +122,13 @@ public class Board{
 			Scanner inEntry = new Scanner(entryFile);
 			for (int row = 0; row < numRows; row++) {
 				String entry = inEntry.nextLine();
-				String[] charEntry = entry.split(",");
-				//System.out.println(entry);
+				String[] charEntry = entry.split(","); //makes an array of each line of the board
 				for (int colm = 0; colm < numColumns; colm++) {
 					if (!legend.containsKey(charEntry[colm].charAt(0))) {
 						throw new BadConfigFormatException("Invalid Room in Game Board File");
 					}
 					else {
-						board[row][colm].setInitial(charEntry[colm].charAt(0));
+						board[row][colm].setInitial(charEntry[colm].charAt(0)); //sets the cell type using the first character
 						if (charEntry[colm].length() == 2) { //If the cell is a doorway or the name cell
 							board[row][colm].setDoorDirection(charEntry[colm].charAt(1)); //Sets doorway direction per character on board
 						}
@@ -277,7 +274,7 @@ public class Board{
 						}
 					}
 				}
-				this.adjMatrix.put(getCellAt(x,y), adjSet);
+				this.adjMatrix.put(getCellAt(x,y), adjSet); //puts the created adjacent cells Set in a Map with the cell as the key
 			}
 		}
 	}
@@ -289,9 +286,7 @@ public class Board{
 	 */
 	public Set<BoardCell> getAdjList(int x, int y) {	//Returns the adjacency list for one cell
 		BoardCell space = this.getCellAt(x, y);
-		Set<BoardCell> retn = new HashSet<BoardCell>();
-		retn = adjMatrix.get(space);
-		return retn;
+		return adjMatrix.get(space);
 	}
 	/**
 	 * This is the function that calculates the cells we can move from a dice roll
@@ -316,18 +311,18 @@ public class Board{
 	 * @param pathLength the dice roll, which determines how many times we call this method 
 	 */
 	public void findAllTargets(BoardCell thisSpace, int pathLength) {
-		if (pathLength == 0) {		
-			visited.remove(thisSpace);
+		if (pathLength == 0) { //return case
+			visited.remove(thisSpace); 
 			return;
 		}
-		Set<BoardCell> adjCells = new HashSet<BoardCell>(); //to transfer the set in the map to a readable set, because pointers.
+		Set<BoardCell> adjCells = new HashSet<BoardCell>(); //to transfer the set in the map to a readable set, because pointers.****
 		for (BoardCell adjSpace : adjMatrix.get(thisSpace)) {
 			adjCells.add(getCellAt(adjSpace.getRow(), adjSpace.getColumn()));
 		}
 		for (BoardCell adjSpace : adjCells) {
 			if (!visited.contains(adjSpace)) {
 				visited.add(adjSpace);
-				if (adjSpace.isDoorway()) {
+				if (adjSpace.isDoorway()) { //checks if entered from the correct direction****
 					if(adjSpace.getDoorDirection()==DoorDirection.RIGHT){							
 						if (thisSpace.getColumn() == adjSpace.getColumn()+1 && thisSpace.getRow()==adjSpace.getRow()) {targets.add(adjSpace);}
 					}
@@ -340,10 +335,10 @@ public class Board{
 					else if (adjSpace.getDoorDirection()==DoorDirection.DOWN && thisSpace.getColumn()==adjSpace.getColumn()){
 						if (thisSpace.getRow() == adjSpace.getRow()+1) {targets.add(adjSpace);}
 					}
-				}
-				else if (pathLength == 1) {
+				} 
+				else if (pathLength == 1) { //when looking at end of the roll
 					if (adjSpace.isWalkway()){targets.add(adjSpace);}
-					if (adjSpace.isDoorway()) {
+					if (adjSpace.isDoorway()) { //checks if entered from the correct direction****
 						if(adjSpace.getDoorDirection()==DoorDirection.RIGHT){							
 							if (thisSpace.getColumn() == adjSpace.getColumn()+1 && thisSpace.getRow()==adjSpace.getRow()) {targets.add(adjSpace);}
 						}
@@ -363,9 +358,7 @@ public class Board{
 				}
 				visited.remove(adjSpace);
 			}
-
 		}
-
 	}
 
 	public Map<Character, String> getLegend() {
