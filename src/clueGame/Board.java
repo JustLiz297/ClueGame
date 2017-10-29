@@ -79,7 +79,7 @@ public class Board{
 					legend.put(entry[0].charAt(0), entry[1]);
 				}
 				else{ 
-					throw new BadConfigFormatException();
+					throw new BadConfigFormatException("Invalid Legend Format");
 				}
 				
 			}
@@ -104,7 +104,7 @@ public class Board{
 			while (in.hasNext()) {
 				String cycling = in.nextLine();
 				if (cycling.split(",").length != this.numColumns) {
-					throw new BadConfigFormatException();
+					throw new BadConfigFormatException("Inconsistent Number of Columns in File");
 				}
 				rows++;
 			}
@@ -128,7 +128,7 @@ public class Board{
 				//System.out.println(entry);
 				for (int colm = 0; colm < numColumns; colm++) {
 					if (!legend.containsKey(charEntry[colm].charAt(0))) {
-						throw new BadConfigFormatException();
+						throw new BadConfigFormatException("Invalid Room in Game Board File");
 					}
 					else {
 						board[row][colm].setInitial(charEntry[colm].charAt(0));
