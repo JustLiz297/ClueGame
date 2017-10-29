@@ -28,9 +28,9 @@ import clueGame.DoorDirection;
  */
 public class BoardTests {
 	private static Board board;
-	public static final int NUM_ROWS = 21;
-	public static final int NUM_COLS = 25;
-	public static final int LEGEND_SIZE = 11;
+	public static final int NUM_ROWS = 21; //number of rows for our board
+	public static final int NUM_COLS = 25; //number of columns for our board
+	public static final int LEGEND_SIZE = 11; //our correct legend size (correct number of types of spaces)
 	
 	/**
 	 * Tells which files to use for set up, and sets up the board and legend with them

@@ -12,10 +12,10 @@ package clueGame;
  *
  */
 public class BoardCell {
-	private int row;
-	private int column; 
+	private int row; //x-coordinate of the cell
+	private int column; //y-coordinate of the cell
 	private char initial; //type of space, labeled with a single letter
-	private DoorDirection doorDirection;
+	private DoorDirection doorDirection; //which way the cell can be entered
 	
 	/**
 	 * Creates a BoardCell with the passed in row and column
@@ -23,41 +23,40 @@ public class BoardCell {
 	 * @param yCoord the column of the BoardCell
 	 */
 	public BoardCell(int xCoord, int yCoord) {
-		super();
-		this.row = xCoord;
-		this.column = yCoord;
+		this.row = xCoord; //sets the x-coordinate
+		this.column = yCoord; //sets the y-coordinate
 	}
 	
 	public int getRow() {
-		return row;
+		return row; //returns the x-coordinate
 	}
 
 	public int getColumn() {
-		return column;
+		return column; //returns the y-coordinate
 	}
 
 	public char getInitial() {
-		return initial;
+		return initial; //returns the cell type, by its initial
 	}
 	
 	public DoorDirection getDoorDirection() {
-		return this.doorDirection;
+		return this.doorDirection; //returns the Door Direction of the cell
 	}
 
 	public void setRow(int row) {
-		this.row = row;
+		this.row = row; //sets x-coordinate
 	}
 
 	public void setColumn(int column) {
-		this.column = column;
+		this.column = column; //sets y-coordinate
 	}
 
 	public void setInitial(char initial) {
-		this.initial = initial;
+		this.initial = initial; //sets the initial of the cell
 	}
 	
 	public void setDoorDirection(DoorDirection d) {
-		this.doorDirection = d;
+		this.doorDirection = d; //sets the Door Direction of the cell
 	}
 
 	/* For testing purposes */
@@ -70,8 +69,7 @@ public class BoardCell {
 	 * @return true if the BoardCell is a walkway, false if not
 	 */
 	public boolean isWalkway() {
-		if (this.initial == 'W') {return true;}
-		//'h' for our game, 'W' for sample files
+		if (this.initial == 'W') {return true;} //'W' = walkway
 		else {return false;}
 	}
 	/**
@@ -79,10 +77,8 @@ public class BoardCell {
 	 * @return true if the BoardCell is a room, false if not
 	 */
 	public boolean isRoom() {
-		if (this.initial != 'C' && this.initial != 'W') {return true;}
-		//'W' for sample files
+		if (this.initial != 'C' && this.initial != 'W') {return true;} //'W' = walkway, 'C' = closet
 		else {return false;}
-
 	}
 	/**
 	 * 
@@ -92,6 +88,4 @@ public class BoardCell {
 		if (this.doorDirection == DoorDirection.NONE) {return false;}
 		else {return true;}
 	}
-	
-
 }
