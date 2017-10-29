@@ -42,15 +42,7 @@ public class BoardCell {
 	public DoorDirection getDoorDirection() {
 		return this.doorDirection; //returns the Door Direction of the cell
 	}
-
-	public void setRow(int row) {
-		this.row = row; //sets x-coordinate
-	}
-
-	public void setColumn(int column) {
-		this.column = column; //sets y-coordinate
-	}
-
+	
 	public void setInitial(char initial) {
 		this.initial = initial; //sets the initial of the cell
 	}
@@ -59,11 +51,6 @@ public class BoardCell {
 		this.doorDirection = d; //sets the Door Direction of the cell
 	}
 
-	/* For testing purposes */
-	@Override
-	public String toString() {
-		return "BoardCell [yCoord=" + row + ", xCoord=" + column + "]";
-	}
 	/**
 	 * 
 	 * @return true if the BoardCell is a walkway, false if not
