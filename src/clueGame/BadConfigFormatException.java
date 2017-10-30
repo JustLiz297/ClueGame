@@ -25,7 +25,4 @@ public class BadConfigFormatException extends Exception{
 		super(message);
 		System.out.println(message);
 	}
-
-	
-	
 }

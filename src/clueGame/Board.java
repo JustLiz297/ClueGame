@@ -174,8 +174,8 @@ public class Board{
 							BoardCell down = this.getCellAt(x+1, y);
 							if (this.getCellAt(x,y).isDoorway()) {
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
+								else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+								else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 							}
 							else {
 								if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
@@ -205,8 +205,8 @@ public class Board{
 							BoardCell up = this.getCellAt(x-1, y);	
 							if (this.getCellAt(x,y).isDoorway()) {
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
-								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
+								else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+								else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 							}
 							else {
 								if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
@@ -221,8 +221,8 @@ public class Board{
 						BoardCell down = this.getCellAt(x+1, y);					
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
 						}
 						else {
 							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
@@ -236,8 +236,8 @@ public class Board{
 						BoardCell right = this.getCellAt(x, y+1);
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 						}
 						else {
 							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
@@ -252,9 +252,9 @@ public class Board{
 						BoardCell up = this.getCellAt(x-1, y);
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
-							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
+							else if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.UP && up.isWalkway()){adjSet.add(up);}
 						}
 						else {
 							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
@@ -305,17 +305,13 @@ public class Board{
 			visited.remove(thisSpace); 
 			return;
 		}
-		Set<BoardCell> adjCells = new HashSet<BoardCell>(); //to transfer the set in the map to a readable set, because pointers.****
 		for (BoardCell adjSpace : adjMatrix.get(thisSpace)) {
-			adjCells.add(getCellAt(adjSpace.getRow(), adjSpace.getColumn()));
-		}
-		for (BoardCell adjSpace : adjCells) {
 			if (!visited.contains(adjSpace)) {
 				visited.add(adjSpace);
 				if (adjSpace.isDoorway()) {checkDoorEntry(adjSpace, thisSpace);} //checks if entered from the correct direction
 				else if (pathLength == 1) { //when looking at end of the roll
 					if (adjSpace.isWalkway()){targets.add(adjSpace);}
-					else if (adjSpace.isDoorway()) {checkDoorEntry(adjSpace, thisSpace);} //checks if entered from the correct direction
+					else if (adjSpace.isDoorway()) {checkDoorEntry(adjSpace, thisSpace);}
 				}
 				else {
 					findAllTargets(adjSpace, pathLength-1);
@@ -324,7 +320,6 @@ public class Board{
 			}
 		}
 	}
-
 	private void checkDoorEntry(BoardCell adjSpace, BoardCell thisSpace) {//checks if entered from the correct direction
 		if(adjSpace.getDoorDirection()==DoorDirection.RIGHT && thisSpace.getRow()==adjSpace.getRow() && thisSpace.getColumn() == adjSpace.getColumn()+1){							
 			targets.add(adjSpace);

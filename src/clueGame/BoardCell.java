@@ -89,7 +89,7 @@ public class BoardCell {
 	}
 	/**
 	 * 
-	 * @return false if DoorDirection is NONE and true elsewise
+	 * @return false if DoorDirection is NONE and true else wise
 	 */
 	public boolean isDoorway() {
 		if (this.doorDirection == DoorDirection.NONE) {return false;}
