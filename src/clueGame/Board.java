@@ -157,7 +157,6 @@ public class Board{
 						if (x == 0) {//if space is on the top left corner
 							BoardCell right = this.getCellAt(x, y+1);
 							BoardCell down = this.getCellAt(x+1, y);
-							
 							//Can never be a door, so don't check current space door direction
 							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 							if (right.isWalkway()||down.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
@@ -165,7 +164,6 @@ public class Board{
 						else if (x == numRows-1) { //if space is bottom left corner
 							BoardCell up = this.getCellAt(x-1, y);
 							BoardCell right = this.getCellAt(x, y+1);
-
 							//Can never be a door, so don't check current space door direction
 							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
 							if (right.isWalkway()||right.getDoorDirection()==DoorDirection.LEFT) {adjSet.add(right);}
@@ -174,7 +172,6 @@ public class Board{
 							BoardCell up = this.getCellAt(x-1, y);
 							BoardCell right = this.getCellAt(x, y+1);
 							BoardCell down = this.getCellAt(x+1, y);
-
 							if (this.getCellAt(x,y).isDoorway()) {
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
@@ -187,12 +184,10 @@ public class Board{
 							}
 						}
 					}
-
 					else if (y == numColumns-1) { //right column
 						if (x == 0) {//if space is on the top right corner
 							BoardCell left = this.getCellAt(x, y-1);						
 							BoardCell down = this.getCellAt(x+1, y);
-							
 							//Can never be a door, so don't check current space door direction
 							if (down.isWalkway()||down.getDoorDirection()==DoorDirection.UP) {adjSet.add(down);}
 							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}					
@@ -200,7 +195,6 @@ public class Board{
 						else if (x == numRows-1) { //if space is bottom right corner
 							BoardCell left = this.getCellAt(x,y-1);
 							BoardCell up = this.getCellAt(x-1, y);	
-							
 							//Can never be a door, so don't check current space door direction
 							if (up.isWalkway()||up.getDoorDirection()==DoorDirection.DOWN) {adjSet.add(up);}
 							if (left.isWalkway()||left.getDoorDirection()==DoorDirection.RIGHT) {adjSet.add(left);}
@@ -209,7 +203,6 @@ public class Board{
 							BoardCell down = this.getCellAt(x+1, y);						
 							BoardCell left = this.getCellAt(x,y-1);
 							BoardCell up = this.getCellAt(x-1, y);	
-
 							if (this.getCellAt(x,y).isDoorway()) {
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
 								if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
@@ -226,7 +219,6 @@ public class Board{
 						BoardCell left = this.getCellAt(x,y-1);
 						BoardCell right = this.getCellAt(x, y+1);
 						BoardCell down = this.getCellAt(x+1, y);					
-
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
@@ -242,7 +234,6 @@ public class Board{
 						BoardCell up = this.getCellAt(x-1, y);
 						BoardCell left = this.getCellAt(x,y-1);
 						BoardCell right = this.getCellAt(x, y+1);
-
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.RIGHT && right.isWalkway()){adjSet.add(right);}
@@ -259,7 +250,6 @@ public class Board{
 						BoardCell right = this.getCellAt(x, y+1);
 						BoardCell down = this.getCellAt(x+1, y);
 						BoardCell up = this.getCellAt(x-1, y);
-
 						if (this.getCellAt(x,y).isDoorway()) {
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.DOWN && down.isWalkway()){adjSet.add(down);}
 							if (this.getCellAt(x,y).getDoorDirection()==DoorDirection.LEFT && left.isWalkway()){adjSet.add(left);}
@@ -322,36 +312,10 @@ public class Board{
 		for (BoardCell adjSpace : adjCells) {
 			if (!visited.contains(adjSpace)) {
 				visited.add(adjSpace);
-				if (adjSpace.isDoorway()) { //checks if entered from the correct direction****
-					if(adjSpace.getDoorDirection()==DoorDirection.RIGHT){							
-						if (thisSpace.getColumn() == adjSpace.getColumn()+1 && thisSpace.getRow()==adjSpace.getRow()) {targets.add(adjSpace);}
-					}
-					else if (adjSpace.getDoorDirection()==DoorDirection.LEFT && thisSpace.getRow()==adjSpace.getRow()){
-						if (thisSpace.getColumn() == adjSpace.getColumn()-1) {targets.add(adjSpace);}
-					}
-					else if(adjSpace.getDoorDirection()==DoorDirection.UP && thisSpace.getColumn()==adjSpace.getColumn()){
-						if (thisSpace.getRow() == adjSpace.getRow()-1) {targets.add(adjSpace);}
-					}
-					else if (adjSpace.getDoorDirection()==DoorDirection.DOWN && thisSpace.getColumn()==adjSpace.getColumn()){
-						if (thisSpace.getRow() == adjSpace.getRow()+1) {targets.add(adjSpace);}
-					}
-				} 
+				if (adjSpace.isDoorway()) {checkDoorEntry(adjSpace, thisSpace);} //checks if entered from the correct direction
 				else if (pathLength == 1) { //when looking at end of the roll
 					if (adjSpace.isWalkway()){targets.add(adjSpace);}
-					if (adjSpace.isDoorway()) { //checks if entered from the correct direction****
-						if(adjSpace.getDoorDirection()==DoorDirection.RIGHT){							
-							if (thisSpace.getColumn() == adjSpace.getColumn()+1 && thisSpace.getRow()==adjSpace.getRow()) {targets.add(adjSpace);}
-						}
-						else if (adjSpace.getDoorDirection()==DoorDirection.LEFT && thisSpace.getRow()==adjSpace.getRow()){
-							if (thisSpace.getColumn() == adjSpace.getColumn()-1) {targets.add(adjSpace);}
-						}
-						else if(adjSpace.getDoorDirection()==DoorDirection.UP && thisSpace.getColumn()==adjSpace.getColumn()){
-							if (thisSpace.getRow() == adjSpace.getRow()-1) {targets.add(adjSpace);}
-						}
-						else if (adjSpace.getDoorDirection()==DoorDirection.DOWN && thisSpace.getColumn()==adjSpace.getColumn()){
-							if (thisSpace.getRow() == adjSpace.getRow()+1) {targets.add(adjSpace);}
-						}
-					}
+					else if (adjSpace.isDoorway()) {checkDoorEntry(adjSpace, thisSpace);} //checks if entered from the correct direction
 				}
 				else {
 					findAllTargets(adjSpace, pathLength-1);
@@ -361,6 +325,21 @@ public class Board{
 		}
 	}
 
+	private void checkDoorEntry(BoardCell adjSpace, BoardCell thisSpace) {//checks if entered from the correct direction
+		if(adjSpace.getDoorDirection()==DoorDirection.RIGHT && thisSpace.getRow()==adjSpace.getRow() && thisSpace.getColumn() == adjSpace.getColumn()+1){							
+			targets.add(adjSpace);
+		}
+		else if (adjSpace.getDoorDirection()==DoorDirection.LEFT && thisSpace.getRow()==adjSpace.getRow() && thisSpace.getColumn() == adjSpace.getColumn()-1){
+			targets.add(adjSpace);
+		}
+		else if(adjSpace.getDoorDirection()==DoorDirection.UP && thisSpace.getColumn()==adjSpace.getColumn() && thisSpace.getRow() == adjSpace.getRow()-1){
+			targets.add(adjSpace);
+		}
+		else if (adjSpace.getDoorDirection()==DoorDirection.DOWN && thisSpace.getColumn()==adjSpace.getColumn()&&thisSpace.getRow() == adjSpace.getRow()+1){
+			targets.add(adjSpace);
+		}
+	}
+	
 	public Map<Character, String> getLegend() {
 		return legend;
 	}
