@@ -8,6 +8,8 @@ package clueGame;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -34,6 +36,10 @@ public class Board{
 	private Set<BoardCell> visited; //Set of cells used in calculating the targets Set
 	private String boardConfigFile; //name of the board file that will be loaded in
 	private String roomConfigFile; //name of the legend file that will be loaded in
+	private String weaponConfigFile; //name of the weapons file that will be loaded in
+	private String playerConfigFile; //name of the player file that will be loaded in
+	private ArrayList<String> roomList = new ArrayList<String>();
+	private ArrayList<Card> cardDeck = new ArrayList<Card>();
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -53,6 +59,7 @@ public class Board{
 	public void initialize() throws BadConfigFormatException {
 		this.loadRoomConfig(); //always call legend config first
 		this.loadBoardConfig(); //set up the game board
+		this.loadConfigFiles(); //sets up players and cards
 		this.calcAdjacencies(); //creates the Map of adjacent cells
 	}
 	/**
@@ -63,6 +70,15 @@ public class Board{
 	public void setConfigFiles(String layoutfile, String legendfile) {
 		boardConfigFile = layoutfile;
 		roomConfigFile = legendfile;
+	}
+	/**
+	 * 
+	 * @param weaponsfile the weapons file
+	 * @param playersfile the players file
+	 */
+	public void setCardFiles(String weaponsfile, String playersfile) {
+		weaponConfigFile = weaponsfile;
+		playerConfigFile = playersfile;
 	}
 	/**
 	 * Loads in the legend file and makes a map based on it
@@ -77,6 +93,9 @@ public class Board{
 				//Check if the room type is valid in the file
 				if (entry[2].equals("Card")  || entry[2].equals("Other")) {
 					legend.put(entry[0].charAt(0), entry[1]);
+					if (entry[2].equals("Card")) {
+						roomList.add(entry[1]);
+					}
 				}
 				else{ 
 					throw new BadConfigFormatException("Invalid Legend Format");
@@ -143,6 +162,38 @@ public class Board{
 			System.out.println(e);
 		}
 	}
+	
+	public void loadConfigFiles() {
+		for (String x : roomList) {
+			cardDeck.add(new Card(x, CardType.ROOM));
+		}
+		try {
+			FileReader weaponReader = new FileReader(weaponConfigFile);
+			Scanner in = new Scanner(weaponReader);
+			while (in.hasNext()) {
+				String entry = in.nextLine();
+				cardDeck.add(new Card(entry, CardType.WEAPON));
+			}
+			in.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		try {
+			FileReader playerReader = new FileReader(playerConfigFile);
+			Scanner in = new Scanner(playerReader);
+			while (in.hasNext()) {
+				String entry = in.nextLine();
+				cardDeck.add(new Card(entry, CardType.PERSON));
+			}
+			in.close();
+		}
+		catch (FileNotFoundException e) {
+			System.out.println(e.getMessage());
+		}
+		
+	} 
+	
 	/**
 	 * Calculates the adjacent cells of each cell in the game board
 	 */
@@ -320,6 +371,11 @@ public class Board{
 			}
 		}
 	}
+	/**
+	 * This function is used to check to see if a player can enter a doorway from their current direction
+	 * @param adjSpace The doorway space
+	 * @param thisSpace The space the player is on
+	 */
 	private void checkDoorEntry(BoardCell adjSpace, BoardCell thisSpace) {//checks if entered from the correct direction
 		if(adjSpace.getDoorDirection()==DoorDirection.RIGHT && thisSpace.getRow()==adjSpace.getRow() && thisSpace.getColumn() == adjSpace.getColumn()+1){							
 			targets.add(adjSpace);
@@ -334,6 +390,12 @@ public class Board{
 			targets.add(adjSpace);
 		}
 	}
+	
+	public void selectAnswer() {}
+	
+	public Card handleSuggestion() {return null;}
+	
+	public boolean checkAccusation(Solution accusation) {return false;}
 	
 	public Map<Character, String> getLegend() {
 		return legend;
@@ -355,4 +417,5 @@ public class Board{
 		return this.targets;
 	}
 	
+	public ArrayList<Card> getCardDeck() {return cardDeck;}
 }
