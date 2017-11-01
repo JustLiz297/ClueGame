@@ -29,4 +29,11 @@ public class Card {
 		else {return false;}
 	}
 
+	//For testing purposes
+	@Override
+	public String toString() {
+		return type + ":" + cardName;
+	}
+	
+
 }

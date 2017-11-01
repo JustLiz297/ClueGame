@@ -39,7 +39,8 @@ public class Board{
 	private String weaponConfigFile; //name of the weapons file that will be loaded in
 	private String playerConfigFile; //name of the player file that will be loaded in
 	private ArrayList<String> roomList = new ArrayList<String>();
-	private ArrayList<Card> cardDeck = new ArrayList<Card>();
+	private ArrayList<Card> startingDeck = new ArrayList<Card>();
+	private ArrayList<Player> players = new ArrayList<Player>();
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -165,14 +166,14 @@ public class Board{
 	
 	public void loadConfigFiles() {
 		for (String x : roomList) {
-			cardDeck.add(new Card(x, CardType.ROOM));
+			startingDeck.add(new Card(x, CardType.ROOM));
 		}
 		try {
 			FileReader weaponReader = new FileReader(weaponConfigFile);
 			Scanner in = new Scanner(weaponReader);
 			while (in.hasNext()) {
 				String entry = in.nextLine();
-				cardDeck.add(new Card(entry, CardType.WEAPON));
+				startingDeck.add(new Card(entry, CardType.WEAPON));
 			}
 			in.close();
 		}
@@ -184,7 +185,8 @@ public class Board{
 			Scanner in = new Scanner(playerReader);
 			while (in.hasNext()) {
 				String entry = in.nextLine();
-				cardDeck.add(new Card(entry, CardType.PERSON));
+				startingDeck.add(new Card(entry, CardType.PERSON));
+				players.add(new Player(entry.trim()));
 			}
 			in.close();
 		}
@@ -417,5 +419,9 @@ public class Board{
 		return this.targets;
 	}
 	
-	public ArrayList<Card> getCardDeck() {return cardDeck;}
+	public ArrayList<Card> getCardDeck() {return startingDeck;}
+	
+	public ArrayList<Player> getPlayers() {return players;}
+	
+	public ArrayList<String> getRoomList() {return roomList;}
 }

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
@@ -37,10 +38,11 @@ public class BoardTests {
 	 * @throws BadConfigFormatException
 	 * @throws IOException
 	 */
-	@Before
-	public void setUp() throws BadConfigFormatException, IOException {
+	@BeforeClass
+	public static void setUp() throws BadConfigFormatException, IOException {
 		board = Board.getInstance();
 		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
+		board.setCardFiles("Weapons.txt", "Players.txt");
 		board.initialize();
 	}
 	
