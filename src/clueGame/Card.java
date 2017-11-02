@@ -34,6 +34,6 @@ public class Card {
 	public String toString() {
 		return type + ":" + cardName;
 	}
-	
+	public String getCardName() {return cardName;}
 
 }

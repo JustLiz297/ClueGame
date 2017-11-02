@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Random;
 
 import clueGame.BoardCell;
 
@@ -41,6 +42,9 @@ public class Board{
 	private ArrayList<String> roomList = new ArrayList<String>();
 	private ArrayList<Card> startingDeck = new ArrayList<Card>();
 	private ArrayList<Player> players = new ArrayList<Player>();
+	private Set<Card> shuffledDeck = new HashSet<Card>();
+	private ArrayList<String> weapons = new ArrayList<String>();
+	private Solution theSolution;
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -174,6 +178,7 @@ public class Board{
 			while (in.hasNext()) {
 				String entry = in.nextLine();
 				startingDeck.add(new Card(entry, CardType.WEAPON));
+				weapons.add(entry);
 			}
 			in.close();
 		}
@@ -193,9 +198,37 @@ public class Board{
 		catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		
+		this.shuffleAndDeal();
 	} 
 	
+	public void shuffleAndDeal() {
+		ArrayList<Card> people = new ArrayList<Card>();
+		ArrayList<Card> weapons = new ArrayList<Card>();
+		ArrayList<Card> rooms = new ArrayList<Card>();
+		for (Card x : startingDeck) {
+			if (x.isPerson()) {
+				people.add(x);
+			}
+			else if (x.isRoom()) {
+				rooms.add(x);
+			}
+			else if (x.isWeapon()) {
+				weapons.add(x);
+			}
+		}
+		Random rand = new Random();
+		int p = rand.nextInt(6);
+		int r = rand.nextInt(9);
+		int w = rand.nextInt(6);
+		theSolution = new Solution(people.get(p).getCardName(), rooms.get(r).getCardName(), weapons.get(w).getCardName());
+		people.remove(p);
+		rooms.remove(r);
+		weapons.remove(w);
+		
+		
+		
+		
+	}
 	/**
 	 * Calculates the adjacent cells of each cell in the game board
 	 */
@@ -421,7 +454,21 @@ public class Board{
 	
 	public ArrayList<Card> getCardDeck() {return startingDeck;}
 	
+	public Set<Card> getShuffledDeck() {return shuffledDeck;}
+	
 	public ArrayList<Player> getPlayers() {return players;}
 	
 	public ArrayList<String> getRoomList() {return roomList;}
+	
+	public Solution getSolution() {return theSolution;}
+	
+	public ArrayList<String> getWeaponsList() {return weapons;}
+	
+	public ArrayList<String> getPlayerList() {
+		ArrayList<String> retn = new ArrayList<String>();
+		for (Player x : players) {
+			retn.add(x.getPlayerName());
+		}
+		return retn;
+	}
 }

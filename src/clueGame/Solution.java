@@ -11,6 +11,11 @@ public class Solution {
 		this.room = room;
 		this.weapon = weapon;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Solution: Person: " + person + ", Room: " + room + ", Weapon: " + weapon;
+	}
+
 	
 }

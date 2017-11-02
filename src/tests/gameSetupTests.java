@@ -35,7 +35,7 @@ public class gameSetupTests {
 			else if (c.isWeapon()) {weapons++;}
 		}
 		assertEquals(9, board.getRoomList().size());
-		System.out.println(board.getCardDeck());
+		//System.out.println(board.getCardDeck());
 		assertEquals(21,board.getCardDeck().size());
 		assertEquals(9, rooms);//checks to make sure there is the correct number of room cards
 		assertEquals(6, people);
@@ -60,32 +60,32 @@ public class gameSetupTests {
 				assertEquals(0, x.getRow());
 				assertEquals(14, x.getColumn());
 				//assertEquals(Color.BLUE, x.getColor());
-				//assertEquals(Color.BLUE, x.getColor());
+				assertEquals(new Color(108,156,239), x.getColor());
 				break;
 			case "Doctor Dandelion":
 				assertEquals(6, x.getRow());
 				assertEquals(0, x.getColumn());
-				//assertEquals(Color.YELLOW, x.getColor());
+				assertEquals(new Color(240,225,48), x.getColor());
 				break;
 			case "Lawyer Lavender":
 				assertEquals(15, x.getRow());
 				assertEquals(24, x.getColumn());
-				//assertEquals(Color.MAGENTA, x.getColor());
+				assertEquals(new Color(255,245,251), x.getColor());
 				break;
 			case "Educator Emerald":
 				assertEquals(20, x.getRow());
 				assertEquals(7, x.getColumn());
-				//assertEquals(Color.GREEN, x.getColor());
+				assertEquals(new Color(9,69,60), x.getColor());
 				break;
 			case "Captain Cardinal":
 				assertEquals(20, x.getRow());
 				assertEquals(19, x.getColumn());
-				//assertEquals(Color.RED, x.getColor());
+				assertEquals(new Color(189,32,49), x.getColor());
 				break;
 			case "Farmer Flax":
 				assertEquals(16, x.getRow());
 				assertEquals(0, x.getColumn());
-				//assertEquals(Color.WHITE, x.getColor());
+				assertEquals(new Color(238,220,130), x.getColor());
 				break;
 			}
 		}
@@ -95,4 +95,21 @@ public class gameSetupTests {
 	//random shuffle
 	//select solution
 	//deals out cards
+	@Test
+	public void DealingTests() {
+		//checks that solution room is a valid room
+		assertTrue(board.getLegend().containsValue(board.getSolution().room));
+		//checks that solution room is not in shuffled deck
+		
+		//checks that solution person is a valid person
+		assertTrue(board.getPlayerList().contains(board.getSolution().person));
+		//checks that solution person is not in shuffled deck
+		
+		//checks that solution weapon is a valid weapon
+		assertTrue(board.getWeaponsList().contains(board.getSolution().weapon));
+		//checks that weapon is not in shuffled deck
+		
+		
+		
+	}
 }

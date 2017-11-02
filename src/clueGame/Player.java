@@ -58,33 +58,39 @@ public class Player {
 		switch(strColor){ 
 		case "Periwinkle":
 			//transferColor = "BLUE"; //108,156,239
+			this.color = new Color(108,156,239);
 			break;
 		case "Dandelion":
 			//transferColor = "YELLOW"; //240,225,48
+			this.color = new Color(240,225,48);
 			break;
 		case "Lavender":
 			//transferColor = "MAGENTA"; //255,245,251
+			this.color = new Color(255,245,251);
 			break;
 		case "Emerald":
 			//transferColor = "GREEN"; //9,69,60
+			this.color = new Color(9,69,60);
 			break;
 		case "Cardinal":
 			//transferColor = "RED"; //189,32,49
+			this.color = new Color(189,32,49);
 			break;
 		case "Flax":
 			//transferColor = "WHITE"; //238,220,130
+			this.color = new Color(238,220,130);
 			break;
 		default:
 			//transferColor = strColor;
 			break;
 		}
-		Color color; 
+		/*Color color; 
 		try {     // We can use reflection to convert the string to a color
 			Field field =Class.forName("java.awt.Color").getField(transferColor.trim());
 			color = (Color)field.get(null); 
 		} catch (Exception e) {  
 			color = null; // Not defined  
-		}
+		}*/
 		return color;
 	}
 
