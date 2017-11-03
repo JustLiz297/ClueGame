@@ -42,9 +42,10 @@ public class Board{
 	private String playerConfigFile; //name of the player file that will be loaded in
 	private ArrayList<String> roomList; //list of all the room names
 	private ArrayList<Card> startingDeck; //initial created deck
-	private ArrayList<Player> players; //list of the players
+	private ArrayList<Player> players; //list of the active Players
+	private ArrayList<String> playersList; //list of the player names
 	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
-	private ArrayList<String> weapons; //list of the weapons
+	private ArrayList<String> weaponsList; //list of the weapons
 	private Solution theSolution; //The Solution of the game
 	
 	// variable used for singleton pattern
@@ -64,11 +65,12 @@ public class Board{
 	 */
 	public void initialize() throws BadConfigFormatException {
 		//resets each ArrayList
+		playersList = new ArrayList<String>();
 		roomList = new ArrayList<String>();
 		startingDeck = new ArrayList<Card>();
 		players = new ArrayList<Player>();
 		shuffledDeck = new ArrayList<Card>();
-		weapons = new ArrayList<String>();
+		weaponsList = new ArrayList<String>();
 		this.loadRoomConfig(); //always call legend config first
 		this.loadBoardConfig(); //set up the game board
 		this.loadCardConfigFiles(); //sets up players and cards
@@ -189,7 +191,7 @@ public class Board{
 			while (in.hasNext()) {
 				String entry = in.nextLine();
 				startingDeck.add(new Card(entry, CardType.WEAPON));
-				weapons.add(entry);
+				weaponsList.add(entry);
 			}
 			in.close();
 		}
@@ -203,15 +205,22 @@ public class Board{
 			while (in.hasNext()) {
 				String entry = in.nextLine();
 				startingDeck.add(new Card(entry, CardType.PERSON));
-				players.add(new Player(entry.trim()));
+				playersList.add(entry.trim());
 			}
 			in.close();
 		}
 		catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		Collections.shuffle(players); //shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
-		this.shuffleAndDeal(); //calls the shuffle deck function
+		//Adds one Human Player and 5 Computer Players
+		players.add(new HumanPlayer(playersList.get(0)));
+		for (int i = 1; i < 6; i++) {
+			players.add(new ComputerPlayer(playersList.get(i)));			
+		}
+		//shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
+		Collections.shuffle(players); 
+		//calls the shuffle deck function
+		this.shuffleAndDeal(); 
 	} 
 	/**
 	 * Separates the startingDeck by CardType, then pulls a random one from each and creates the Solution.
@@ -497,13 +506,9 @@ public class Board{
 	
 	public Solution getSolution() {return theSolution;}
 	
-	public ArrayList<String> getWeaponsList() {return weapons;}
+	public ArrayList<String> getWeaponsList() {return weaponsList;}
 	
-	public ArrayList<String> getPlayerList() {//Returns a String ArrayList version of the players ArrayList
-		ArrayList<String> retn = new ArrayList<String>();
-		for (Player x : players) {
-			retn.add(x.getPlayerName());
-		}
-		return retn;
+	public ArrayList<String> getPlayerList() {
+		return playersList;
 	}
 }

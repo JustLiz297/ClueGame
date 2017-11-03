@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class ComputerPlayer extends Player{
 
-	public ComputerPlayer(String playerName, int row, int column, Color color) {
+	public ComputerPlayer(String playerName) {
 		super(playerName);
 	}
 	
@@ -19,5 +19,10 @@ public class ComputerPlayer extends Player{
 
 	public void createSuggestion () {
 		
+	}
+
+	@Override
+	public boolean isHuman() {
+		return false;
 	}
 }

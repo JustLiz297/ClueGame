@@ -74,6 +74,7 @@ public class gameSetupTests {
 	 * 1. Tests that there are 6 loaded players
 	 * 2. Tests that the players are initialized in the correct position on the board
 	 * 3. Tests that the players are loaded with their correct color
+	 * 4. Tests that there are only 1 Human Player and the rest are Computer
 	 */
 	@Test
 	public void PlayerTests() {
@@ -84,10 +85,10 @@ public class gameSetupTests {
 		//3. Tests that the players are loaded with their correct color
 		for (Player x : board.getPlayers()) {
 			switch(x.getPlayerName()) {
-			case "Preacher Perwinkle":
+			case "Preacher Periwinkle":
 				assertEquals(0, x.getRow());
 				assertEquals(14, x.getColumn());
-				//assertEquals(Color.BLUE, x.getColor());
+				//assertEquals(Color.BLUE, x.getColor()); for if we can't use our own colors
 				assertEquals(new Color(108,156,239), x.getColor());
 				break;
 			case "Doctor Dandelion":
@@ -117,6 +118,20 @@ public class gameSetupTests {
 				break;
 			}
 		}
+		
+		//4. Tests that there are only 1 Human Player and the rest are Computer
+		int h = 0;
+		int c = 0;
+		for (Player p : board.getPlayers()) {
+			if (p.isHuman()) {
+				h++;
+			}
+			else {
+				c++;
+			}
+		}
+		assertEquals(5, c);
+		assertEquals(1, h);
 	}
 	/**
 	 * SOLUTION TESTS
@@ -153,8 +168,7 @@ public class gameSetupTests {
 	 * -Tests that the cards were dealt properly
 	 * 
 	 * 1. Tests that the total number of cards were dealt and there aren't doubles
-	 * 2. Tests that each player got 3 cards
-	 * 3. Tests that the shuffled deck is full of cards that were in the initial deck
+	 * 2. Tests that the shuffled deck is full of cards that were in the initial deck
 	 */
 	@Test
 	public void DealingTests() {
@@ -164,11 +178,8 @@ public class gameSetupTests {
 			temp += x.getCards().size();
 		}
 		assertEquals(18, temp);
-		//2. Tests that each player got 3 cards
-		for (Player x : board.getPlayers()) {
-			assertEquals(3, x.getCards().size());
-		}
-		//3. Tests that the shuffled deck is full of cards that were in the initial deck
+
+		//2. Tests that the shuffled deck is full of cards that were in the initial deck
 		assertTrue(board.getCardDeck().containsAll(board.getShuffledDeck()));
 	}
 	/**

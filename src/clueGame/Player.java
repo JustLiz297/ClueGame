@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 
-public class Player {
+public abstract class Player {
 	private String playerName;
 	private int row;
 	private int column;
@@ -15,7 +15,7 @@ public class Player {
 	
 	public Player(String playerName) {
 		super();
-		this.playerName = playerName;
+		this.playerName = playerName.trim();
 		String[] name = playerName.split(" ");
 		String color = name[1].trim();
 		this.color = convertColor(color);
@@ -105,6 +105,7 @@ public class Player {
 		}*/
 		return color;
 	}
+	public abstract boolean isHuman();
 
 	public void dealCard(Card card) {
 		this.myCards.add(card);
