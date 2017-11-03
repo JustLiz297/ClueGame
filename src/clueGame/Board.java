@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -39,12 +40,12 @@ public class Board{
 	private String roomConfigFile; //name of the legend file that will be loaded in
 	private String weaponConfigFile; //name of the weapons file that will be loaded in
 	private String playerConfigFile; //name of the player file that will be loaded in
-	private ArrayList<String> roomList = new ArrayList<String>();
-	private ArrayList<Card> startingDeck = new ArrayList<Card>();
-	private ArrayList<Player> players = new ArrayList<Player>();
-	private Set<Card> shuffledDeck = new HashSet<Card>();
-	private ArrayList<String> weapons = new ArrayList<String>();
-	private Solution theSolution;
+	private ArrayList<String> roomList; //list of all the room names
+	private ArrayList<Card> startingDeck; //initial created deck
+	private ArrayList<Player> players; //list of the players
+	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
+	private ArrayList<String> weapons; //list of the weapons
+	private Solution theSolution; //The Solution of the game
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -62,13 +63,19 @@ public class Board{
 	 * @throws BadConfigFormatException Error when creating the config files
 	 */
 	public void initialize() throws BadConfigFormatException {
+		//resets each ArrayList
+		roomList = new ArrayList<String>();
+		startingDeck = new ArrayList<Card>();
+		players = new ArrayList<Player>();
+		shuffledDeck = new ArrayList<Card>();
+		weapons = new ArrayList<String>();
 		this.loadRoomConfig(); //always call legend config first
 		this.loadBoardConfig(); //set up the game board
-		this.loadConfigFiles(); //sets up players and cards
+		this.loadCardConfigFiles(); //sets up players and cards
 		this.calcAdjacencies(); //creates the Map of adjacent cells
 	}
 	/**
-	 * Sets the boardConfigFile variable to the passed in layoutfile and Sets the roomConfigFile variable to the passed in legendfile
+	 * Sets the boardConfigFile variable to the passed in layoutfile and sets the roomConfigFile variable to the passed in legendfile
 	 * @param layoutfile the game board layout file
 	 * @param legendfile the legend file
 	 */
@@ -77,7 +84,7 @@ public class Board{
 		roomConfigFile = legendfile;
 	}
 	/**
-	 * 
+	 * Sets the weaponConfigFile to the passed in weaponsfile and sets the playersConfigfile to the passed in playersfile
 	 * @param weaponsfile the weapons file
 	 * @param playersfile the players file
 	 */
@@ -99,7 +106,7 @@ public class Board{
 				if (entry[2].equals("Card")  || entry[2].equals("Other")) {
 					legend.put(entry[0].charAt(0), entry[1]);
 					if (entry[2].equals("Card")) {
-						roomList.add(entry[1]);
+						roomList.add(entry[1]); //If the room type is card, add it to the room list to be made into a card
 					}
 				}
 				else{ 
@@ -167,11 +174,15 @@ public class Board{
 			System.out.println(e);
 		}
 	}
-	
-	public void loadConfigFiles() {
+	/**
+	 * Reads in the players and weapons from their respective files and uses those and the room list to create the Cards and Players
+	 */
+	public void loadCardConfigFiles() {
+		 //creates the ROOM cards from the room list created from the read in room file in loadRoomConfig()
 		for (String x : roomList) {
 			startingDeck.add(new Card(x, CardType.ROOM));
 		}
+		//reads in the the weapons file and creates the WEAPON cards and adds the each weapon to the weapons list
 		try {
 			FileReader weaponReader = new FileReader(weaponConfigFile);
 			Scanner in = new Scanner(weaponReader);
@@ -185,6 +196,7 @@ public class Board{
 		catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
+		//reads in the players file and creates the Players and creates the PERSON cards
 		try {
 			FileReader playerReader = new FileReader(playerConfigFile);
 			Scanner in = new Scanner(playerReader);
@@ -198,13 +210,19 @@ public class Board{
 		catch (FileNotFoundException e) {
 			System.out.println(e.getMessage());
 		}
-		this.shuffleAndDeal();
+		Collections.shuffle(players); //shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
+		this.shuffleAndDeal(); //calls the shuffle deck function
 	} 
-	
+	/**
+	 * Separates the startingDeck by CardType, then pulls a random one from each and creates the Solution.
+	 * Then it adds the Cards all together and shuffles, then deals to each Player
+	 */
 	public void shuffleAndDeal() {
+		//ArrayLists to separate the CardTypes
 		ArrayList<Card> people = new ArrayList<Card>();
 		ArrayList<Card> weapons = new ArrayList<Card>();
 		ArrayList<Card> rooms = new ArrayList<Card>();
+		//Separates the Cards in the starting deck by CardType
 		for (Card x : startingDeck) {
 			if (x.isPerson()) {
 				people.add(x);
@@ -216,17 +234,34 @@ public class Board{
 				weapons.add(x);
 			}
 		}
+		//Generate random numbers to choose a random Card from each CardType
 		Random rand = new Random();
-		int p = rand.nextInt(6);
-		int r = rand.nextInt(9);
-		int w = rand.nextInt(6);
+		int p = rand.nextInt(6); //random number between 0-5
+		int r = rand.nextInt(9); //random number between 0-9
+		int w = rand.nextInt(6); //random number between 0-5
+		//Creates the Solution with the random Cards
 		theSolution = new Solution(people.get(p).getCardName(), rooms.get(r).getCardName(), weapons.get(w).getCardName());
+		//Removes the Solution Cards from the separated decks
 		people.remove(p);
 		rooms.remove(r);
 		weapons.remove(w);
+		//Adds the separated decks altogether then shuffles them
+		shuffledDeck.addAll(people);
+		shuffledDeck.addAll(rooms);
+		shuffledDeck.addAll(weapons);
+		Collections.shuffle(shuffledDeck);
 		
-		
-		
+		//deals the Cards out to the Players
+		int num = 0;
+		for (Card x : shuffledDeck) {
+			switch(num){
+			case 6: //if the counter reaches 6, the counter resets
+				num = 0;
+			default:
+				players.get(num).dealCard(x);
+				num++;
+			}
+		}
 		
 	}
 	/**
@@ -454,7 +489,7 @@ public class Board{
 	
 	public ArrayList<Card> getCardDeck() {return startingDeck;}
 	
-	public Set<Card> getShuffledDeck() {return shuffledDeck;}
+	public ArrayList<Card> getShuffledDeck() {return shuffledDeck;}
 	
 	public ArrayList<Player> getPlayers() {return players;}
 	
@@ -464,7 +499,7 @@ public class Board{
 	
 	public ArrayList<String> getWeaponsList() {return weapons;}
 	
-	public ArrayList<String> getPlayerList() {
+	public ArrayList<String> getPlayerList() {//Returns a String ArrayList version of the players ArrayList
 		ArrayList<String> retn = new ArrayList<String>();
 		for (Player x : players) {
 			retn.add(x.getPlayerName());

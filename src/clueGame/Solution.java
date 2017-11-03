@@ -16,6 +16,5 @@ public class Solution {
 	public String toString() {
 		return "Solution: Person: " + person + ", Room: " + room + ", Weapon: " + weapon;
 	}
-
 	
 }

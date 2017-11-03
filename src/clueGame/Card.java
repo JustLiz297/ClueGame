@@ -16,15 +16,15 @@ public class Card {
 		return false;
 	}
 	
-	public boolean isRoom() {
+	public boolean isRoom() { //Returns true if the Card is a room
 		if (this.type == CardType.ROOM) {return true;}
 		else {return false;}
 	}
-	public boolean isWeapon() {
+	public boolean isWeapon() { //Returns true if the Card is a weapon
 		if (this.type == CardType.WEAPON) {return true;}
 		else {return false;}
 	}
-	public boolean isPerson() {
+	public boolean isPerson() { //Returns true if the Card is a Person
 		if (this.type == CardType.PERSON) {return true;}
 		else {return false;}
 	}

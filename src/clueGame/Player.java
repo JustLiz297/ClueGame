@@ -2,6 +2,7 @@ package clueGame;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 
 
 public class Player {
@@ -9,6 +10,8 @@ public class Player {
 	private int row;
 	private int column;
 	private Color color;
+	private ArrayList<Card> myCards = new ArrayList<Card>();
+	private ArrayList<Card> seenCards = new ArrayList<Card>();
 	
 	public Player(String playerName) {
 		super();
@@ -24,6 +27,9 @@ public class Player {
 		return null;
 	}
 	
+	/**
+	 * Starting positions of each character
+	 */
 	public void setPosition() {
 		switch(this.playerName) {
 		case "Preacher Periwinkle":
@@ -53,6 +59,11 @@ public class Player {
 		default:
 		}
 	}
+	/**
+	 * Creates the color based on the Player's name
+	 * @param strColor color name from Player's name
+	 * @return created Color from Player's name
+	 */
 	public Color convertColor(String strColor) {
 		String transferColor = strColor;
 		switch(strColor){ 
@@ -84,6 +95,7 @@ public class Player {
 			//transferColor = strColor;
 			break;
 		}
+		//Used this only if we have to use the deafult colors
 		/*Color color; 
 		try {     // We can use reflection to convert the string to a color
 			Field field =Class.forName("java.awt.Color").getField(transferColor.trim());
@@ -94,6 +106,10 @@ public class Player {
 		return color;
 	}
 
+	public void dealCard(Card card) {
+		this.myCards.add(card);
+	}
+	
 	public String getPlayerName() {
 		return playerName;
 	}
@@ -108,6 +124,14 @@ public class Player {
 
 	public Color getColor() {
 		return color;
+	}
+	public ArrayList<Card> getCards() {
+		return myCards;
+	}
+
+	@Override
+	public String toString() {
+		return "Player [playerName=" + playerName + "]";
 	}
 	
 }
