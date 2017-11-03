@@ -169,6 +169,7 @@ public class gameSetupTests {
 	 * 
 	 * 1. Tests that the total number of cards were dealt and there aren't doubles
 	 * 2. Tests that the shuffled deck is full of cards that were in the initial deck
+	 * 3. Tests if one player has more than 2 more cards than another, to make sure each player got roughly the same amount of cards
 	 */
 	@Test
 	public void DealingTests() {
@@ -181,6 +182,15 @@ public class gameSetupTests {
 
 		//2. Tests that the shuffled deck is full of cards that were in the initial deck
 		assertTrue(board.getCardDeck().containsAll(board.getShuffledDeck()));
+		
+		//3. Tests if one player has more than 2 more cards than another, to make sure each player got roughly the same amount of cards
+		int current = 0;
+		for (int i = 0; i < 6; i++) {
+			if (i == 0) {
+				current = board.getPlayers().get(0).getCards().size();
+			}
+			assertFalse(Math.abs(board.getPlayers().get(i).getCards().size()-current) > 1);
+		}
 	}
 	/**
 	 * RANDOMNESS TESTS
