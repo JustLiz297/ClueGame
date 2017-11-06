@@ -474,7 +474,10 @@ public class Board{
 	
 	public Card handleSuggestion() {return null;}
 	
-	public boolean checkAccusation(Solution accusation) {return false;}
+	public boolean checkAccusation(Solution accusation) {
+		if (accusation.person == this.theSolution.person && accusation.room == this.theSolution.room && accusation.weapon == this.theSolution.weapon) {return true;}
+		else {return false;}
+	}
 	
 	public Map<Character, String> getLegend() {
 		return legend;
