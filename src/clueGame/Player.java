@@ -7,11 +7,11 @@ import java.util.ArrayList;
 
 public abstract class Player {
 	private String playerName;
-	private int row;
-	private int column;
+	protected int row;
+	protected int column;
 	private Color color;
-	private ArrayList<Card> myCards = new ArrayList<Card>();
-	private ArrayList<Card> seenCards = new ArrayList<Card>();
+	protected ArrayList<Card> myCards = new ArrayList<Card>();
+	protected ArrayList<Card> seenCards = new ArrayList<Card>();
 	
 	public Player(String playerName) {
 		super();
@@ -19,18 +19,26 @@ public abstract class Player {
 		String[] name = playerName.split(" ");
 		String color = name[1].trim();
 		this.color = convertColor(color);
-		this.setPosition();
+		this.setStartingPosition();
 	}
-
+    /**
+     * If the player has the card that is in the suggestion, the function returns the card, if not, it returns null
+     * @param suggestion
+     * @return A Card if they have it, null if not
+     */
 	public Card disproveSuggestion(Solution suggestion) {
-		//parameters?
+		for (Card card : myCards) {
+			if (suggestion.person == card.getCardName() || suggestion.weapon == card.getCardName() || suggestion.room == card.getCardName()) {
+				return card;
+			}
+		}
 		return null;
 	}
 	
 	/**
 	 * Starting positions of each character
 	 */
-	public void setPosition() {
+	public void setStartingPosition() {
 		switch(this.playerName) {
 		case "Preacher Periwinkle":
 			this.row = 0;
@@ -122,6 +130,14 @@ public abstract class Player {
 	public int getColumn() {
 		return column;
 	}
+	
+	public void setRow(int row) {
+		this.row = row;
+	}
+	
+	public void setColumn(int column) {
+		this.column = column;
+	}
 
 	public Color getColor() {
 		return color;
@@ -133,6 +149,10 @@ public abstract class Player {
 	@Override
 	public String toString() {
 		return "Player [playerName=" + playerName + "]";
+	}
+	
+	public void clearHand() {
+		myCards.clear();
 	}
 	
 }

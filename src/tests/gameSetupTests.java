@@ -143,8 +143,6 @@ public class gameSetupTests {
 	 * 4. Tests that solution person is not in the shuffled deck
 	 * 5. Tests that solution weapon is a valid weapon in the weapons list
 	 * 6. Tests that solution weapon is not in shuffled deck
-	 * 7. Checks that the board disproves a false accusation
-	 * 8. Checks that the board approves a correct accusation
 	 */
 
 	@Test
@@ -164,11 +162,7 @@ public class gameSetupTests {
 		//6. Tests that solution weapon is not in shuffled deck
 		assertTrue(!board.getShuffledDeck().contains(board.getSolution().weapon));
 		
-		//7. Checks that the board disproves a false accusation
-		assertTrue(!board.checkAccusation(new Solution("person", "room", "weapon")));
-		
-		//8. Checks that the board approves a correct accusation
-		assertTrue(board.checkAccusation(board.getSolution()));
+
 	}
 	
 	/**

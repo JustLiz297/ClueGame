@@ -470,10 +470,15 @@ public class Board{
 		}
 	}
 	
-	public void selectAnswer() {}
-	
-	public Card handleSuggestion() {return null;}
-	
+	public Card handleSuggestion(Solution suggestion) {
+		for (Player p : players) {
+			if (p.disproveSuggestion(suggestion) != null) {
+				return p.disproveSuggestion(suggestion);
+			}
+		}
+		return null;
+	}
+
 	public boolean checkAccusation(Solution accusation) {
 		if (accusation.person == this.theSolution.person && accusation.room == this.theSolution.room && accusation.weapon == this.theSolution.weapon) {return true;}
 		else {return false;}
