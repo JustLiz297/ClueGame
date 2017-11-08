@@ -12,5 +12,8 @@ public class HumanPlayer extends Player{
 	public boolean isHuman() {
 		return true;
 	}
-	
+	public void dealCard(Card card) {
+		this.seenCards.add(card);
+		this.myCards.add(card);
+	}
 }

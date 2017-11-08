@@ -103,7 +103,7 @@ public abstract class Player {
 			//transferColor = strColor;
 			break;
 		}
-		//Used this only if we have to use the deafult colors
+		//Used this only if we have to use the default colors
 		/*Color color; 
 		try {     // We can use reflection to convert the string to a color
 			Field field =Class.forName("java.awt.Color").getField(transferColor.trim());
@@ -115,9 +115,7 @@ public abstract class Player {
 	}
 	public abstract boolean isHuman();
 
-	public void dealCard(Card card) {
-		this.myCards.add(card);
-	}
+	public abstract void dealCard(Card card);
 	
 	public String getPlayerName() {
 		return playerName;

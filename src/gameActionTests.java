@@ -87,7 +87,7 @@ public class gameActionTests {
 	 * 3. Tests that it randomly chooses target when there isn't a room
 	 */
 	@Test
-	public void pickingTargets() {
+	public void pickingTargetsComputerTest() {
 		ComputerPlayer testComputer = new ComputerPlayer("Captain Cardinal");
 		testComputer.setRow(5);
 		testComputer.setColumn(10);
@@ -105,5 +105,63 @@ public class gameActionTests {
 		assertTrue(testComputer.pickLocation(board.getTargets())!=testComputer.pickLocation(board.getTargets()));		
 	}
 	
+	/**
+	 * createSuggestion: COMPUTER TESTS
+	 * 
+	 * 1. Tests that created suggestion is in the room the computer is currently in
+	 * 2. Tests that created suggestion is based on cards the computer has not seen
+	 * 
+	 */
+	@Test
+	public void createSuggestionComputerTest() {
+		ComputerPlayer testComputer = new ComputerPlayer("Educator Emerald");
+		
+		//1. Tests that created suggestion is in the room the computer is currently in
+		//Tests BoardCell 16,19 which is the Office
+		testComputer.setRow(16);
+		testComputer.setColumn(19);
+		assertEquals(board.getLegend().get(board.getCellAt(16, 19).getInitial()),testComputer.createSuggestion(board.getLegend().get(board.getCellAt(16, 19).getInitial())).room);
+		
+		//Tests BoardCell 1,7 which is the Kitchen
+		testComputer.setRow(1);
+		testComputer.setColumn(7);
+		assertEquals(board.getLegend().get(board.getCellAt(1, 7).getInitial()),testComputer.createSuggestion(board.getLegend().get(board.getCellAt(1, 7).getInitial())).room);
+		
+		//Tests BoardCell 16,19 which is the Family Room
+		testComputer.setRow(18);
+		testComputer.setColumn(6);
+		assertEquals(board.getLegend().get(board.getCellAt(18, 6).getInitial()),testComputer.createSuggestion(board.getLegend().get(board.getCellAt(18, 6).getInitial())).room);
+		
+		//2. Tests that created suggestion is based on cards the computer has not seen
+		String room = board.getLegend().get(board.getCellAt(18, 6).getInitial());
+		testComputer.clearCards();
+		testComputer.clearHand();
+		//These are the cards the computer should NOT suggest
+		Card seenWeapon = new Card("Fork", CardType.WEAPON);
+		Card seenPerson = new Card("Lawyer Lavender", CardType.PERSON);
+		testComputer.dealCard(seenWeapon);
+		testComputer.dealCard(seenPerson);
+		//These are the cards the computer can suggest
+		Card unseenWeapon1 = new Card("Poison", CardType.WEAPON);
+		Card unseenWeapon2 = new Card("Taser", CardType.WEAPON);
+		Card unseenPerson1 = new Card("Doctor Dandelion", CardType.PERSON);
+		Card unseenPerson2 = new Card("Educator Emerald", CardType.PERSON);
+		testComputer.addUnseenCards(unseenWeapon1);
+		testComputer.addUnseenCards(unseenWeapon2);
+		testComputer.addUnseenCards(unseenPerson1);
+		testComputer.addUnseenCards(unseenPerson2);
+		
+		//Tests that the seen cards are not used in the suggestion
+		assertTrue(testComputer.createSuggestion(room).weapon != seenWeapon.getCardName());
+		assertTrue(testComputer.createSuggestion(room).person != seenPerson.getCardName());
+		
+		//Tests that the unseen cards are used in the suggestion
+		assertTrue(testComputer.createSuggestion(room).weapon == unseenWeapon1.getCardName() || testComputer.createSuggestion(room).weapon == unseenWeapon2.getCardName());
+		assertTrue(testComputer.createSuggestion(room).person == unseenPerson1.getCardName() || testComputer.createSuggestion(room).person == unseenPerson2.getCardName());
+		
+		
 
+	}
+	
+	//set the computer's card to certain seen and unseen ones, make sure the unseen are in the suggest, and test the seen are not in the suggest
 }

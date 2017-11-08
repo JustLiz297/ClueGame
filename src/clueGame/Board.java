@@ -215,7 +215,9 @@ public class Board{
 		//Adds one Human Player and 5 Computer Players
 		players.add(new HumanPlayer(playersList.get(0)));
 		for (int i = 1; i < 6; i++) {
-			players.add(new ComputerPlayer(playersList.get(i)));			
+			ComputerPlayer newCom = new ComputerPlayer(playersList.get(i));
+			newCom.setUnseenCards(startingDeck);
+			players.add(newCom);			
 		}
 		//shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
 		Collections.shuffle(players); 
