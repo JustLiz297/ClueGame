@@ -21,20 +21,6 @@ public abstract class Player {
 		this.color = convertColor(color);
 		this.setStartingPosition();
 	}
-    /**
-     * If the player has the card that is in the suggestion, the function returns the card, if not, it returns null
-     * @param suggestion
-     * @return A Card if they have it, null if not
-     */
-	public Card disproveSuggestion(Solution suggestion) {
-		for (Card card : myCards) {
-			if (suggestion.person == card.getCardName() || suggestion.weapon == card.getCardName() || suggestion.room == card.getCardName()) {
-				return card;
-			}
-		}
-		return null;
-	}
-	
 	/**
 	 * Starting positions of each character
 	 */
@@ -113,44 +99,41 @@ public abstract class Player {
 		}*/
 		return color;
 	}
+	
 	public abstract boolean isHuman();
-
+	public abstract Card disproveSuggestion(Solution suggestion);
 	public abstract void dealCard(Card card);
 	
 	public String getPlayerName() {
 		return playerName;
 	}
-
 	public int getRow() {
 		return row;
 	}
-
 	public int getColumn() {
 		return column;
 	}
-	
 	public void setRow(int row) {
 		this.row = row;
 	}
-	
 	public void setColumn(int column) {
 		this.column = column;
 	}
-
 	public Color getColor() {
 		return color;
 	}
 	public ArrayList<Card> getCards() {
 		return myCards;
 	}
-
 	@Override
 	public String toString() {
 		return "Player [playerName=" + playerName + "]";
 	}
-	
 	public void clearHand() {
 		myCards.clear();
+	}
+	public void addSeenCards(Card c) {
+		this.seenCards.add(c);
 	}
 	
 }

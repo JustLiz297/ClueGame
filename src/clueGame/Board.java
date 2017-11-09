@@ -41,11 +41,11 @@ public class Board{
 	private String weaponConfigFile; //name of the weapons file that will be loaded in
 	private String playerConfigFile; //name of the player file that will be loaded in
 	private ArrayList<String> roomList; //list of all the room names
-	private ArrayList<Card> startingDeck; //initial created deck
-	private ArrayList<Player> players; //list of the active Players
-	private ArrayList<String> playersList; //list of the player names
-	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
 	private ArrayList<String> weaponsList; //list of the weapons
+	private ArrayList<String> playersList; //list of the player names
+	private ArrayList<Card> startingDeck; //initial created deck
+	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
+	private ArrayList<Player> players; //list of the active Players
 	private Solution theSolution; //The Solution of the game
 	
 	// variable used for singleton pattern
@@ -472,10 +472,13 @@ public class Board{
 		}
 	}
 	
-	public Card handleSuggestion(Solution suggestion) {
+	public Card handleSuggestion(Solution suggestion, Player currentPlayer) {
+		int currentspot = players.indexOf(currentPlayer);
 		for (Player p : players) {
 			if (p.disproveSuggestion(suggestion) != null) {
-				return p.disproveSuggestion(suggestion);
+				if (p != currentPlayer) {
+					return p.disproveSuggestion(suggestion);
+				}
 			}
 		}
 		return null;
@@ -520,5 +523,10 @@ public class Board{
 	
 	public ArrayList<String> getPlayerList() {
 		return playersList;
+	}
+
+	public void setPlayers(ArrayList<Player> players) {
+		this.players.clear();
+		this.players = players;
 	}
 }

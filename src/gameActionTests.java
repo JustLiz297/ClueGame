@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -12,6 +12,7 @@ import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;
+import clueGame.HumanPlayer;
 import clueGame.Player;
 import clueGame.Solution;
 
@@ -27,22 +28,28 @@ public class gameActionTests {
 	}
 	
 	/**
-	 * handleAccustion: Board TESTS
+	 * handleAccustion: BOARD TESTS
 	 * 
-	 * 1. Checks that the board disproves a false accusation
-	 * 2. Checks that the board approves a correct accusation
+	 * 1. Checks that the board disproves a false accusation with a wrong person
+	 * 2. Checks that the board disproves a false accusation with a wrong weapon
+	 * 3. Checks that the board disproves a false accusation with a wrong room
+	 * 4. Checks that the board approves a correct accusation
 	 * 
 	 */
 	@Test
 	public void handleAccusationTests() {
-		//1. Checks that the board disproves a false accusation
-		assertTrue(!board.checkAccusation(new Solution("person", "room", "weapon")));
-		//2. Checks that the board approves a correct accusation
+		//1. Checks that the board disproves a false accusation with a wrong person
+		assertTrue(!board.checkAccusation(new Solution("person", board.getSolution().room, board.getSolution().weapon)));
+		//2. Checks that the board disproves a false accusation with a wrong weapon
+		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, board.getSolution().room, "weapon")));
+		//3. Checks that the board disproves a false accusation with a wrong weapon
+		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, "room", board.getSolution().weapon)));
+		//4. Checks that the board approves a correct accusation
 		assertTrue(board.checkAccusation(board.getSolution()));
 	}
 	
 	/**
-	 * handleSuggestion: Player TESTS
+	 * disproveSuggestion: COMPUTER TESTS
 	 * 
 	 * 1. Check it disproves the suggestion with a weapon
 	 * 2. Check it disproves the suggestion with a room
@@ -51,9 +58,8 @@ public class gameActionTests {
 	 * 5. Does not disprove the suggestion when doesn't have the cards
 	 */
 	@Test
-	public void handleSuggestionPlayerTests() {
-		Player testPlayer = board.getPlayers().get(0);
-		//Solution testSuggestion = new Solution("Lawyer Lavender", "Fork", "Ballroom");
+	public void disproveSuggestionComputerTests() {
+		ComputerPlayer testPlayer = new ComputerPlayer("Educator Emerald");
 		testPlayer.clearHand();
 		Card person = new Card("Lawyer Lavender", CardType.PERSON);
 		Card room = new Card("Ballroom", CardType.ROOM);
@@ -72,7 +78,8 @@ public class gameActionTests {
 		assertEquals(person, testPlayer.disproveSuggestion(new Solution ("Lawyer Lavender", "Rubber Mallet", "Kitchen")));
 		
 		//4. Check it disproves the suggestion with multiple cards (any card will do)
-		assertTrue(testPlayer.disproveSuggestion(new Solution ("Lawyer Lavender", "Fork", "Ballroom"))== room || testPlayer.disproveSuggestion(new Solution ("Lawyer Lavender", "Fork", "Ballroom"))== weapon || testPlayer.disproveSuggestion(new Solution ("Lawyer Lavender", "Fork", "Ballroom"))== person);
+		Card shownCard = testPlayer.disproveSuggestion(new Solution ("Lawyer Lavender", "Fork", "Ballroom"));
+		assertTrue(shownCard == room || shownCard == weapon || shownCard == person);
 		
 		//5. Does not disprove the suggestion when doesn't have the cards
 		assertEquals(null, testPlayer.disproveSuggestion(new Solution ("Farmer Flax", "Rubber Mallet", "Kitchen")));
@@ -87,7 +94,7 @@ public class gameActionTests {
 	 * 3. Tests that it randomly chooses target when there isn't a room
 	 */
 	@Test
-	public void pickingTargetsComputerTest() {
+	public void pickingTargetsComputerTests() {
 		ComputerPlayer testComputer = new ComputerPlayer("Captain Cardinal");
 		testComputer.setRow(5);
 		testComputer.setColumn(10);
@@ -96,11 +103,11 @@ public class gameActionTests {
 		//1. Tests that it chooses a room that hasn't been visited
 		assertEquals(board.getCellAt(4, 10), testComputer.pickLocation(board.getTargets()));
 		
-		//2. Tests that it randomly chooses target when there is a room (will sometimes failed if randomly choose the same room in the second call)
+		//2. Tests that it randomly chooses target when there is a room (will sometimes failed if randomly choose the same target in the second call)
 		testComputer.setVisited(board.getCellAt(4,10));
 		assertTrue(testComputer.pickLocation(board.getTargets())!=testComputer.pickLocation(board.getTargets()));
 
-		//3.Tests that it randomly chooses target when there isn't a room (will sometimes failed if randomly choose the same room in the second call)
+		//3.Tests that it randomly chooses target when there isn't a room (will sometimes failed if randomly choose the same target in the second call)
 		board.calcTargets(9, 15, 2);
 		assertTrue(testComputer.pickLocation(board.getTargets())!=testComputer.pickLocation(board.getTargets()));		
 	}
@@ -109,11 +116,12 @@ public class gameActionTests {
 	 * createSuggestion: COMPUTER TESTS
 	 * 
 	 * 1. Tests that created suggestion is in the room the computer is currently in
-	 * 2. Tests that created suggestion is based on cards the computer has not seen
+	 * 2. Tests that created suggestion is not based on cards already seen
+	 * 3. Tests that created suggestion is based on card not already seen
 	 * 
 	 */
 	@Test
-	public void createSuggestionComputerTest() {
+	public void createSuggestionComputerTests() {
 		ComputerPlayer testComputer = new ComputerPlayer("Educator Emerald");
 		
 		//1. Tests that created suggestion is in the room the computer is currently in
@@ -137,31 +145,70 @@ public class gameActionTests {
 		testComputer.clearCards();
 		testComputer.clearHand();
 		//These are the cards the computer should NOT suggest
-		Card seenWeapon = new Card("Fork", CardType.WEAPON);
-		Card seenPerson = new Card("Lawyer Lavender", CardType.PERSON);
-		testComputer.dealCard(seenWeapon);
-		testComputer.dealCard(seenPerson);
+		Card seenWeapon1 = new Card("Fork", CardType.WEAPON);
+		Card seenPerson1 = new Card("Lawyer Lavender", CardType.PERSON);
+		Card seenWeapon2 = new Card("Lava Lamp", CardType.WEAPON);
+		Card seenPerson2 = new Card("Farmer Flax", CardType.PERSON);
+		//Tests using cards that are currently in the computer's hand and cards that have been "seen" from others
+		testComputer.dealCard(seenWeapon1);
+		testComputer.dealCard(seenPerson1);
+		testComputer.addSeenCards(seenWeapon2);
+		testComputer.addSeenCards(seenPerson2);
 		//These are the cards the computer can suggest
 		Card unseenWeapon1 = new Card("Poison", CardType.WEAPON);
 		Card unseenWeapon2 = new Card("Taser", CardType.WEAPON);
 		Card unseenPerson1 = new Card("Doctor Dandelion", CardType.PERSON);
 		Card unseenPerson2 = new Card("Educator Emerald", CardType.PERSON);
 		testComputer.addUnseenCards(unseenWeapon1);
-		testComputer.addUnseenCards(unseenWeapon2);
 		testComputer.addUnseenCards(unseenPerson1);
-		testComputer.addUnseenCards(unseenPerson2);
-		
+
 		//Tests that the seen cards are not used in the suggestion
-		assertTrue(testComputer.createSuggestion(room).weapon != seenWeapon.getCardName());
-		assertTrue(testComputer.createSuggestion(room).person != seenPerson.getCardName());
+		Solution testSolution = testComputer.createSuggestion(room);
+		assertTrue(testSolution.weapon != seenWeapon1.getCardName());
+		assertTrue(testSolution.person != seenPerson1.getCardName());
+		assertTrue(testSolution.weapon != seenWeapon2.getCardName());
+		assertTrue(testSolution.person != seenPerson2.getCardName());
 		
-		//Tests that the unseen cards are used in the suggestion
-		assertTrue(testComputer.createSuggestion(room).weapon == unseenWeapon1.getCardName() || testComputer.createSuggestion(room).weapon == unseenWeapon2.getCardName());
-		assertTrue(testComputer.createSuggestion(room).person == unseenPerson1.getCardName() || testComputer.createSuggestion(room).person == unseenPerson2.getCardName());
+		
+
+		//3. Tests that created suggestion is based on card not already seen
+		testSolution = testComputer.createSuggestion(room);
+		assertTrue(testComputer.createSuggestion(room).weapon == unseenWeapon1.getCardName());
+		assertTrue(testComputer.createSuggestion(room).person == unseenPerson1.getCardName());
+		testComputer.addUnseenCards(unseenPerson2);
+		testComputer.addUnseenCards(unseenWeapon2);
+		
+		//Tests that the unseen cards are randomly used in the suggestion
+		testSolution = testComputer.createSuggestion(room);
+		assertTrue((testSolution.weapon == unseenWeapon1.getCardName()) || (testSolution.weapon == unseenWeapon2.getCardName()));
+		assertTrue((testSolution.person == unseenPerson1.getCardName()) || (testSolution.person == unseenPerson2.getCardName()));
 		
 		
 
 	}
 	
-	//set the computer's card to certain seen and unseen ones, make sure the unseen are in the suggest, and test the seen are not in the suggest
+	/**
+	 * handleSuggestion: BOARD TESTS
+	 * 
+	 * 1. Tests a suggestion no one can prove
+	 * 2. Tests a suggestion only the current player can disprove
+	 * 3. Tests a suggestion only the human player can disprove
+	 * 4. Tests a suggestion only the human player can disprove, who is also the current player
+	 * 5. Tests a suggestion, disproved by next player in list, not someone further
+	 * 6. Tests a suggestion, disproved by next computer player not human
+	 */
+	@Test
+	public void handleSuggestionBoardTests() {
+		Solution testSuggestion = new Solution("Preacher Periwinkle", "Icicle", "Workshop");
+		//creates a smaller group of players to test with
+		HumanPlayer human = new HumanPlayer("Preacher Periwinkle");
+		ComputerPlayer com1 = new ComputerPlayer("Farmer Flax");
+		ComputerPlayer com2 = new ComputerPlayer("Lawyer Lavender");
+		ArrayList<Player> players = new ArrayList<Player>();
+		players.add(human);
+		players.add(com1);
+		players.add(com2);
+		board.setPlayers(players);
+		
+	}
 }

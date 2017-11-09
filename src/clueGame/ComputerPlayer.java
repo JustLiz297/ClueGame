@@ -56,6 +56,21 @@ public class ComputerPlayer extends Player{
 		}
 		return new Solution(person, room, weapon);
 	}
+    /**
+     * If the player has the card that is in the suggestion, the function returns the card, if not, it returns null
+     * @param suggestion
+     * @return A Card if they have it, null if not
+     */
+	@Override
+	public Card disproveSuggestion(Solution suggestion) {
+		Collections.shuffle(myCards);
+		for (Card card : myCards) {
+			if (suggestion.person == card.getCardName() || suggestion.weapon == card.getCardName() || suggestion.room == card.getCardName()) {
+				return card;
+			}
+		}
+		return null;
+	}
 
 	@Override
 	public boolean isHuman() {
@@ -71,6 +86,7 @@ public class ComputerPlayer extends Player{
 	public void addUnseenCards(Card card) {
 		unseenCards.add(card);
 	}
+	@Override
 	public void dealCard(Card card) {
 		this.seenCards.add(card);
 		this.unseenCards.remove(card);
@@ -79,6 +95,9 @@ public class ComputerPlayer extends Player{
 	public void clearCards() {
 		this.unseenCards.clear();
 		this.seenCards.clear();
+	}
+	public ArrayList<Card> getUnseen() {
+		return unseenCards;
 	}
 	
 }
