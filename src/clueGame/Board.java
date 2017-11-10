@@ -23,7 +23,7 @@ import clueGame.BoardCell;
 /**
  * This is the Board class, it is the game board of the Clue Game
  * @author eboyle, annelysebaker
- * @version 1.4
+ * @version 1.6
  * 
  *
  */
@@ -472,19 +472,34 @@ public class Board{
 		}
 	}
 	
+	/**
+	 * Takes in a Player and their Suggestion and goes around the Players to see if someone can disprove it. Returns the Card they disproved with,
+	 * or null if only the Player can disprove or no one can disprove
+	 * @param suggestion
+	 * @param currentPlayer
+	 * @return
+	 */
 	public Card handleSuggestion(Solution suggestion, Player currentPlayer) {
-		int currentspot = players.indexOf(currentPlayer);
-		for (Player p : players) {
-			if (p.disproveSuggestion(suggestion) != null) {
-				if (p != currentPlayer) {
-					return p.disproveSuggestion(suggestion);
+		int currentSpot = players.indexOf(currentPlayer);
+		int counter = 0;
+		while (counter < players.size()) {
+			if (players.get(currentSpot).disproveSuggestion(suggestion) != null) {
+				if (players.get(currentSpot) != currentPlayer) {
+					return players.get(currentSpot).disproveSuggestion(suggestion);
 				}
 			}
+			if(currentSpot == players.size()-1) {currentSpot = 0;}
+			else {currentSpot++;}
+			counter++;
 		}
 		return null;
 	}
-
-	public boolean checkAccusation(Solution accusation) {
+	/**
+	 * Takes in a Player and a Solution that is a Player's Accusation and checks to see if it is correct, return true if so, false if wrong
+	 * @param accusation - Player's accusation
+	 * @return 
+	 */
+	public boolean checkAccusation(Solution accusation, Player currentPlayer) {
 		if (accusation.person == this.theSolution.person && accusation.room == this.theSolution.room && accusation.weapon == this.theSolution.weapon) {return true;}
 		else {return false;}
 	}

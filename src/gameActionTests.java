@@ -38,14 +38,15 @@ public class gameActionTests {
 	 */
 	@Test
 	public void handleAccusationTests() {
+		ComputerPlayer testPlayer = new ComputerPlayer("Educator Emerald");
 		//1. Checks that the board disproves a false accusation with a wrong person
-		assertTrue(!board.checkAccusation(new Solution("person", board.getSolution().room, board.getSolution().weapon)));
+		assertTrue(!board.checkAccusation(new Solution("person", board.getSolution().room, board.getSolution().weapon), testPlayer));
 		//2. Checks that the board disproves a false accusation with a wrong weapon
-		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, board.getSolution().room, "weapon")));
+		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, board.getSolution().room, "weapon"), testPlayer));
 		//3. Checks that the board disproves a false accusation with a wrong weapon
-		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, "room", board.getSolution().weapon)));
+		assertTrue(!board.checkAccusation(new Solution(board.getSolution().person, "room", board.getSolution().weapon), testPlayer));
 		//4. Checks that the board approves a correct accusation
-		assertTrue(board.checkAccusation(board.getSolution()));
+		assertTrue(board.checkAccusation(board.getSolution(), testPlayer));
 	}
 	
 	/**
@@ -104,11 +105,12 @@ public class gameActionTests {
 		assertEquals(board.getCellAt(4, 10), testComputer.pickLocation(board.getTargets()));
 		
 		//2. Tests that it randomly chooses target when there is a room (will sometimes failed if randomly choose the same target in the second call)
+		board.calcTargets(5, 10, 4);
 		testComputer.setVisited(board.getCellAt(4,10));
 		assertTrue(testComputer.pickLocation(board.getTargets())!=testComputer.pickLocation(board.getTargets()));
 
 		//3.Tests that it randomly chooses target when there isn't a room (will sometimes failed if randomly choose the same target in the second call)
-		board.calcTargets(9, 15, 2);
+		board.calcTargets(9, 15, 3);
 		assertTrue(testComputer.pickLocation(board.getTargets())!=testComputer.pickLocation(board.getTargets()));		
 	}
 	
@@ -190,7 +192,7 @@ public class gameActionTests {
 	/**
 	 * handleSuggestion: BOARD TESTS
 	 * 
-	 * 1. Tests a suggestion no one can prove
+	 * 1. Tests a suggestion no one can disprove
 	 * 2. Tests a suggestion only the current player can disprove
 	 * 3. Tests a suggestion only the human player can disprove
 	 * 4. Tests a suggestion only the human player can disprove, who is also the current player
@@ -200,6 +202,9 @@ public class gameActionTests {
 	@Test
 	public void handleSuggestionBoardTests() {
 		Solution testSuggestion = new Solution("Preacher Periwinkle", "Icicle", "Workshop");
+		Card suggestPerson = new Card("Preacher Periwinkle", CardType.PERSON);
+		Card suggestWeapon = new Card("Icicle", CardType.WEAPON);
+		Card suggestRoom = new Card("Workshop", CardType.ROOM);
 		//creates a smaller group of players to test with
 		HumanPlayer human = new HumanPlayer("Preacher Periwinkle");
 		ComputerPlayer com1 = new ComputerPlayer("Farmer Flax");
@@ -208,7 +213,39 @@ public class gameActionTests {
 		players.add(human);
 		players.add(com1);
 		players.add(com2);
+		/*players.add(new ComputerPlayer("Doctor Dandelion"));
+		players.add(new ComputerPlayer("Educator Emerald"));
+		players.add(new ComputerPlayer("Captain Cardinal"));*/
 		board.setPlayers(players);
+		//1. Tests a suggestion no one can disprove
+		assertEquals(null, board.handleSuggestion(testSuggestion, com1));
+		
+		//2. Tests a suggestion only the current player can disprove
+		com1.dealCard(suggestPerson);
+		assertEquals(null, board.handleSuggestion(testSuggestion, com1));
+		
+		//3. Tests a suggestion only the human player can disprove
+		com1.clearHand();
+		human.dealCard(suggestWeapon);
+		assertEquals(suggestWeapon, board.handleSuggestion(testSuggestion, com1));
+		
+		//4. Tests a suggestion only the human player can disprove, who is also the current player
+		assertEquals(null, board.handleSuggestion(testSuggestion, human));
+		
+		//5. Tests a suggestion, disproved by next player in list, not someone further
+		human.clearHand();
+		com1.dealCard(suggestRoom);
+		com2.dealCard(suggestWeapon);
+		assertEquals(suggestRoom, board.handleSuggestion(testSuggestion, human));
+		
+		//6. Tests a suggestion, disproved by next computer player not human
+		com2.clearHand();
+		com1.clearHand();
+		human.dealCard(suggestPerson);
+		com2.dealCard(suggestWeapon);
+		assertEquals(suggestWeapon, board.handleSuggestion(testSuggestion, com1));
+		
+		
 		
 	}
 }

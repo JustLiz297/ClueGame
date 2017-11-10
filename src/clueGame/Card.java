@@ -1,5 +1,11 @@
 package clueGame;
-
+/**
+ * This is the Card class, it is the cards of the Clue Game
+ * @author eboyle, annelysebaker
+ * @version 1.1
+ * 
+ *
+ */
 public class Card {
 	private String cardName;
 	private CardType type;

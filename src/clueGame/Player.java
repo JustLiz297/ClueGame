@@ -3,7 +3,13 @@ package clueGame;
 import java.awt.Color;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-
+/**
+ * This is the Player class, it is parent class of the Computer and Human Players
+ * @author eboyle, annelysebaker
+ * @version 1.1
+ * 
+ *
+ */
 
 public abstract class Player {
 	private String playerName;

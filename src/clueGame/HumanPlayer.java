@@ -2,7 +2,13 @@ package clueGame;
 
 import java.awt.Color;
 import java.util.Collections;
-
+/**
+ * This is the HumanPlayer class, the class of the human player of the game
+ * @author eboyle, annelysebaker
+ * @version 1.1
+ * 
+ *
+ */
 public class HumanPlayer extends Player{
 
 	public HumanPlayer(String playerName) {

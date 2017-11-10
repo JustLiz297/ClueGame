@@ -5,7 +5,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
-
+/**
+ * This is the ComputerPlayer class, the class of the computer players of the game
+ * @author eboyle, annelysebaker
+ * @version 1.1
+ * 
+ *
+ */
 public class ComputerPlayer extends Player{
 	private BoardCell lastRoom = null;
 	private ArrayList<Card> unseenCards = new ArrayList<Card>();
@@ -13,7 +19,11 @@ public class ComputerPlayer extends Player{
 	public ComputerPlayer(String playerName) {
 		super(playerName);
 	}
-	
+	/**
+	 * Select the Computer Player's next movement based on roll, if there is a room and if it has been visited
+	 * @param targets - List of possible spaces to go to
+	 * @return the space to go to
+	 */
 	public BoardCell pickLocation(Set<BoardCell> targets) {
 		ArrayList<BoardCell> possibleTargets = new ArrayList<BoardCell>();
 		for (BoardCell space : targets) {
@@ -32,7 +42,11 @@ public class ComputerPlayer extends Player{
 	public void makeAccusation() {
 		
 	}
-
+	/**
+	 * Creates a suggestion based on the room the Computer Player is in a what card they have not seen
+	 * @param currentRoom - Current room the Computer Player is in
+	 * @return the Computer's generated Suggestion
+	 */
 	public Solution createSuggestion(String currentRoom) {
 		Collections.shuffle(unseenCards);
 		Collections.shuffle(seenCards);
