@@ -3,10 +3,18 @@ package clueGUI;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -18,6 +26,8 @@ import javax.swing.border.TitledBorder;
  *
  */
 public class clueGui extends JPanel{
+	
+	private DetectiveNotes dialog;
 	/**
 	 * GUI constructor
 	 */
@@ -25,6 +35,28 @@ public class clueGui extends JPanel{
 		//bottom control panel
 		JPanel controls = controlPanel();
 		add(controls);
+	}
+	
+	public JMenuBar createFileMenu() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		JMenuItem exit = new JMenuItem("Exit");
+		class MenuExitListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {System.exit(0);}
+		}
+		exit.addActionListener(new MenuExitListener());
+		JMenuItem notes = new JMenuItem("Show Notes");
+		class MenuNotesListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				dialog = new DetectiveNotes();
+				dialog.setVisible(true);				
+			}
+		}
+		notes.addActionListener(new MenuNotesListener());
+		menu.add(notes);
+		menu.add(exit);
+		menuBar.add(menu);
+		return menuBar;
 	}
 	
 	/**
@@ -40,7 +72,6 @@ public class clueGui extends JPanel{
 		panel.add(row2);
 		return panel;
 	}
-
 	/**
 	 * Takes whoseTurn panel and add buttons next to it
 	 * @return panel created
@@ -137,6 +168,7 @@ public class clueGui extends JPanel{
 		panel.add(response);
 		return panel;
 	}
+	
 	/**
 	 * Creates the GUI
 	 * @param args
@@ -146,9 +178,10 @@ public class clueGui extends JPanel{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(600, 180);	
+		frame.setSize(600, 200);	
 		// Create the JPanel and add it to the JFrame
 		clueGui gui = new clueGui();
+		frame.setJMenuBar(gui.createFileMenu());
 		frame.add(gui, BorderLayout.SOUTH);
 		// Now let's view it
 		frame.setVisible(true);
