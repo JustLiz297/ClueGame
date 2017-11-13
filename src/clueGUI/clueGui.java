@@ -28,15 +28,6 @@ public class clueGui extends JPanel{
 	 * GUI constructor
 	 */
 	public clueGui() {
-		//bottom control panel
-		setLayout(new GridLayout(0,2));
-		JPanel cards = myCards();
-		add(cards,BorderLayout.EAST);
-		//My Cards side panel
-		JPanel controls = controlPanel();
-		add(controls,BorderLayout.SOUTH);
-		JPanel board = gameBoard();
-		add(board,BorderLayout.CENTER);
 		
 	}
 	//-------------------------------------------------//
@@ -70,14 +61,14 @@ public class clueGui extends JPanel{
 	 * Takes whoseTurnandButtons and rollandGuess panels and makes them one panel
 	 * @return panel created
 	 */
-	private JPanel controlPanel() {
+	private void controlPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,3));
 		JPanel row1 = whoseTurnandButtons();
 		JPanel row2 = rollandGuess();
 		panel.add(row1);
 		panel.add(row2);
-		return panel;
+		add(panel);
 	}
 	/**
 	 * Takes whoseTurn panel and add buttons next to it
@@ -185,20 +176,15 @@ public class clueGui extends JPanel{
 		return panel;
 	}
 	//-------------------------------------------------//
-	private JPanel myCards() {
-		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1,0));
-		//add(gameBoard());
-		add(myCardsPanel());
-		return panel;
-	}
-	private JPanel myCardsPanel() {
+
+	private void myCardsPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
+		panel.setLayout(new GridLayout(3,1));
 		panel.add(peopleCards());
 		panel.add(roomCards());
 		panel.add(weaponCards());
-		return panel;
+		add(panel);
 	}
 	
 	private JPanel peopleCards() {
@@ -238,12 +224,19 @@ public class clueGui extends JPanel{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(900, 900);	
+		frame.setSize(1100, 800);	
 		// Create the JPanel and add it to the JFrame
 		clueGui controlS = new clueGui();
+		controlS.controlPanel();
 		frame.setJMenuBar(controlS.createFileMenu());
 		frame.add(controlS, BorderLayout.SOUTH);
 		// Now let's view it
+		
+		clueGui myCards = new clueGui();
+		myCards.myCardsPanel();
+		frame.setJMenuBar(myCards.createFileMenu());
+		frame.add(myCards, BorderLayout.EAST);
+		
 		frame.setVisible(true);
 	}
 
