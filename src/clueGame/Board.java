@@ -16,6 +16,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+
+import javax.swing.JPanel;
+
 import java.util.Random;
 
 import clueGame.BoardCell;
@@ -27,7 +30,7 @@ import clueGame.BoardCell;
  * 
  *
  */
-public class Board{
+public class Board extends JPanel{
 	private int numRows; //number of rows in the game board
 	private int numColumns; //number of columns in the game board
 	public final static int MAX_BOARD_SIZE = 51; //max possible board size, either rows or columns 

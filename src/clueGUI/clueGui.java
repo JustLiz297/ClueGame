@@ -1,15 +1,11 @@
 package clueGUI;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -26,17 +22,28 @@ import javax.swing.border.TitledBorder;
  *
  */
 public class clueGui extends JPanel{
-	
 	private DetectiveNotes dialog;
+	
 	/**
 	 * GUI constructor
 	 */
 	public clueGui() {
 		//bottom control panel
+		setLayout(new GridLayout(0,2));
+		JPanel cards = myCards();
+		add(cards,BorderLayout.EAST);
+		//My Cards side panel
 		JPanel controls = controlPanel();
-		add(controls);
+		add(controls,BorderLayout.SOUTH);
+		JPanel board = gameBoard();
+		add(board,BorderLayout.CENTER);
+		
 	}
-	
+	//-------------------------------------------------//
+	/**
+	 * Creates the Menu Bar
+	 * @return
+	 */
 	public JMenuBar createFileMenu() {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu menu = new JMenu("File");
@@ -58,14 +65,14 @@ public class clueGui extends JPanel{
 		menuBar.add(menu);
 		return menuBar;
 	}
-	
+	//-------------------------------------------------//
 	/**
 	 * Takes whoseTurnandButtons and rollandGuess panels and makes them one panel
 	 * @return panel created
 	 */
 	private JPanel controlPanel() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(2,0));
+		panel.setLayout(new GridLayout(2,3));
 		JPanel row1 = whoseTurnandButtons();
 		JPanel row2 = rollandGuess();
 		panel.add(row1);
@@ -78,7 +85,7 @@ public class clueGui extends JPanel{
 	 */
 	private JPanel whoseTurnandButtons() {
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(1,4));
+		panel.setLayout(new GridLayout(1,3));
 		JPanel turn = whoseTurn();
 		JButton nextPlayer = new JButton("Next player");
 		JButton accusation = new JButton("Make an accusation");
@@ -106,6 +113,7 @@ public class clueGui extends JPanel{
 	 */
 	private JPanel rollandGuess() {
 		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,3));
 		JPanel roll = die();
 		JPanel guess = guessDisplay();
 		JPanel result = resultDisplay();
@@ -120,7 +128,6 @@ public class clueGui extends JPanel{
 	 */
 	private JPanel die() {
 		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Die"));
 		JLabel dieLabel = new JLabel("Roll");
 		JTextField number = new JTextField("6");
@@ -168,7 +175,60 @@ public class clueGui extends JPanel{
 		panel.add(response);
 		return panel;
 	}
+	//-------------------------------------------------//
+	/**
+	 * Creates the gameBoard panel
+	 * @return
+	 */
+	private JPanel gameBoard() {
+		JPanel panel = new JPanel();
+		return panel;
+	}
+	//-------------------------------------------------//
+	private JPanel myCards() {
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,0));
+		//add(gameBoard());
+		add(myCardsPanel());
+		return panel;
+	}
+	private JPanel myCardsPanel() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
+		panel.add(peopleCards());
+		panel.add(roomCards());
+		panel.add(weaponCards());
+		return panel;
+	}
 	
+	private JPanel peopleCards() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		JTextField cards = new JTextField("People Cards");
+		cards.setEditable(false);
+		panel.add(cards);
+		return panel;
+	}
+	
+	private JPanel roomCards() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		JTextField cards = new JTextField("Room Cards");
+		cards.setEditable(false);
+		panel.add(cards);
+		return panel;
+	}
+	
+	private JPanel weaponCards() {
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		JTextField cards = new JTextField("Weapon Cards");
+		cards.setEditable(false);
+		panel.add(cards);
+		return panel;
+	}
+	
+	//-------------------------------------------------//
 	/**
 	 * Creates the GUI
 	 * @param args
@@ -178,11 +238,11 @@ public class clueGui extends JPanel{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(600, 200);	
+		frame.setSize(900, 900);	
 		// Create the JPanel and add it to the JFrame
-		clueGui gui = new clueGui();
-		frame.setJMenuBar(gui.createFileMenu());
-		frame.add(gui, BorderLayout.SOUTH);
+		clueGui controlS = new clueGui();
+		frame.setJMenuBar(controlS.createFileMenu());
+		frame.add(controlS, BorderLayout.SOUTH);
 		// Now let's view it
 		frame.setVisible(true);
 	}
