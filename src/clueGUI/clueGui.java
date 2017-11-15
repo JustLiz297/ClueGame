@@ -61,7 +61,7 @@ public class clueGui extends JPanel{
 	 * Takes whoseTurnandButtons and rollandGuess panels and makes them one panel
 	 * @return panel created
 	 */
-	private void controlPanel() {
+	public void controlPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,3));
 		JPanel row1 = whoseTurnandButtons();
@@ -177,7 +177,7 @@ public class clueGui extends JPanel{
 	}
 	//-------------------------------------------------//
 
-	private void myCardsPanel() {
+	public void myCardsPanel() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
 		panel.setLayout(new GridLayout(3,1));
@@ -215,29 +215,6 @@ public class clueGui extends JPanel{
 	}
 	
 	//-------------------------------------------------//
-	/**
-	 * Creates the GUI
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		// Create a JFrame with all the normal functionality
-		JFrame frame = new JFrame();
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Clue Game");
-		frame.setSize(1100, 800);	
-		// Create the JPanel and add it to the JFrame
-		clueGui controlS = new clueGui();
-		controlS.controlPanel();
-		frame.setJMenuBar(controlS.createFileMenu());
-		frame.add(controlS, BorderLayout.SOUTH);
-		// Now let's view it
-		
-		clueGui myCards = new clueGui();
-		myCards.myCardsPanel();
-		frame.setJMenuBar(myCards.createFileMenu());
-		frame.add(myCards, BorderLayout.EAST);
-		
-		frame.setVisible(true);
-	}
+
 
 }

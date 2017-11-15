@@ -1,6 +1,7 @@
 package tests;
 import static org.junit.Assert.*;
 
+import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import clueGame.Solution;
 
 public class gameActionTests {
 	private static Board board;
+
 
 	@BeforeClass
 	public static void setUp() throws BadConfigFormatException, IOException {
@@ -245,8 +247,5 @@ public class gameActionTests {
 		human.dealCard(suggestPerson);
 		com2.dealCard(suggestWeapon);
 		assertEquals(suggestWeapon, board.handleSuggestion(testSuggestion, com1));
-		
-		
-		
 	}
 }

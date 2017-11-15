@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.awt.Color;
+import java.awt.Graphics;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
@@ -94,12 +95,12 @@ public class gameSetupTests {
 			case "Doctor Dandelion":
 				assertEquals(6, x.getRow());
 				assertEquals(0, x.getColumn());
-				assertEquals(new Color(240,225,48), x.getColor());
+				assertEquals(new Color(221,179,8), x.getColor());
 				break;
 			case "Lawyer Lavender":
 				assertEquals(15, x.getRow());
 				assertEquals(24, x.getColumn());
-				assertEquals(new Color(255,245,251), x.getColor());
+				assertEquals(new Color(216,206,242), x.getColor());
 				break;
 			case "Educator Emerald":
 				assertEquals(20, x.getRow());
@@ -114,7 +115,7 @@ public class gameSetupTests {
 			case "Farmer Flax":
 				assertEquals(16, x.getRow());
 				assertEquals(0, x.getColumn());
-				assertEquals(new Color(238,220,130), x.getColor());
+				assertEquals(new Color(241,235,190), x.getColor());
 				break;
 			}
 		}

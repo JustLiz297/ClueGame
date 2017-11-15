@@ -6,6 +6,7 @@
 
 package clueGame;
 
+import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.lang.reflect.Array;
@@ -26,7 +27,7 @@ import clueGame.BoardCell;
 /**
  * This is the Board class, it is the game board of the Clue Game
  * @author eboyle, annelysebaker
- * @version 1.6
+ * @version 1.7
  * 
  *
  */
@@ -98,6 +99,29 @@ public class Board extends JPanel{
 		playerConfigFile = playersfile;
 	}
 	/**
+	 * Function that draws the board
+	 */
+	public void paintComponent(Graphics g) {
+		//draws the cells
+		for (int i = 0; i < board.length; i++) {
+			for (BoardCell b : board[i]){
+				b.draw(g);
+			}
+		}
+		//draws the players
+		for (Player p : players) {
+			p.draw(g);
+		}
+		//draws the names
+		for (int i = 0; i < board.length; i++) {
+			for (BoardCell b : board[i]){
+				if (b.isName()) {
+					b.addLabels(g);
+				}
+			}
+		}
+	}
+	/**
 	 * Loads in the legend file and makes a map based on it
 	 * @throws BadConfigFormatException Error when creating the config files
 	 */
@@ -167,6 +191,7 @@ public class Board extends JPanel{
 						board[row][colm].setInitial(charEntry[colm].charAt(0)); //sets the cell type using the first character
 						if (charEntry[colm].length() == 2) { //If the cell is a doorway or the name cell
 							board[row][colm].setDoorDirection(charEntry[colm].charAt(1)); //Sets doorway direction per character on board
+							if (charEntry[colm].charAt(1) == 'N') {board[row][colm].setLabel(true);}
 						}
 						else { //If cell is not a doorway nor a name cell
 							board[row][colm].setDoorDirection('N');	//'N' is just passed in for default case, stands for NONE					
@@ -219,7 +244,9 @@ public class Board extends JPanel{
 		players.add(new HumanPlayer(playersList.get(0)));
 		for (int i = 1; i < 6; i++) {
 			ComputerPlayer newCom = new ComputerPlayer(playersList.get(i));
-			newCom.setUnseenCards(startingDeck);
+			for (Card c : startingDeck) {
+				newCom.addUnseenCards(c);
+			}
 			players.add(newCom);			
 		}
 		//shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
@@ -248,6 +275,7 @@ public class Board extends JPanel{
 				weapons.add(x);
 			}
 		}
+
 		//Generate random numbers to choose a random Card from each CardType
 		Random rand = new Random();
 		int p = rand.nextInt(6); //random number between 0-5
@@ -259,14 +287,16 @@ public class Board extends JPanel{
 		people.remove(p);
 		rooms.remove(r);
 		weapons.remove(w);
+
 		//Adds the separated decks altogether then shuffles them
 		shuffledDeck.addAll(people);
 		shuffledDeck.addAll(rooms);
 		shuffledDeck.addAll(weapons);
 		Collections.shuffle(shuffledDeck);
-		
+
 		//deals the Cards out to the Players
 		int num = 0;
+		//starting deck loses cards around here? brings it down to 6
 		for (Card x : shuffledDeck) {
 			switch(num){
 			case 6: //if the counter reaches 6, the counter resets
@@ -276,7 +306,8 @@ public class Board extends JPanel{
 				num++;
 			}
 		}
-		
+
+	
 	}
 	/**
 	 * Calculates the adjacent cells of each cell in the game board

@@ -5,17 +5,30 @@
 
 
 package clueGame;
+
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+
+import javax.swing.JPanel;
+
+
+
 /**
  * Class the represents the spaces of the game board
  * @author eboyle, annelysebaker
  * @version 1.2
  *
  */
-public class BoardCell {
+public class BoardCell extends JPanel{
 	private int row; //x-coordinate of the cell
 	private int column; //y-coordinate of the cell
 	private char initial; //type of space, labeled with a single letter
 	private DoorDirection doorDirection; //which way the cell can be entered
+	public static final int WIDTH = 40;
+	public static final int HEIGHT = 40;
+	public static final int SCALE = 40;
+	private boolean label = false;
 	
 	/**
 	 * Creates a BoardCell with the passed in row and column
@@ -25,6 +38,81 @@ public class BoardCell {
 	public BoardCell(int xCoord, int yCoord) {
 		this.row = xCoord; //sets the x-coordinate
 		this.column = yCoord; //sets the y-coordinate
+	}
+	/**
+	 * Paints the cell according to its type
+	 * @param g - drawing board
+	 */
+	public void draw(Graphics g) {
+		super.paintComponent(g);
+		switch(this.initial) {
+		//if the cell is a walkway
+		case 'W':
+			g.setColor(new Color(230,235,245));
+			g.fillRect(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
+			g.setColor(Color.black);
+			g.drawRect(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
+			break;
+		//if the cell is a room
+		default:
+			g.setColor(new Color(185,138,168));
+			g.fillRect(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
+			//if the cell is a doorway
+			if (this.isDoorway()) {
+				g.setColor(new Color(80,61,17));
+				switch(this.doorDirection) {
+				case UP:
+					g.fillRect(column*SCALE, row*SCALE+1, WIDTH, 3);
+					break;
+				case DOWN:
+					g.fillRect(column*SCALE, row*SCALE+HEIGHT-3, WIDTH, 3);
+					break;
+				case RIGHT:
+					g.fillRect(column*SCALE+WIDTH-3, row*SCALE, 3, HEIGHT);
+					break;
+				case LEFT:
+					g.fillRect(column*SCALE+1, row*SCALE, 3, HEIGHT);
+					break;
+				}
+			}
+			break;
+		}
+	}
+	/**
+	 * Adds the names to the rooms
+	 * @param g - drawing board
+	 */
+	public void addLabels(Graphics g) {
+		g.setColor(Color.black);
+		switch(this.initial) {
+		case 'K':
+			g.drawString("Kitchen", column*SCALE, row*SCALE);
+			break;
+		case 'D':
+			g.drawString("Dining Room", column*SCALE, row*SCALE);
+			break;
+		case 'S':
+			g.drawString("Workshop", column*SCALE, row*SCALE);
+			break;
+		case 'G':
+			g.drawString("Green House", column*SCALE, row*SCALE);
+			break;
+		case 'B':
+			g.drawString("Ballroom", column*SCALE, row*SCALE);
+			break;
+		case 'E':
+			g.drawString("Entrance", column*SCALE, row*SCALE);
+			break;
+		case 'F':
+			g.drawString("Family Room", column*SCALE, row*SCALE);
+			break;
+		case 'L':
+			g.drawString("Library", column*SCALE, row*SCALE);
+			break;
+		case 'O':
+			g.drawString("Office", column*SCALE, row*SCALE);
+			break;
+		}
 	}
 	
 	public int getRow() {
@@ -46,7 +134,9 @@ public class BoardCell {
 	public void setInitial(char initial) {
 		this.initial = initial; //sets the initial of the cell
 	}
-	
+	public void setLabel(boolean label) {
+		this.label = label;
+	}
 	/**
 	 * Sets the door direction per passed in character
 	 * @param d passed in character from board layout
@@ -94,5 +184,9 @@ public class BoardCell {
 	public boolean isDoorway() {
 		if (this.doorDirection == DoorDirection.NONE) {return false;}
 		else {return true;}
+	}
+	public boolean isName() {
+		if (label) {return true;}
+		else {return false;}
 	}
 }

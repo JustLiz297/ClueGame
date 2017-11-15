@@ -1,8 +1,11 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import javax.swing.JPanel;
 /**
  * This is the Player class, it is parent class of the Computer and Human Players
  * @author eboyle, annelysebaker
@@ -11,13 +14,16 @@ import java.util.ArrayList;
  *
  */
 
-public abstract class Player {
+public abstract class Player extends JPanel{
 	private String playerName;
 	protected int row;
 	protected int column;
 	private Color color;
-	protected ArrayList<Card> myCards = new ArrayList<Card>();
-	protected ArrayList<Card> seenCards = new ArrayList<Card>();
+	public static final int WIDTH = 40;
+	public static final int HEIGHT = 40;
+	public static final int SCALE = 40;
+	public ArrayList<Card> myCards = new ArrayList<Card>();
+	public ArrayList<Card> seenCards = new ArrayList<Card>();
 	
 	public Player(String playerName) {
 		super();
@@ -72,12 +78,12 @@ public abstract class Player {
 			this.color = new Color(108,156,239);
 			break;
 		case "Dandelion":
-			//transferColor = "YELLOW"; //240,225,48
-			this.color = new Color(240,225,48);
+			//transferColor = "YELLOW"; //238,220,130
+			this.color = new Color(221,179,8);
 			break;
 		case "Lavender":
-			//transferColor = "MAGENTA"; //255,245,251
-			this.color = new Color(255,245,251);
+			//transferColor = "MAGENTA"; //216,206,242
+			this.color = new Color(216,206,242);
 			break;
 		case "Emerald":
 			//transferColor = "GREEN"; //9,69,60
@@ -88,8 +94,8 @@ public abstract class Player {
 			this.color = new Color(189,32,49);
 			break;
 		case "Flax":
-			//transferColor = "WHITE"; //238,220,130
-			this.color = new Color(238,220,130);
+			//transferColor = "WHITE"; //241,235,190
+			this.color = new Color(241,235,190);
 			break;
 		default:
 			//transferColor = strColor;
@@ -104,6 +110,13 @@ public abstract class Player {
 			color = null; // Not defined  
 		}*/
 		return color;
+	}
+	public void draw(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.black);
+		g.drawOval(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
+		g.setColor(this.color);
+		g.fillOval(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
 	}
 	
 	public abstract boolean isHuman();

@@ -15,6 +15,7 @@ import java.util.Set;
 public class ComputerPlayer extends Player{
 	private BoardCell lastRoom = null;
 	private ArrayList<Card> unseenCards = new ArrayList<Card>();
+	
 
 	public ComputerPlayer(String playerName) {
 		super(playerName);
@@ -93,9 +94,6 @@ public class ComputerPlayer extends Player{
 	
 	public void setVisited(BoardCell room){
 		lastRoom = room;
-	}
-	public void setUnseenCards(ArrayList<Card> deck) {
-		unseenCards = deck;
 	}
 	public void addUnseenCards(Card card) {
 		unseenCards.add(card);

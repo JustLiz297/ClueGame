@@ -8,9 +8,12 @@ package tests;
 
 import static org.junit.Assert.*;
 
+import java.awt.Graphics;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.JPanel;
 
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -26,7 +29,7 @@ import clueGame.DoorDirection;
  * @author eboyle, annelysebaker
  * @version 1.4
  */
-public class BoardTests {
+public class BoardTests{
 	private static Board board;
 	public static final int NUM_ROWS = 21; //number of rows for our board
 	public static final int NUM_COLS = 25; //number of columns for our board
