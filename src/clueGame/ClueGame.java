@@ -7,11 +7,16 @@ import javax.swing.JFrame;
 
 import clueGUI.clueGui;
 
+/**
+ * ClueGame class that is the game engine
+ * @author eboyle, annelyse
+ *
+ */
 public class ClueGame extends JFrame{
 	private static Board board;
 
 	/**
-	 * Creates the GUI
+	 * Creates the GUI and starts the game
 	 * @param args
 	 */
 	public static void main(String[] args) {
