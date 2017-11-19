@@ -140,6 +140,7 @@ public class DetectiveNotes extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
 		JComboBox<String> people = new JComboBox<String>();
+		people.addItem("Don't Know");
 		for (String name : playersList) {
 			people.addItem(name);
 		}
@@ -179,6 +180,7 @@ public class DetectiveNotes extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
 		JComboBox<String> rooms = new JComboBox<String>();
+		rooms.addItem("Don't Know");
 		for (String room : roomList) {
 			rooms.addItem(room);
 		}
@@ -218,6 +220,7 @@ public class DetectiveNotes extends JDialog {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
 		JComboBox<String> weapons = new JComboBox<String>();
+		weapons.addItem("Don't Know");
 		for (String weapon : weaponsList) {
 			weapons.addItem(weapon);
 		}
