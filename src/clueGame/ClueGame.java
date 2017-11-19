@@ -32,6 +32,7 @@ public class ClueGame extends JFrame{
 		JDialog welcome = new JDialog();
 		welcome.setTitle("Welcome to Clue");
 		welcome.setSize(320, 100);
+		welcome.setLocationRelativeTo(null);
 		welcome.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		welcome.setLayout(new GridLayout(2,1));
 		JLabel introMessage = new JLabel("     You are Preacher Periwinkle! Press OK to begin.");
@@ -51,7 +52,8 @@ public class ClueGame extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(1170, 1050);	
+		frame.setSize(1170, 1050);
+		frame.setLocationRelativeTo(null);
 		clueGui controlS = new clueGui();
 		controlS.controlPanel();
 		frame.setJMenuBar(controlS.createFileMenu());

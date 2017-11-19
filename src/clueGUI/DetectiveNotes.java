@@ -38,6 +38,7 @@ public class DetectiveNotes extends JDialog {
 		}
 		setTitle("Detective Notes");
 		setSize(600, 600);
+		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		add(notePanels());
 	}
