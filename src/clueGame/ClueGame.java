@@ -20,23 +20,14 @@ public class ClueGame extends JFrame{
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// Create a JFrame with all the normal functionality
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		frame.setSize(1150, 1050);	
-		// Create the JPanel and add it to the JFrame
 		clueGui controlS = new clueGui();
 		controlS.controlPanel();
 		frame.setJMenuBar(controlS.createFileMenu());
 		frame.add(controlS, BorderLayout.SOUTH);
-		// Now let's view it
-		
-		clueGui myCards = new clueGui();
-		myCards.myCardsPanel();
-		frame.setJMenuBar(myCards.createFileMenu());
-		frame.add(myCards, BorderLayout.EAST);
-		
 		board = Board.getInstance();
 		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
 		board.setCardFiles("Weapons.txt", "Players.txt");
@@ -45,6 +36,12 @@ public class ClueGame extends JFrame{
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
+		clueGui myCards = new clueGui();
+		myCards.myCardsPanel(board.getHumanPlayer());
+		frame.setJMenuBar(myCards.createFileMenu());
+		frame.add(myCards, BorderLayout.EAST);
+		
+
 		frame.add(board);
 		frame.setVisible(true);
 	}

@@ -578,4 +578,12 @@ public class Board extends JPanel{
 		this.players.clear();
 		this.players = players;
 	}
+	public Player getHumanPlayer() {
+		for (Player p : players) {
+			if (p.isHuman()) {
+				return p;
+			}
+		}
+		return null;
+	}
 }

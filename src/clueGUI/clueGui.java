@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,6 +16,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
+
+import clueGame.Card;
+import clueGame.HumanPlayer;
+import clueGame.Player;
 
 /**
  * GUI class for Clue Game
@@ -177,40 +182,70 @@ public class clueGui extends JPanel{
 	}
 	//-------------------------------------------------//
 
-	public void myCardsPanel() {
+	public void myCardsPanel(Player p) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Cards"));
 		panel.setLayout(new GridLayout(3,1));
-		panel.add(peopleCards());
-		panel.add(roomCards());
-		panel.add(weaponCards());
+		ArrayList<Card> people = new ArrayList<Card>();
+		ArrayList<Card> weapons = new ArrayList<Card>();
+		ArrayList<Card> rooms = new ArrayList<Card>();
+		
+		for (Card c : p.getCards()) {
+			if (c.isPerson()) {
+				people.add(c);
+			}
+			else if (c.isRoom()) {
+				rooms.add(c);
+			}
+			else if (c.isWeapon()) {
+				weapons.add(c);
+			}
+		}
+		panel.add(peopleCards(people));
+		panel.add(roomCards(rooms));
+		panel.add(weaponCards(weapons));
 		add(panel);
 	}
 	
-	private JPanel peopleCards() {
+	private JPanel peopleCards(ArrayList<Card> people) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
-		JTextField cards = new JTextField("People Cards");
-		cards.setEditable(false);
-		panel.add(cards);
+		if (people.isEmpty()) {
+			return panel;
+		}
+		for (Card c : people) {
+			JTextField cards = new JTextField(c.getCardName());
+			cards.setEditable(false);
+			panel.add(cards);
+		}
 		return panel;
 	}
 	
-	private JPanel roomCards() {
+	private JPanel roomCards(ArrayList<Card> rooms) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
-		JTextField cards = new JTextField("Room Cards");
-		cards.setEditable(false);
-		panel.add(cards);
+		if (rooms.isEmpty()) {
+			return panel;
+		}
+		for (Card c : rooms) {
+			JTextField cards = new JTextField(c.getCardName());
+			cards.setEditable(false);
+			panel.add(cards);
+		}
 		return panel;
 	}
 	
-	private JPanel weaponCards() {
+	private JPanel weaponCards(ArrayList<Card> weapons) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
-		JTextField cards = new JTextField("Weapon Cards");
-		cards.setEditable(false);
-		panel.add(cards);
+		if (weapons.isEmpty()) {
+			return panel;
+		}
+		for (Card c : weapons) {
+			JTextField cards = new JTextField(c.getCardName());
+			cards.setEditable(false);
+			panel.add(cards);
+		}
 		return panel;
 	}
 	
