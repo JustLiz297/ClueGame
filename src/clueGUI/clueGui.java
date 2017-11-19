@@ -211,13 +211,16 @@ public class clueGui extends JPanel{
 	private JPanel peopleCards(ArrayList<Card> people) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		int i = 1;
 		if (people.isEmpty()) {
 			return panel;
 		}
 		for (Card c : people) {
+			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
 			cards.setEditable(false);
 			panel.add(cards);
+			i++;
 		}
 		return panel;
 	}
@@ -225,13 +228,16 @@ public class clueGui extends JPanel{
 	private JPanel roomCards(ArrayList<Card> rooms) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		int i = 1;
 		if (rooms.isEmpty()) {
 			return panel;
 		}
 		for (Card c : rooms) {
+			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
 			cards.setEditable(false);
 			panel.add(cards);
+			i++;
 		}
 		return panel;
 	}
@@ -239,13 +245,16 @@ public class clueGui extends JPanel{
 	private JPanel weaponCards(ArrayList<Card> weapons) {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		int i = 1;
 		if (weapons.isEmpty()) {
 			return panel;
 		}
 		for (Card c : weapons) {
+			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
 			cards.setEditable(false);
 			panel.add(cards);
+			i++;
 		}
 		return panel;
 	}

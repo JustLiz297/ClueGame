@@ -31,10 +31,10 @@ public class ClueGame extends JFrame{
 	public JDialog WelcomeClue() {
 		JDialog welcome = new JDialog();
 		welcome.setTitle("Welcome to Clue");
-		welcome.setSize(343, 100);
+		welcome.setSize(320, 100);
 		welcome.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		welcome.setLayout(new GridLayout(2,1));
-		JLabel introMessage = new JLabel(" You are Preacher Periwinkle! Press Next Player to begin.");
+		JLabel introMessage = new JLabel("     You are Preacher Periwinkle! Press OK to begin.");
 		welcome.add(introMessage, BorderLayout.CENTER);
 		JButton oK = new JButton("OK");
 		class ExitListener implements ActionListener{
@@ -51,7 +51,7 @@ public class ClueGame extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(1150, 1050);	
+		frame.setSize(1170, 1050);	
 		clueGui controlS = new clueGui();
 		controlS.controlPanel();
 		frame.setJMenuBar(controlS.createFileMenu());
