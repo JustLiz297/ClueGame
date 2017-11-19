@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -33,7 +34,7 @@ public class clueGui extends JPanel{
 	 * GUI constructor
 	 */
 	public clueGui() {
-		
+	
 	}
 	//-------------------------------------------------//
 	/**
@@ -249,7 +250,6 @@ public class clueGui extends JPanel{
 		return panel;
 	}
 	
-	//-------------------------------------------------//
-
-
+	//-------------------------------------------------//	
 }
+
