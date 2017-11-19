@@ -9,7 +9,6 @@ package clueGame;
 import java.awt.Graphics;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -27,7 +26,7 @@ import clueGame.BoardCell;
 /**
  * This is the Board class, it is the game board of the Clue Game
  * @author eboyle, annelysebaker
- * @version 1.7
+ * @version 1.8
  * 
  *
  */
@@ -578,6 +577,10 @@ public class Board extends JPanel{
 		this.players.clear();
 		this.players = players;
 	}
+	/**
+	 * Find the human player in the list and returns them
+	 * @return Human Player
+	 */
 	public Player getHumanPlayer() {
 		for (Player p : players) {
 			if (p.isHuman()) {

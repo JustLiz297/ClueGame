@@ -14,12 +14,11 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.BadConfigFormatException;
-import clueGame.Card;
-import clueGame.CardType;
 
 /**
  * Custom Dialog class for the Detective Notes
  * @author eboyle, annelysebaker
+ * @version 1.1
  *
  */
 public class DetectiveNotes extends JDialog {
@@ -30,9 +29,9 @@ public class DetectiveNotes extends JDialog {
 	/**
 	 * Constructor for the Detective Notes Window
 	 */
-	public DetectiveNotes() {
+	public DetectiveNotes(String legendFile, String weaponFile, String playersFile) {
 		try {
-			this.configNames();
+			this.configNames(legendFile, weaponFile, playersFile);
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
@@ -47,9 +46,9 @@ public class DetectiveNotes extends JDialog {
 	 * Loads in the names of players, weapons, and rooms to have in the notes
 	 * @throws BadConfigFormatException
 	 */
-	public void configNames() throws BadConfigFormatException {
+	public void configNames(String legendFile, String weaponFile, String playersFile) throws BadConfigFormatException {
 		try {
-			FileReader roomReader = new FileReader("ClueLegend.txt");
+			FileReader roomReader = new FileReader(legendFile);
 			Scanner in = new Scanner(roomReader);
 			while (in.hasNext()) {
 				String[] entry = in.nextLine().split(", ");
@@ -68,7 +67,7 @@ public class DetectiveNotes extends JDialog {
 			System.out.println(e.getMessage());
 		}
 		try {
-			FileReader weaponReader = new FileReader("Weapons.txt");
+			FileReader weaponReader = new FileReader(weaponFile);
 			Scanner in = new Scanner(weaponReader);
 			while (in.hasNext()) {
 				String entry = in.nextLine();
@@ -80,7 +79,7 @@ public class DetectiveNotes extends JDialog {
 			System.out.println(e.getMessage());
 		}
 		try {
-			FileReader playerReader = new FileReader("Players.txt");
+			FileReader playerReader = new FileReader(playersFile);
 			Scanner in = new Scanner(playerReader);
 			while (in.hasNext()) {
 				String entry = in.nextLine();

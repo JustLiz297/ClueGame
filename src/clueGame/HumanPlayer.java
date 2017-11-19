@@ -1,6 +1,5 @@
 package clueGame;
 
-import java.awt.Color;
 import java.util.Collections;
 /**
  * This is the HumanPlayer class, the class of the human player of the game
@@ -10,7 +9,6 @@ import java.util.Collections;
  *
  */
 public class HumanPlayer extends Player{
-	
 
 	public HumanPlayer(String playerName) {
 		super(playerName);

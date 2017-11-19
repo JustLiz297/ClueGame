@@ -5,11 +5,9 @@ import static org.junit.Assert.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import java.awt.Color;
-import java.awt.Graphics;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;

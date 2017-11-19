@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 /**
  * Class the represents the spaces of the game board
  * @author eboyle, annelysebaker
- * @version 1.2
+ * @version 1.3
  *
  */
 public class BoardCell extends JPanel{

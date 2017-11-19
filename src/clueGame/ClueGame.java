@@ -10,24 +10,42 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 
-import clueGUI.clueGui;
+import clueGUI.DetectiveNotes;
+import clueGUI.cardsPanel;
+import clueGUI.controlPanel;
 
 /**
  * ClueGame class that is the game engine
- * @author eboyle, annelyse
- *
+ * @author eboyle, annelysebaker
+ * @version 1.2
  */
 public class ClueGame extends JFrame{
 	private static Board board;
-	JDialog startScreen;
+	private JDialog startScreen;
+	private DetectiveNotes dialog;
+	private String boardConfigFile = "Clue Layout.csv"; //name of the board file that will be loaded in
+	private String roomConfigFile = "ClueLegend.txt"; //name of the legend file that will be loaded in
+	private String weaponConfigFile = "Weapons.txt"; //name of the weapons file that will be loaded in
+	private String playerConfigFile = "Players.txt"; //name of the player file that will be loaded in
 
+	/**
+	 * Constructor that calls the Welcome Screen
+	 * @throws HeadlessException
+	 */
 	public ClueGame() throws HeadlessException {
 		super();
 		this.startScreen = WelcomeClue();
 		startScreen.setVisible(true);
 	}
 
+	/**
+	 * Makes the Welcome Screen
+	 * @return JDialog Welcome Screen
+	 */
 	public JDialog WelcomeClue() {
 		JDialog welcome = new JDialog();
 		welcome.setTitle("Welcome to Clue");
@@ -40,35 +58,60 @@ public class ClueGame extends JFrame{
 		JButton oK = new JButton("OK");
 		class ExitListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				theGameSetUp();
+				theGameSetUp(); //Opens game board
 				welcome.dispose();}
 		}
 		oK.addActionListener(new ExitListener());
 		welcome.add(oK);
 		return welcome;
 	}
-	
+	/**
+	 * Creates the Menu Bar
+	 * @return
+	 */
+	public JMenuBar createFileMenu() {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu menu = new JMenu("File");
+		JMenuItem exit = new JMenuItem("Exit");
+		class MenuExitListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {System.exit(0);}
+		}
+		exit.addActionListener(new MenuExitListener());
+		JMenuItem notes = new JMenuItem("Show Notes");
+		class MenuNotesListener implements ActionListener{
+			public void actionPerformed(ActionEvent e) {
+				dialog = new DetectiveNotes(roomConfigFile, weaponConfigFile, playerConfigFile);
+				dialog.setVisible(true);				
+			}
+		}
+		notes.addActionListener(new MenuNotesListener());
+		menu.add(notes);
+		menu.add(exit);
+		menuBar.add(menu);
+		return menuBar;
+	}
+	/**
+	 * Function that creates the game board
+	 */
 	public void theGameSetUp() {
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
 		frame.setSize(1170, 1050);
 		frame.setLocationRelativeTo(null);
-		clueGui controlS = new clueGui();
-		controlS.controlPanel();
-		frame.setJMenuBar(controlS.createFileMenu());
-		frame.add(controlS, BorderLayout.SOUTH);
+		controlPanel controls = new controlPanel();
+		frame.setJMenuBar(createFileMenu());
+		frame.add(controls, BorderLayout.SOUTH);
 		board = Board.getInstance();
-		board.setConfigFiles("Clue Layout.csv", "ClueLegend.txt"); //layout file, legend file
-		board.setCardFiles("Weapons.txt", "Players.txt");
+		board.setConfigFiles(boardConfigFile, roomConfigFile); //layout file, legend file
+		board.setCardFiles(weaponConfigFile, playerConfigFile);
 		try {
 			board.initialize();
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
-		clueGui myCards = new clueGui();
+		cardsPanel myCards = new cardsPanel();
 		myCards.myCardsPanel(board.getHumanPlayer());
-		frame.setJMenuBar(myCards.createFileMenu());
 		frame.add(myCards, BorderLayout.EAST);
 		frame.add(board);
 		frame.setVisible(true);
@@ -76,7 +119,7 @@ public class ClueGame extends JFrame{
 	
 	
 	/**
-	 * Creates the GUI and starts the game
+	 * Starts the game
 	 * @param args
 	 */
 	public static void main(String[] args) {

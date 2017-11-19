@@ -1,7 +1,6 @@
 package tests;
 import static org.junit.Assert.*;
 
-import java.awt.Graphics;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -10,7 +9,6 @@ import org.junit.Test;
 
 import clueGame.BadConfigFormatException;
 import clueGame.Board;
-import clueGame.BoardCell;
 import clueGame.Card;
 import clueGame.CardType;
 import clueGame.ComputerPlayer;

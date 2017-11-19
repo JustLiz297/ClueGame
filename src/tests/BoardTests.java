@@ -8,14 +8,10 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.Graphics;
 import java.io.IOException;
 import java.util.Map;
 import java.util.Set;
 
-import javax.swing.JPanel;
-
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
