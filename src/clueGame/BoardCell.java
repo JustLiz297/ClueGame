@@ -25,9 +25,9 @@ public class BoardCell extends JPanel{
 	private int column; //y-coordinate of the cell
 	private char initial; //type of space, labeled with a single letter
 	private DoorDirection doorDirection; //which way the cell can be entered
-	public static final int WIDTH = 40;
-	public static final int HEIGHT = 40;
-	public static final int SCALE = 40;
+	public static final int WIDTH = 34;
+	public static final int HEIGHT = 34;
+	public static final int SCALE = 34;
 	private boolean label = false;
 	
 	/**

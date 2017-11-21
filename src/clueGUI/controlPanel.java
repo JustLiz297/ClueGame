@@ -21,6 +21,7 @@ public class controlPanel extends JPanel{
 	 *
 	 */
 	public controlPanel() {
+		//setSize(1060, 700);
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,3));
 		JPanel row1 = whoseTurnandButtons();
@@ -28,6 +29,7 @@ public class controlPanel extends JPanel{
 		panel.add(row1);
 		panel.add(row2);
 		add(panel);
+
 	}
 
 	/**

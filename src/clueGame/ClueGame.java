@@ -97,7 +97,7 @@ public class ClueGame extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(1170, 1050);
+		frame.setSize(1100, 1050);
 		frame.setLocationRelativeTo(null);
 		controlPanel controls = new controlPanel();
 		frame.setJMenuBar(createFileMenu());

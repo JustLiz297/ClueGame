@@ -18,9 +18,9 @@ public abstract class Player extends JPanel{
 	protected int row;
 	protected int column;
 	private Color color;
-	public static final int WIDTH = 40;
-	public static final int HEIGHT = 40;
-	public static final int SCALE = 40;
+	public static final int WIDTH = 34;
+	public static final int HEIGHT = 34;
+	public static final int SCALE = 34;
 	public ArrayList<Card> myCards = new ArrayList<Card>();
 	public ArrayList<Card> seenCards = new ArrayList<Card>();
 	
