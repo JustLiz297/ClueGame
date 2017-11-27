@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 /**
  * This is the Player class, it is parent class of the Computer and Human Players
  * @author eboyle, annelysebaker
- * @version 1.1
+ * @version 1.2
  * 
  *
  */
@@ -121,6 +121,7 @@ public abstract class Player extends JPanel{
 	public abstract boolean isHuman();
 	public abstract Card disproveSuggestion(Solution suggestion);
 	public abstract void dealCard(Card card);
+	public abstract void move(int roll);
 	
 	public String getPlayerName() {
 		return playerName;
@@ -145,7 +146,7 @@ public abstract class Player extends JPanel{
 	}
 	@Override
 	public String toString() {
-		return "Player [playerName=" + playerName + "]";
+		return playerName;
 	}
 	public void clearHand() {
 		myCards.clear();

@@ -7,6 +7,9 @@
 package clueGame;
 
 import java.awt.Graphics;
+import java.awt.Point;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.ArrayList;
@@ -19,6 +22,8 @@ import java.util.Set;
 
 import javax.swing.JPanel;
 
+import clueGUI.controlPanel;
+
 import java.util.Random;
 
 import clueGame.BoardCell;
@@ -26,7 +31,7 @@ import clueGame.BoardCell;
 /**
  * This is the Board class, it is the game board of the Clue Game
  * @author eboyle, annelysebaker
- * @version 1.8
+ * @version 1.9
  * 
  *
  */
@@ -50,6 +55,8 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
 	private ArrayList<Player> players; //list of the active Players
 	private Solution theSolution; //The Solution of the game
+	private boolean moved;
+	//private static controlPanel controls = controlPanel.getInstance();
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -101,11 +108,16 @@ public class Board extends JPanel{
 	 * Function that draws the board
 	 */
 	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		//draws the cells
 		for (int i = 0; i < board.length; i++) {
 			for (BoardCell b : board[i]){
 				b.draw(g);
 			}
+		}
+		//draws target
+		for (BoardCell c : this.targets) {
+			c.colorTargets(g);
 		}
 		//draws the players
 		for (Player p : players) {
@@ -119,6 +131,7 @@ public class Board extends JPanel{
 				}
 			}
 		}
+
 	}
 	/**
 	 * Loads in the legend file and makes a map based on it
@@ -248,8 +261,7 @@ public class Board extends JPanel{
 			}
 			players.add(newCom);			
 		}
-		//shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
-		Collections.shuffle(players); 
+
 		//calls the shuffle deck function
 		this.shuffleAndDeal(); 
 	} 
@@ -294,8 +306,8 @@ public class Board extends JPanel{
 		Collections.shuffle(shuffledDeck);
 
 		//deals the Cards out to the Players
-		int num = 0;
-		//starting deck loses cards around here? brings it down to 6
+		Random rand2 = new Random();
+		int num = rand2.nextInt(6); //shuffles the Players list so that when dealt cards, its doesn't start with the same player everytime
 		for (Card x : shuffledDeck) {
 			switch(num){
 			case 6: //if the counter reaches 6, the counter resets
@@ -504,7 +516,6 @@ public class Board extends JPanel{
 			targets.add(adjSpace);
 		}
 	}
-	
 	/**
 	 * Takes in a Player and their Suggestion and goes around the Players to see if someone can disprove it. Returns the Card they disproved with,
 	 * or null if only the Player can disprove or no one can disprove
@@ -535,6 +546,51 @@ public class Board extends JPanel{
 	public boolean checkAccusation(Solution accusation, Player currentPlayer) {
 		if (accusation.person == this.theSolution.person && accusation.room == this.theSolution.room && accusation.weapon == this.theSolution.weapon) {return true;}
 		else {return false;}
+	}
+	
+	/**
+	 * Find the human player in the list and returns them
+	 * @return Human Player
+	 */
+	public Player getHumanPlayer() {
+		for (Player p : players) {
+			if (p.isHuman()) {
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	/**
+	 * Generates a random number between 1 and 6
+	 * @return generated number
+	 */
+	public int rollDie() {
+		Random rand = new Random();
+		int p = rand.nextInt(6)+1; //random number between 1-6
+		return p;
+	}
+	
+	/**
+	 * Controls what happens in the turn based on whether the player is a human or not
+	 * @param p - current player
+	 * @param roll - roll of the die
+	 */
+	public void turnControl(Player p, int roll) {
+		if (p.isHuman()) { //when Human Player's turn
+			moved = false;
+			BoardCell currentSpace = this.getCellAt(p.getRow(), p.getColumn());
+			p.move(roll);
+			repaint();
+			if(p.getRow() != currentSpace.getRow() && p.getColumn() != currentSpace.getColumn()){
+			moved = true;}
+		}
+		else { //when Computer's turn
+			moved = false;
+			p.move(roll);
+			moved = true;
+			repaint();
+		}
 	}
 	
 	public Map<Character, String> getLegend() {
@@ -577,16 +633,9 @@ public class Board extends JPanel{
 		this.players.clear();
 		this.players = players;
 	}
-	/**
-	 * Find the human player in the list and returns them
-	 * @return Human Player
-	 */
-	public Player getHumanPlayer() {
-		for (Player p : players) {
-			if (p.isHuman()) {
-				return p;
-			}
-		}
-		return null;
+	public boolean movedYet() {
+		if (moved) {return true;}
+		else {return false;}
 	}
+
 }

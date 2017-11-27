@@ -21,12 +21,14 @@ import clueGUI.controlPanel;
 /**
  * ClueGame class that is the game engine
  * @author eboyle, annelysebaker
- * @version 1.2
+ * @version 1.3
  */
 public class ClueGame extends JFrame{
 	private static Board board;
 	private JDialog startScreen;
 	private DetectiveNotes dialog;
+	private static controlPanel controls = controlPanel.getInstance();
+	private cardsPanel myCards = new cardsPanel();
 	private String boardConfigFile = "Clue Layout.csv"; //name of the board file that will be loaded in
 	private String roomConfigFile = "ClueLegend.txt"; //name of the legend file that will be loaded in
 	private String weaponConfigFile = "Weapons.txt"; //name of the weapons file that will be loaded in
@@ -97,9 +99,8 @@ public class ClueGame extends JFrame{
 		JFrame frame = new JFrame();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setTitle("Clue Game");
-		frame.setSize(1100, 1050);
+		frame.setSize(1100, 1000);
 		frame.setLocationRelativeTo(null);
-		controlPanel controls = new controlPanel();
 		frame.setJMenuBar(createFileMenu());
 		frame.add(controls, BorderLayout.SOUTH);
 		board = Board.getInstance();
@@ -110,13 +111,23 @@ public class ClueGame extends JFrame{
 		} catch (BadConfigFormatException e) {
 			e.printStackTrace();
 		}
-		cardsPanel myCards = new cardsPanel();
 		myCards.myCardsPanel(board.getHumanPlayer());
 		frame.add(myCards, BorderLayout.EAST);
 		frame.add(board);
 		frame.setVisible(true);
+		startGame();	
 	}
-	
+
+	/**
+	 * First turn of the game
+	 */
+	public void startGame() {
+		Player startingPlayer = board.getPlayers().get(0);
+		int roll = board.rollDie();
+		controls.updatePlayer(startingPlayer);
+		controls.updateRoll(roll);
+		board.turnControl(startingPlayer, roll);
+	}
 	
 	/**
 	 * Starts the game

@@ -17,7 +17,7 @@ import javax.swing.JPanel;
 /**
  * Class the represents the spaces of the game board
  * @author eboyle, annelysebaker
- * @version 1.3
+ * @version 1.4
  *
  */
 public class BoardCell extends JPanel{
@@ -77,6 +77,16 @@ public class BoardCell extends JPanel{
 			}
 			break;
 		}
+	}
+	/**
+	 * Colors the targets a different color
+	 * @param g - drawing board
+	 */
+	public void colorTargets(Graphics g) {
+		g.setColor(Color.CYAN);
+		g.fillRect(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
+		g.setColor(Color.black);
+		g.drawRect(this.column*SCALE, this.row*SCALE, WIDTH, HEIGHT);
 	}
 	/**
 	 * Adds the names to the rooms

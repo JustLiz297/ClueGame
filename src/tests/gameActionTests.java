@@ -246,4 +246,19 @@ public class gameActionTests {
 		com2.dealCard(suggestWeapon);
 		assertEquals(suggestWeapon, board.handleSuggestion(testSuggestion, com1));
 	}
+	
+	/**
+	 * DIE TEST
+	 * 
+	 * -Tests that the die rolls between 1-6
+	 */
+	@Test
+	public void dieTest() {
+		int roll = board.rollDie();
+		assertTrue(roll >= 1 && roll <= 6);
+		roll = board.rollDie();
+		assertTrue(roll >= 1 && roll <= 6);
+		roll = board.rollDie();
+		assertTrue(roll >= 1 && roll <= 6);
+	}
 }

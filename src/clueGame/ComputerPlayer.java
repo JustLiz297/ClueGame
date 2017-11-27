@@ -7,13 +7,14 @@ import java.util.Set;
 /**
  * This is the ComputerPlayer class, the class of the computer players of the game
  * @author eboyle, annelysebaker
- * @version 1.1
+ * @version 1.2
  * 
  *
  */
 public class ComputerPlayer extends Player{
 	private BoardCell lastRoom = null;
 	private ArrayList<Card> unseenCards = new ArrayList<Card>();
+	public static Board board = Board.getInstance();
 	
 
 	public ComputerPlayer(String playerName) {
@@ -85,7 +86,21 @@ public class ComputerPlayer extends Player{
 		}
 		return null;
 	}
-
+	/**
+	 * Takes in a die roll and calls pickLocation to choose a location to move to, then moves
+	 */
+	@Override
+	public void move(int roll) {
+		board.calcTargets(this.row, this.column, roll);
+		BoardCell target = this.pickLocation(board.getTargets());
+		this.row = target.getRow(); //moves the computer player's location
+		this.column = target.getColumn();
+		if (target.isRoom()) {
+			//createSuggestion
+		}
+		
+	}
+	
 	@Override
 	public boolean isHuman() {
 		return false;
@@ -110,5 +125,6 @@ public class ComputerPlayer extends Player{
 	public ArrayList<Card> getUnseen() {
 		return unseenCards;
 	}
+
 	
 }
