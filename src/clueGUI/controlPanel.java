@@ -129,7 +129,6 @@ public class controlPanel extends JPanel{
 		int roll = board.rollDie();
 		this.updatePlayer(board.getPlayers().get(nextP));
 		this.updateRoll(roll);
-		System.out.println(board.getPlayers().get(nextP));
 		board.turnControl(board.getPlayers().get(nextP), roll);
 	}
 	

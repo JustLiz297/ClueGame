@@ -16,7 +16,7 @@ public class HumanPlayer extends Player{
 
 	public HumanPlayer(String playerName) {
 		super(playerName);
-		addMouseListener(new clickListener());
+		//addMouseListener(new clickListener());
 	}
 
 	@Override
@@ -43,44 +43,15 @@ public class HumanPlayer extends Player{
 		}
 		return null;
 	}
-	/**
-	 * Human player move function
-	 */
-	@Override
-	public void move(int roll) {
-		board.calcTargets(this.row, this.column, roll);
-		Set<BoardCell> targets = board.getTargets();
-	}
-	/**
-	 * Listener for click for human player movement
-	 * @author eboyle
-	 *
-	 */
-	class clickListener implements MouseListener {
-		@Override
-		public void mouseClicked(MouseEvent event) {
-			int row =(int) (event.getPoint().getY()/34);
-			int column =(int) (event.getPoint().getX()/34);
-			System.out.println(row);
-			System.out.println(column);
-			moveTo(row, column);
-			repaint();			
-		}
-		public void mouseExited(MouseEvent event) {}
-		public void mousePressed (MouseEvent event) {}
-		public void mouseReleased (MouseEvent event) {}
-		public void mouseEntered (MouseEvent event) {}
-		
-	}
+
+
 	/**
 	 * Translates mouse position from listener to move human player
 	 * @param row
 	 * @param colm
 	 */
-	public void moveTo(int row, int colm) {
+	public void move(int roll, int row, int colm) {
 		this.row = row;
 		this.column = colm;
-		System.out.println(this.row);
-		System.out.println(this.column);
 	}
 }

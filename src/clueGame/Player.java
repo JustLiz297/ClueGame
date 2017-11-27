@@ -23,6 +23,7 @@ public abstract class Player extends JPanel{
 	public static final int SCALE = 34;
 	public ArrayList<Card> myCards = new ArrayList<Card>();
 	public ArrayList<Card> seenCards = new ArrayList<Card>();
+	public static Board board = Board.getInstance();
 	
 	public Player(String playerName) {
 		super();
@@ -121,7 +122,14 @@ public abstract class Player extends JPanel{
 	public abstract boolean isHuman();
 	public abstract Card disproveSuggestion(Solution suggestion);
 	public abstract void dealCard(Card card);
-	public abstract void move(int roll);
+	public abstract void move(int roll, int row, int colm);
+	
+	/**
+	 * Human player move function
+	 */
+	public void humanTargets(int roll) {
+		board.calcTargets(this.row, this.column, roll);
+	}
 	
 	public String getPlayerName() {
 		return playerName;

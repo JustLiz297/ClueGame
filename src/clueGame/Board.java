@@ -6,8 +6,13 @@
 
 package clueGame;
 
+import java.awt.BorderLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
@@ -20,6 +25,9 @@ import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import clueGUI.controlPanel;
@@ -31,7 +39,7 @@ import clueGame.BoardCell;
 /**
  * This is the Board class, it is the game board of the Clue Game
  * @author eboyle, annelysebaker
- * @version 1.9
+ * @version 1.10
  * 
  *
  */
@@ -55,8 +63,11 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
 	private ArrayList<Player> players; //list of the active Players
 	private Solution theSolution; //The Solution of the game
-	private boolean moved;
-	//private static controlPanel controls = controlPanel.getInstance();
+	private boolean moved; //if the player has moved or not
+	private boolean humanTurn; // if it is the human's turn or not
+	public static final int WIDTH = 34; //scale of board tiles
+	public static final int HEIGHT = 34; //scale of board tiles
+	public static final int SCALE = 34; //scale of board tiles
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -85,6 +96,7 @@ public class Board extends JPanel{
 		this.loadBoardConfig(); //set up the game board
 		this.loadCardConfigFiles(); //sets up players and cards
 		this.calcAdjacencies(); //creates the Map of adjacent cells
+		addMouseListener(new clickListener());
 	}
 	/**
 	 * Sets the boardConfigFile variable to the passed in layoutfile and sets the roomConfigFile variable to the passed in legendfile
@@ -115,9 +127,11 @@ public class Board extends JPanel{
 				b.draw(g);
 			}
 		}
-		//draws target
-		for (BoardCell c : this.targets) {
-			c.colorTargets(g);
+		//draws targets only for humans
+		if (humanTurn) {
+			for (BoardCell c : this.targets) {
+				c.colorTargets(g);
+			}
 		}
 		//draws the players
 		for (Player p : players) {
@@ -578,18 +592,82 @@ public class Board extends JPanel{
 	 */
 	public void turnControl(Player p, int roll) {
 		if (p.isHuman()) { //when Human Player's turn
+			humanTurn = true;
 			moved = false;
 			BoardCell currentSpace = this.getCellAt(p.getRow(), p.getColumn());
-			p.move(roll);
+			p.humanTargets(roll);
 			repaint();
-			if(p.getRow() != currentSpace.getRow() && p.getColumn() != currentSpace.getColumn()){
-			moved = true;}
 		}
 		else { //when Computer's turn
+			humanTurn = false;
 			moved = false;
-			p.move(roll);
+			p.move(roll, 0, 0);
 			moved = true;
 			repaint();
+		}
+	}
+	/**
+	 * Translates the player's click into boardcell, if not a target, gives error message
+	 * @param x
+	 * @param y
+	 * @return
+	 */
+	public BoardCell clickedTarget(int x, int y) {
+		for (BoardCell c : targets) {
+			Rectangle rect = new Rectangle(c.getColumn()*SCALE, c.getRow()*SCALE, WIDTH, HEIGHT);
+			if (rect.contains(new Point(x,y))) {return c;}
+		}
+		if (humanTurn) {
+			JDialog oops = new JDialog();
+			oops.setTitle("Oops");
+			oops.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			oops.setSize(320, 100);
+			oops.setLocationRelativeTo(null);
+			oops.setLayout(new GridLayout(2,1));
+			JLabel message = new JLabel("  Oops! You can't move there, try clicking a cyan tile.");
+			oops.add(message, BorderLayout.CENTER);
+			JButton oK = new JButton("OK");
+			class ExitListener implements ActionListener{
+				public void actionPerformed(ActionEvent e) {
+					oops.dispose();}
+			}
+			oK.addActionListener(new ExitListener());
+			oops.add(oK);
+			oops.setVisible(true);
+		}
+		return null;
+	}
+	
+	/**
+	 * Listener for click for human player movement
+	 * @author eboyle, annelysebaker
+	 *
+	 */
+	class clickListener implements MouseListener {
+		@Override
+		public void mouseClicked(MouseEvent event) {
+			BoardCell target = clickedTarget(event.getX(), event.getY());
+			if (target != null) {
+				movePlayer(target);
+			}
+			repaint();			
+		}
+		public void mouseExited(MouseEvent event) {}
+		public void mousePressed (MouseEvent event) {}
+		public void mouseReleased (MouseEvent event) {}
+		public void mouseEntered (MouseEvent event) {}
+		
+	}
+	/**
+	 * Calls move function for human player
+	 * @param c
+	 */
+	public void movePlayer(BoardCell c) {
+		for (Player p : players) {
+			if (p.isHuman() && humanTurn) {
+				p.move(0, c.getRow(), c.getColumn());
+				moved = true;
+			}
 		}
 	}
 	

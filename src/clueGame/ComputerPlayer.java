@@ -90,7 +90,7 @@ public class ComputerPlayer extends Player{
 	 * Takes in a die roll and calls pickLocation to choose a location to move to, then moves
 	 */
 	@Override
-	public void move(int roll) {
+	public void move(int roll, int row, int colm) {
 		board.calcTargets(this.row, this.column, roll);
 		BoardCell target = this.pickLocation(board.getTargets());
 		this.row = target.getRow(); //moves the computer player's location
