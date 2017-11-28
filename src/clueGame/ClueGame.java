@@ -15,8 +15,8 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import clueGUI.DetectiveNotes;
-import clueGUI.cardsPanel;
-import clueGUI.controlPanel;
+import clueGUI.CardsPanel;
+import clueGUI.ControlPanel;
 
 /**
  * ClueGame class that is the game engine
@@ -27,8 +27,8 @@ public class ClueGame extends JFrame{
 	private static Board board; //game board
 	private JDialog startScreen; //JDialog game start message
 	private DetectiveNotes dialog; //JDialog window for notes
-	private static controlPanel controls = controlPanel.getInstance(); //control panel JPanel
-	private cardsPanel myCards = new cardsPanel(); //cards panel JPanel
+	private static ControlPanel controls = ControlPanel.getInstance(); //control panel JPanel
+	private CardsPanel myCards = new CardsPanel(); //cards panel JPanel
 	private String boardConfigFile = "Clue Layout.csv"; //name of the board file that will be loaded in
 	private String roomConfigFile = "ClueLegend.txt"; //name of the legend file that will be loaded in
 	private String weaponConfigFile = "Weapons.txt"; //name of the weapons file that will be loaded in
@@ -82,7 +82,7 @@ public class ClueGame extends JFrame{
 		JMenuItem notes = new JMenuItem("Show Notes");
 		class MenuNotesListener implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				dialog = new DetectiveNotes(roomConfigFile, weaponConfigFile, playerConfigFile);
+				dialog = new DetectiveNotes();
 				dialog.setVisible(true);				
 			}
 		}

@@ -23,7 +23,7 @@ import clueGame.Player;
  * @version 1.3
  *
  */
-public class controlPanel extends JPanel{
+public class ControlPanel extends JPanel{
 	private JButton nextPlayer;
 	private JButton accusation;
 	private JTextField currentPlayer = new JTextField("Name");
@@ -31,9 +31,9 @@ public class controlPanel extends JPanel{
 	private Player current = null;
 	public static Board board = Board.getInstance();
 	
-	private static controlPanel theInstance = new controlPanel();
+	private static ControlPanel theInstance = new ControlPanel();
 	// constructor is private to ensure only one can be created
-	public static controlPanel getInstance() {
+	public static ControlPanel getInstance() {
 		return theInstance;
 	}
 
@@ -41,7 +41,7 @@ public class controlPanel extends JPanel{
 	 * Takes whoseTurnandButtons and rollandGuess panels and makes them one panel
 	 *
 	 */
-	public controlPanel() {
+	public ControlPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,3));
 		panel.setPreferredSize(new Dimension(1060,150));

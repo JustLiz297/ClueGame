@@ -30,7 +30,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import clueGUI.controlPanel;
+import clueGUI.ControlPanel;
+import clueGUI.SuggestionDialog;
 
 import java.util.Random;
 
@@ -637,7 +638,7 @@ public class Board extends JPanel{
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Listener for click for human player movement
 	 * @author eboyle, annelysebaker
@@ -667,6 +668,10 @@ public class Board extends JPanel{
 			if (p.isHuman() && humanTurn) {
 				p.move(0, c.getRow(), c.getColumn());
 				moved = true;
+				if (c.isRoom()) {
+					SuggestionDialog sugg = new SuggestionDialog(legend.get(c.getInitial()));
+					sugg.setVisible(true);
+				}
 			}
 		}
 	}

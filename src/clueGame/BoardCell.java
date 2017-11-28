@@ -29,6 +29,7 @@ public class BoardCell extends JPanel{
 	public static final int HEIGHT = 34;
 	public static final int SCALE = 34;
 	private boolean label = false;
+	public static Board board = Board.getInstance();
 	
 	/**
 	 * Creates a BoardCell with the passed in row and column
@@ -94,35 +95,7 @@ public class BoardCell extends JPanel{
 	 */
 	public void addLabels(Graphics g) {
 		g.setColor(Color.black);
-		switch(this.initial) {
-		case 'K':
-			g.drawString("Kitchen", column*SCALE, row*SCALE);
-			break;
-		case 'D':
-			g.drawString("Dining Room", column*SCALE, row*SCALE);
-			break;
-		case 'S':
-			g.drawString("Workshop", column*SCALE, row*SCALE);
-			break;
-		case 'G':
-			g.drawString("Green House", column*SCALE, row*SCALE);
-			break;
-		case 'B':
-			g.drawString("Ballroom", column*SCALE, row*SCALE);
-			break;
-		case 'E':
-			g.drawString("Entrance", column*SCALE, row*SCALE);
-			break;
-		case 'F':
-			g.drawString("Family Room", column*SCALE, row*SCALE);
-			break;
-		case 'L':
-			g.drawString("Library", column*SCALE, row*SCALE);
-			break;
-		case 'O':
-			g.drawString("Office", column*SCALE, row*SCALE);
-			break;
-		}
+		g.drawString(board.getLegend().get(this.initial), column*SCALE, row*SCALE);
 	}
 	
 	public int getRow() {

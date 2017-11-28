@@ -13,7 +13,7 @@ import clueGame.Card;
 import clueGame.Player;
 
 
-public class cardsPanel extends JPanel{
+public class CardsPanel extends JPanel{
 
 	/**
 	 * Pulls the card category panels together and reads in the Human Player's cards

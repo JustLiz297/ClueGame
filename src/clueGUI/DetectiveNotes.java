@@ -14,6 +14,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.BadConfigFormatException;
+import clueGame.Board;
 
 /**
  * Custom Dialog class for the Detective Notes
@@ -25,16 +26,15 @@ public class DetectiveNotes extends JDialog {
 	private ArrayList<String> roomList= new ArrayList<String>(); //list of all the room names
 	private ArrayList<String> weaponsList= new ArrayList<String>(); //list of the weapons
 	private ArrayList<String> playersList= new ArrayList<String>(); //list of the player names
+	public static Board board = Board.getInstance();
 	
 	/**
 	 * Constructor for the Detective Notes Window
 	 */
-	public DetectiveNotes(String legendFile, String weaponFile, String playersFile) {
-		try {
-			this.configNames(legendFile, weaponFile, playersFile);
-		} catch (BadConfigFormatException e) {
-			e.printStackTrace();
-		}
+	public DetectiveNotes() {
+		roomList = board.getRoomList();
+		weaponsList = board.getWeaponsList();
+		playersList = board.getPlayerList();
 		setTitle("Detective Notes");
 		setSize(600, 600);
 		setLocationRelativeTo(null);
@@ -42,55 +42,6 @@ public class DetectiveNotes extends JDialog {
 		add(notePanels());
 	}
 	
-	/**
-	 * Loads in the names of players, weapons, and rooms to have in the notes
-	 * @throws BadConfigFormatException
-	 */
-	public void configNames(String legendFile, String weaponFile, String playersFile) throws BadConfigFormatException {
-		try {
-			FileReader roomReader = new FileReader(legendFile);
-			Scanner in = new Scanner(roomReader);
-			while (in.hasNext()) {
-				String[] entry = in.nextLine().split(", ");
-				//Check if the room type is valid in the file
-				if (entry[2].equals("Card")  || entry[2].equals("Other")) {
-					if (entry[2].equals("Card")) {
-						roomList.add(entry[1]); //If the room type is card, add it to the room list to be made into a card
-					}
-				}
-				else{ 
-					throw new BadConfigFormatException("Invalid Legend Format");
-				}
-			}
-			in.close();
-		} catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			FileReader weaponReader = new FileReader(weaponFile);
-			Scanner in = new Scanner(weaponReader);
-			while (in.hasNext()) {
-				String entry = in.nextLine();
-				weaponsList.add(entry);
-			}
-			in.close();
-		}
-		catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-		try {
-			FileReader playerReader = new FileReader(playersFile);
-			Scanner in = new Scanner(playerReader);
-			while (in.hasNext()) {
-				String entry = in.nextLine();
-				playersList.add(entry.trim());
-			}
-			in.close();
-		}
-		catch (FileNotFoundException e) {
-			System.out.println(e.getMessage());
-		}
-	}
 	/**
 	 * Creates the full panel for the notes window
 	 * @return created panel
