@@ -69,6 +69,8 @@ public class Board extends JPanel{
 	public static final int WIDTH = 34; //scale of board tiles
 	public static final int HEIGHT = 34; //scale of board tiles
 	public static final int SCALE = 34; //scale of board tiles
+	public Solution currentSuggestion;
+	private static ControlPanel controls = ControlPanel.getInstance();
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -539,6 +541,7 @@ public class Board extends JPanel{
 	 * @return
 	 */
 	public Card handleSuggestion(Solution suggestion, Player currentPlayer) {
+		currentSuggestion = suggestion;
 		int currentSpot = players.indexOf(currentPlayer);
 		int counter = 0;
 		while (counter < players.size()) {

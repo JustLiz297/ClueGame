@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
+
+import clueGUI.ControlPanel;
 /**
  * This is the ComputerPlayer class, the class of the computer players of the game
  * @author eboyle, annelysebaker
@@ -15,6 +17,7 @@ public class ComputerPlayer extends Player{
 	private BoardCell lastRoom = null;
 	private ArrayList<Card> unseenCards = new ArrayList<Card>();
 	public static Board board = Board.getInstance();
+	private static ControlPanel controls = ControlPanel.getInstance();
 	
 
 	public ComputerPlayer(String playerName) {
@@ -96,7 +99,8 @@ public class ComputerPlayer extends Player{
 		this.row = target.getRow(); //moves the computer player's location
 		this.column = target.getColumn();
 		if (target.isRoom()) {
-			//createSuggestion
+			controls.updateResponse(board.handleSuggestion(createSuggestion(board.getLegend().get(target.getInitial())), this));
+			controls.updateGuess();
 		}
 		
 	}

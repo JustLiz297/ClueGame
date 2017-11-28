@@ -60,6 +60,7 @@ public class CardsPanel extends JPanel{
 		for (Card c : people) {
 			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
+			cards.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 			cards.setEditable(false);
 			panel.add(cards);
 			i++;
@@ -81,6 +82,7 @@ public class CardsPanel extends JPanel{
 		for (Card c : rooms) {
 			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
+			cards.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 			cards.setEditable(false);
 			panel.add(cards);
 			i++;
@@ -102,6 +104,7 @@ public class CardsPanel extends JPanel{
 		for (Card c : weapons) {
 			panel.setLayout(new GridLayout(i,1));
 			JTextField cards = new JTextField(c.getCardName());
+			cards.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 			cards.setEditable(false);
 			panel.add(cards);
 			i++;

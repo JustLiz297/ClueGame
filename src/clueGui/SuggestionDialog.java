@@ -23,15 +23,20 @@ import clueGame.Board;
 import clueGame.Solution;
 
 
-
+/**
+ * JDialog class of the Suggestion window for the Human Player
+ * @author eboyle, annelysebaker
+ *
+ */
 public class SuggestionDialog extends JDialog{
 	public static Board board = Board.getInstance();
+	private static ControlPanel controls = ControlPanel.getInstance();
 	private ArrayList<String> weaponsList= new ArrayList<String>(); //list of the weapons
 	private ArrayList<String> playersList= new ArrayList<String>(); //list of the player names
 	private JButton submit;
 	private JButton cancel;
-	private String person = "";
-	private String weapon = "";
+	private String person = "Preacher Periwinkle"; //first name in the list so if not clicked, its the default
+	private String weapon = "Icicle"; //first name in the list so if not clicked, its the default
 	private String room = "";
 	
 	
@@ -54,7 +59,9 @@ public class SuggestionDialog extends JDialog{
 		class submitGuess implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
 				Solution suggestion = new Solution(person, room, weapon);
-				board.handleSuggestion(suggestion, board.getHumanPlayer());
+				controls.updateResponse(board.handleSuggestion(suggestion, board.getHumanPlayer()));
+				controls.updateGuess();
+				dispose();
 			}
 		}
 		submit.addActionListener(new submitGuess());

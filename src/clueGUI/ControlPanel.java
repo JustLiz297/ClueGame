@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -15,7 +16,9 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import clueGame.Board;
+import clueGame.Card;
 import clueGame.Player;
+import clueGame.Solution;
 
 /**
  * GUI class for Clue Game
@@ -29,10 +32,13 @@ public class ControlPanel extends JPanel{
 	private JTextField currentPlayer = new JTextField("Name");
 	private JTextField currentRoll = new JTextField(Integer.toString(0));
 	private Player current = null;
+	JTextField person = new JTextField("Person");
+	JTextField weapon = new JTextField("Weapon");
+	JTextField room = new JTextField("Room");
+	JTextField response = new JTextField("Response");
 	public static Board board = Board.getInstance();
 	
 	private static ControlPanel theInstance = new ControlPanel();
-	// constructor is private to ensure only one can be created
 	public static ControlPanel getInstance() {
 		return theInstance;
 	}
@@ -41,7 +47,7 @@ public class ControlPanel extends JPanel{
 	 * Takes whoseTurnandButtons and rollandGuess panels and makes them one panel
 	 *
 	 */
-	public ControlPanel() {
+	private ControlPanel() {
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(2,3));
 		panel.setPreferredSize(new Dimension(1060,150));
@@ -174,16 +180,19 @@ public class ControlPanel extends JPanel{
 	 */
 	private JPanel guessDisplay() {
 		JPanel panel = new JPanel();
-		// Use a grid layout, 1 row, 2 elements (label, text)
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+		panel.setLayout(new GridLayout(3,2));
 		JLabel personLabel = new JLabel("Person:");
-		JTextField person = new JTextField("Doctor Dandilion");
+		personLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+		person.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		person.setEditable(false);
 		JLabel weaponLabel = new JLabel("Weapon:");
-		JTextField weapon = new JTextField("Poison");
+		weaponLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+		weapon.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		weapon.setEditable(false);
 		JLabel roomLabel = new JLabel("Room:");
-		JTextField room = new JTextField("Office");
+		roomLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+		room.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		room.setEditable(false);
 		panel.add(personLabel);
 		panel.add(person);
@@ -200,12 +209,26 @@ public class ControlPanel extends JPanel{
 	private JPanel resultDisplay() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Card Returned"));
+		panel.setLayout(new GridLayout(1,2));
 		JLabel responseLabel = new JLabel("Response:");
-		JTextField response = new JTextField("Office");
+		responseLabel.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		response.setEditable(false);
 		panel.add(responseLabel);
 		panel.add(response);
 		return panel;
+	}
+	
+	public void updateGuess() {
+		this.person.setText(board.currentSuggestion.person);
+		this.weapon.setText(board.currentSuggestion.weapon);
+		this.room.setText(board.currentSuggestion.room);
+	}
+	
+	public void updateResponse(Card card) {
+		if (card == null) {
+			this.response.setText("None");
+		}
+		else {this.response.setText(card.getCardName());}
 	}
 }
 
