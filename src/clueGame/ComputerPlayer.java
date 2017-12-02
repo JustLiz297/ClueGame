@@ -1,9 +1,17 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 import java.util.Set;
+
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
 
 import clueGUI.ControlPanel;
 /**
@@ -44,7 +52,47 @@ public class ComputerPlayer extends Player{
 	}
 	
 	public void makeAccusation() {
-		
+		String room = "";
+		String person = "";
+		String weapon = "";
+		for (Card c : unseenCards) {
+			if (c.isWeapon()) {
+				weapon = c.getCardName();
+			}
+			else if (c.isPerson()) {
+				person = c.getCardName();
+			}
+			else if (c.isRoom()) {
+				room = c.getCardName();
+			}
+		}
+		Solution accusation = new Solution(person, room, weapon);
+		if (board.checkAccusation(accusation, this)){board.gameWon(this);}
+		else {			
+			JDialog loser = new JDialog();
+			loser.setTitle(this.getPlayerName() + " was Wrong!");
+			loser.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			loser.setSize(400, 150);
+			loser.setLocationRelativeTo(null);
+			loser.setLayout(new GridLayout(4,1));
+			JLabel message = new JLabel(this.getPlayerName() + " accused incorrectly.");
+			JLabel message2 = new JLabel("The their accusation was: ");
+			JLabel solution = new JLabel(accusation.person + " in the " + accusation.room + " with the " + accusation.weapon);
+			solution.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message2.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			loser.add(message, BorderLayout.CENTER);
+			loser.add(message2, BorderLayout.CENTER);
+			loser.add(solution, BorderLayout.CENTER);
+			JButton oK = new JButton("OK");
+			class ExitListener implements ActionListener{
+				public void actionPerformed(ActionEvent e) {
+					loser.dispose();}
+			}
+			oK.addActionListener(new ExitListener());
+			loser.add(oK);
+			loser.setVisible(true);
+		}
 	}
 	/**
 	 * Creates a suggestion based on the room the Computer Player is in a what card they have not seen
@@ -96,13 +144,19 @@ public class ComputerPlayer extends Player{
 	public void move(int roll, int row, int colm) {
 		board.calcTargets(this.row, this.column, roll);
 		BoardCell target = this.pickLocation(board.getTargets());
-		this.row = target.getRow(); //moves the computer player's location
-		this.column = target.getColumn();
-		if (target.isRoom()) {
-			controls.updateResponse(board.handleSuggestion(createSuggestion(board.getLegend().get(target.getInitial())), this));
-			controls.updateGuess();
+		if (unseenCards.size() == 3) {
+			makeAccusation();
 		}
-		
+		else {
+			this.row = target.getRow(); //moves the computer player's location
+			this.column = target.getColumn();
+			if (target.isRoom()) {
+				Card seen = board.handleSuggestion(createSuggestion(board.getLegend().get(target.getInitial())), this);
+				this.processResponse(seen);
+				controls.updateResponse(seen);
+				controls.updateGuess();
+			}
+		}	
 	}
 	
 	@Override
@@ -129,6 +183,9 @@ public class ComputerPlayer extends Player{
 	public ArrayList<Card> getUnseen() {
 		return unseenCards;
 	}
-
+	public void processResponse(Card c) {
+		this.seenCards.add(c);
+		this.unseenCards.remove(c);
+	}
 	
 }

@@ -1,9 +1,7 @@
 package clueGame;
 
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.Collections;
-import java.util.Set;
+
 /**
  * This is the HumanPlayer class, the class of the human player of the game
  * @author eboyle, annelysebaker

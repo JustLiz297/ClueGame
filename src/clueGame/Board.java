@@ -24,16 +24,14 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import clueGUI.ControlPanel;
 import clueGUI.SuggestionDialog;
-
-import java.util.Random;
 
 import clueGame.BoardCell;
 
@@ -64,13 +62,13 @@ public class Board extends JPanel{
 	private ArrayList<Card> shuffledDeck; //shuffled deck after solution has been picked
 	private ArrayList<Player> players; //list of the active Players
 	private Solution theSolution; //The Solution of the game
-	private boolean moved; //if the player has moved or not
-	private boolean humanTurn; // if it is the human's turn or not
+	public boolean moved; //if the player has moved or not
+	public boolean humanTurn; // if it is the human's turn or not
+	public boolean madeGuess;
 	public static final int WIDTH = 34; //scale of board tiles
 	public static final int HEIGHT = 34; //scale of board tiles
 	public static final int SCALE = 34; //scale of board tiles
 	public Solution currentSuggestion;
-	private static ControlPanel controls = ControlPanel.getInstance();
 	
 	// variable used for singleton pattern
 	private static Board theInstance = new Board();
@@ -547,7 +545,14 @@ public class Board extends JPanel{
 		while (counter < players.size()) {
 			if (players.get(currentSpot).disproveSuggestion(suggestion) != null) {
 				if (players.get(currentSpot) != currentPlayer) {
-					return players.get(currentSpot).disproveSuggestion(suggestion);
+					Card response = players.get(currentSpot).disproveSuggestion(suggestion);
+					for (Player p : players) {
+						if (!p.isHuman()) {
+							ComputerPlayer c = (ComputerPlayer) p;
+							c.processResponse(response);
+						}
+					}
+					return response;
 				}
 			}
 			if(currentSpot == players.size()-1) {currentSpot = 0;}
@@ -565,10 +570,68 @@ public class Board extends JPanel{
 		if (accusation.person == this.theSolution.person && accusation.room == this.theSolution.room && accusation.weapon == this.theSolution.weapon) {return true;}
 		else {return false;}
 	}
-	
+	/**
+	 * 
+	 */
+	public void gameWon(Player p) {
+		if (p.isHuman()) {
+			JDialog winner = new JDialog();
+			String name = p.getPlayerName();
+			winner.setTitle("You Won!");
+			winner.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			winner.setSize(400, 150);
+			winner.setLocationRelativeTo(null);
+			winner.setLayout(new GridLayout(4,1));
+			JLabel message = new JLabel("You accused correctly. You Won!");
+			JLabel message2 = new JLabel("The correct solution was: ");
+			JLabel solution = new JLabel(theSolution.person + " in the " + theSolution.room + " with the " + theSolution.weapon + "!!!");
+			solution.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message2.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			winner.add(message, BorderLayout.CENTER);
+			winner.add(message2, BorderLayout.CENTER);
+			winner.add(solution, BorderLayout.CENTER);
+			JButton oK = new JButton("OK");
+			class ExitListener implements ActionListener{
+				public void actionPerformed(ActionEvent e) {
+					winner.dispose();
+					System.exit(0);}
+			}
+			oK.addActionListener(new ExitListener());
+			winner.add(oK);
+			winner.setVisible(true);
+		}
+		else {
+			JDialog winner = new JDialog();
+			String name = p.getPlayerName();
+			winner.setTitle(name + " Won!");
+			winner.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+			winner.setSize(400, 150);
+			winner.setLocationRelativeTo(null);
+			winner.setLayout(new GridLayout(4,1));
+			JLabel message = new JLabel(name + " accused correctly. You lose!");
+			JLabel message2 = new JLabel("The correct solution was: ");
+			JLabel solution = new JLabel(theSolution.person + " in the " + theSolution.room + " with the " + theSolution.weapon + "!!!");
+			solution.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message2.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+			winner.add(message, BorderLayout.CENTER);
+			winner.add(message2, BorderLayout.CENTER);
+			winner.add(solution, BorderLayout.CENTER);
+			JButton oK = new JButton("OK");
+			class ExitListener implements ActionListener{
+				public void actionPerformed(ActionEvent e) {
+					winner.dispose();
+					System.exit(0);}
+			}
+			oK.addActionListener(new ExitListener());
+			winner.add(oK);
+			winner.setVisible(true);
+		}
+	}
 	/**
 	 * Find the human player in the list and returns them
-	 * @return Human Player
+	 * @return Player
 	 */
 	public Player getHumanPlayer() {
 		for (Player p : players) {
@@ -598,7 +661,7 @@ public class Board extends JPanel{
 		if (p.isHuman()) { //when Human Player's turn
 			humanTurn = true;
 			moved = false;
-			BoardCell currentSpace = this.getCellAt(p.getRow(), p.getColumn());
+			madeGuess = false;
 			p.humanTargets(roll);
 			repaint();
 		}
@@ -619,16 +682,40 @@ public class Board extends JPanel{
 	public BoardCell clickedTarget(int x, int y) {
 		for (BoardCell c : targets) {
 			Rectangle rect = new Rectangle(c.getColumn()*SCALE, c.getRow()*SCALE, WIDTH, HEIGHT);
-			if (rect.contains(new Point(x,y))) {return c;}
+			if (rect.contains(new Point(x,y))&& !madeGuess) {return c;}
+			else if (madeGuess) {
+				JDialog oops = new JDialog();
+				oops.setTitle("Oops");
+				oops.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+				oops.setSize(380, 130);
+				oops.setLocationRelativeTo(null);
+				oops.setLayout(new GridLayout(3,1));
+				JLabel message = new JLabel("Oops! You have already made a suggestion or accusation.");
+				JLabel message2 = new JLabel("You must click Next Player to continue.");
+				message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+				message2.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+				oops.add(message, BorderLayout.CENTER);
+				oops.add(message2, BorderLayout.CENTER);
+				JButton oK = new JButton("OK");
+				class ExitListener implements ActionListener{
+					public void actionPerformed(ActionEvent e) {
+						oops.dispose();}
+				}
+				oK.addActionListener(new ExitListener());
+				oops.add(oK); 
+				oops.setVisible(true);
+				break;
+			}
 		}
-		if (humanTurn) {
+		if (humanTurn && !madeGuess) {
 			JDialog oops = new JDialog();
 			oops.setTitle("Oops");
 			oops.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 			oops.setSize(320, 100);
 			oops.setLocationRelativeTo(null);
 			oops.setLayout(new GridLayout(2,1));
-			JLabel message = new JLabel("  Oops! You can't move there, try clicking a cyan tile.");
+			JLabel message = new JLabel("Oops! You can't move there, try clicking a cyan tile.");
+			message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 			oops.add(message, BorderLayout.CENTER);
 			JButton oK = new JButton("OK");
 			class ExitListener implements ActionListener{
@@ -639,6 +726,7 @@ public class Board extends JPanel{
 			oops.add(oK);
 			oops.setVisible(true);
 		}
+		
 		return null;
 	}
 
@@ -651,7 +739,7 @@ public class Board extends JPanel{
 		@Override
 		public void mouseClicked(MouseEvent event) {
 			BoardCell target = clickedTarget(event.getX(), event.getY());
-			if (target != null) {
+			if (target != null && !madeGuess) {
 				movePlayer(target);
 			}
 			repaint();			

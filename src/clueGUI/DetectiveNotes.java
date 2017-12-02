@@ -1,10 +1,7 @@
 package clueGUI;
 
 import java.awt.GridLayout;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -13,7 +10,6 @@ import javax.swing.JPanel;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
-import clueGame.BadConfigFormatException;
 import clueGame.Board;
 
 /**
@@ -36,7 +32,7 @@ public class DetectiveNotes extends JDialog {
 		weaponsList = board.getWeaponsList();
 		playersList = board.getPlayerList();
 		setTitle("Detective Notes");
-		setSize(600, 600);
+		setSize(610, 600);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		add(notePanels());
@@ -77,6 +73,7 @@ public class DetectiveNotes extends JDialog {
 	private JPanel peopleList() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "People"));
+		panel.setLayout(new GridLayout(0,2));
 		for (String name : playersList) {
 			panel.add(new JCheckBox(name));
 		}
@@ -88,7 +85,7 @@ public class DetectiveNotes extends JDialog {
 	 */
 	private JPanel peopleCombo() {
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Person Guess"));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Person Best Guess"));
 		JComboBox<String> people = new JComboBox<String>();
 		people.addItem("Don't Know");
 		for (String name : playersList) {
@@ -117,6 +114,7 @@ public class DetectiveNotes extends JDialog {
 	private JPanel roomList() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Rooms"));
+		panel.setLayout(new GridLayout(0,2));
 		for (String room : roomList) {
 			panel.add(new JCheckBox(room));
 		}
@@ -128,7 +126,7 @@ public class DetectiveNotes extends JDialog {
 	 */
 	private JPanel roomCombo() {
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Room Guess"));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Room Best Guess"));
 		JComboBox<String> rooms = new JComboBox<String>();
 		rooms.addItem("Don't Know");
 		for (String room : roomList) {
@@ -157,6 +155,7 @@ public class DetectiveNotes extends JDialog {
 	private JPanel weaponList() {
 		JPanel panel = new JPanel();
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapons"));
+		panel.setLayout(new GridLayout(0,2));
 		for (String weapon : weaponsList) {
 			panel.add(new JCheckBox(weapon));
 		}
@@ -168,7 +167,7 @@ public class DetectiveNotes extends JDialog {
 	 */
 	private JPanel weaponCombo() {
 		JPanel panel = new JPanel();
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Guess"));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Weapon Best Guess"));
 		JComboBox<String> weapons = new JComboBox<String>();
 		weapons.addItem("Don't Know");
 		for (String weapon : weaponsList) {

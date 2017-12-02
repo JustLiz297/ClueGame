@@ -1,5 +1,6 @@
 package clueGUI;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -15,32 +16,28 @@ import clueGame.Board;
 import clueGame.Solution;
 
 
-/**
- * JDialog class of the Suggestion window for the Human Player
- * @author eboyle, annelysebaker
- *
- */
-public class SuggestionDialog extends JDialog{
+public class accusationDialog extends JDialog{
 	public static Board board = Board.getInstance();
-	private static ControlPanel controls = ControlPanel.getInstance();
 	private ArrayList<String> weaponsList= new ArrayList<String>(); //list of the weapons
 	private ArrayList<String> playersList= new ArrayList<String>(); //list of the player names
+	private ArrayList<String> roomList= new ArrayList<String>(); //list of the player names
 	private JButton submit;
 	private JButton cancel;
 	private String person = "Preacher Periwinkle"; //first name in the list so if not clicked, its the default
 	private String weapon = "Icicle"; //first name in the list so if not clicked, its the default
+	private String room = "Kitchen";
 	
-	
-	public SuggestionDialog(String room) {
+	public accusationDialog() {
+		roomList = board.getRoomList();
 		weaponsList = board.getWeaponsList();
 		playersList = board.getPlayerList();
-		setTitle("Make a Suggestion");
+		setTitle("Make an Accusation");
 		setSize(300, 200);
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		JPanel panel = new JPanel();
 		panel.setLayout(new GridLayout(4,1));
-		panel.add(roomRow(room));
+		panel.add(roomRow());
 		panel.add(personRow());
 		panel.add(weaponRow());
 		JPanel buttons = new JPanel();
@@ -48,11 +45,33 @@ public class SuggestionDialog extends JDialog{
 		submit = new JButton("Submit");
 		class submitGuess implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				Solution suggestion = new Solution(person, room, weapon);
-				controls.updateResponse(board.handleSuggestion(suggestion, board.getHumanPlayer()));
-				controls.updateGuess();
-				board.madeGuess = true;
 				dispose();
+				Solution accusation = new Solution(person, room, weapon);
+				if(board.checkAccusation(accusation, board.getHumanPlayer())) {
+					board.gameWon(board.getHumanPlayer());
+				}
+				else {
+					JDialog oops = new JDialog();
+					oops.setTitle("Oops");
+					oops.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+					oops.setSize(320, 100);
+					oops.setLocationRelativeTo(null);
+					oops.setLayout(new GridLayout(2,1));
+					JLabel message = new JLabel("Oops! Your accusation was wrong, keep playing!");
+					message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+					oops.add(message, BorderLayout.CENTER);
+					JButton oK = new JButton("OK");
+					class ExitListener implements ActionListener{
+						public void actionPerformed(ActionEvent e) {
+							oops.dispose();}
+					}
+					oK.addActionListener(new ExitListener());
+					oops.add(oK);
+					oops.setVisible(true);
+					board.madeGuess = true;
+					board.moved = true;
+				}
+
 			}
 		}
 		submit.addActionListener(new submitGuess());
@@ -69,13 +88,23 @@ public class SuggestionDialog extends JDialog{
 		add(panel);
 	}
 	
-	private JPanel roomRow(String room) {
+	private JPanel roomRow() {
 		JPanel panel = new JPanel();
-		JLabel label = new JLabel("Current Room: ");
+		panel.setLayout(new GridLayout(1,2));
+		JLabel label = new JLabel("Room: ");
 		label.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		panel.add(label);
-		JLabel currentRoom = new JLabel(room);
-		panel.add(currentRoom);
+		JComboBox<String> room = new JComboBox<String>();
+		for (String name : roomList) {
+			room.addItem(name);
+		}
+		class ComboListener implements ActionListener {
+			public void actionPerformed(ActionEvent e) {
+				setRoom(room.getSelectedItem().toString());
+			}
+		}
+		room.addActionListener(new ComboListener());
+		panel.add(room);
 		return panel;
 	}
 	
@@ -126,4 +155,9 @@ public class SuggestionDialog extends JDialog{
 	private void setWeapon(String weapon) {
 		this.weapon = weapon;
 	}
+	
+	private void setRoom(String room) {
+		this.room = room;
+	}
+
 }

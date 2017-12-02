@@ -55,7 +55,8 @@ public class ClueGame extends JFrame{
 		welcome.setLocationRelativeTo(null);
 		welcome.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
 		welcome.setLayout(new GridLayout(2,1));
-		JLabel introMessage = new JLabel("     You are Preacher Periwinkle! Press OK to begin.");
+		JLabel introMessage = new JLabel("You are Preacher Periwinkle! Press OK to begin.");
+		introMessage.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 		welcome.add(introMessage, BorderLayout.CENTER);
 		JButton oK = new JButton("OK");
 		class ExitListener implements ActionListener{

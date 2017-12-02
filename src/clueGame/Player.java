@@ -71,7 +71,6 @@ public abstract class Player extends JPanel{
 	 * @return created Color from Player's name
 	 */
 	public Color convertColor(String strColor) {
-		String transferColor = strColor;
 		switch(strColor){ 
 		case "Periwinkle":
 			//transferColor = "BLUE"; //108,156,239

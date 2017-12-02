@@ -6,7 +6,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -18,7 +17,6 @@ import javax.swing.border.TitledBorder;
 import clueGame.Board;
 import clueGame.Card;
 import clueGame.Player;
-import clueGame.Solution;
 
 /**
  * GUI class for Clue Game
@@ -90,7 +88,8 @@ public class ControlPanel extends JPanel{
 					oops.setSize(320, 100);
 					oops.setLocationRelativeTo(null);
 					oops.setLayout(new GridLayout(2,1));
-					JLabel message = new JLabel("  Oops! You must move before you finishing your turn.");
+					JLabel message = new JLabel("Oops! You must move before you finishing your turn.");
+					message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
 					oops.add(message, BorderLayout.CENTER);
 					JButton oK = new JButton("OK");
 					class ExitListener implements ActionListener{
@@ -107,10 +106,32 @@ public class ControlPanel extends JPanel{
 		accusation = new JButton("Make an accusation");
 		class makeAccusation implements ActionListener{
 			public void actionPerformed(ActionEvent e) {
-				
+				if (!board.humanTurn || board.movedYet()) {
+					JDialog oops = new JDialog();
+					oops.setTitle("Oops");
+					oops.setDefaultCloseOperation(JDialog.HIDE_ON_CLOSE);
+					oops.setSize(320, 100);
+					oops.setLocationRelativeTo(null);
+					oops.setLayout(new GridLayout(2,1));
+					JLabel message = new JLabel("Oops! You can't make an accusation now.");
+					message.setHorizontalAlignment((int) CENTER_ALIGNMENT);
+					oops.add(message, BorderLayout.CENTER);
+					JButton oK = new JButton("OK");
+					class ExitListener implements ActionListener{
+						public void actionPerformed(ActionEvent e) {
+							oops.dispose();}
+					}
+					oK.addActionListener(new ExitListener());
+					oops.add(oK);
+					oops.setVisible(true);
+				}
+				else {
+					accusationDialog window = new accusationDialog();
+					window.setVisible(true);
+				}
 			}
 		}
-		//accusation.addActionListener(new makeAccusation());
+		accusation.addActionListener(new makeAccusation());
 		panel.add(turn);
 		panel.add(nextPlayer);
 		panel.add(accusation);
@@ -226,7 +247,7 @@ public class ControlPanel extends JPanel{
 	
 	public void updateResponse(Card card) {
 		if (card == null) {
-			this.response.setText("None");
+			this.response.setText("No New Clue");
 		}
 		else {this.response.setText(card.getCardName());}
 	}
